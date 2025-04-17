@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import styles from "./SalesMData.module.css";
-import "./GraphStyles.css"; // Import the separate graph CSS
+import "./Graphstyles.css"; // Import the separate graph CSS
 import FilterModal from "../../components/Modals/FilterModal";
 import filterIcon from "../../assets/setting-4.svg";
 import StaffLayout from "../../components/Layouts/SalesMLayout";
