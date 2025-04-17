@@ -10,12 +10,17 @@ const FollowUpModal = ({ leadId, onClose, onFollowUpCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
+  
+    // Ensure we get the correct local time value and convert it to UTC
+    const utcFollowUpDate = dayjs(followupDate).utc().format();  // Converts to UTC string
+  
     const followUpData = {
-      followup_date: followupDate,
+      followup_date: utcFollowUpDate,
       notes,
     };
+  
     const accessToken = localStorage.getItem("access_token");
+  
     try {
       await axios.post(
         `https://devlokcrm-production.up.railway.app/followups/createfollowup/${leadId}/`,
@@ -27,7 +32,7 @@ const FollowUpModal = ({ leadId, onClose, onFollowUpCreated }) => {
           },
         }
       );
-
+  
       onFollowUpCreated(); // Refresh follow-ups or notify success
       onClose(); // Close the modal
     } catch (error) {
@@ -36,7 +41,7 @@ const FollowUpModal = ({ leadId, onClose, onFollowUpCreated }) => {
       setIsLoading(false); // Reset loading state
     }
   };
-
+  
   return (
     <div className={styles.followupModalOverlay}>
       <div className={styles.followupModalContent}>
