@@ -1,0 +1,246 @@
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  title {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #222;
+  }
+  
+  .loading,
+  .error {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  .error {
+    color: #d9534f;
+    background: #f8d7da;
+  }
+  
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
+  }
+  
+  .card p {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 6px;
+  }
+  
+  .card p strong {
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .editformBtn {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .editformBtn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* 📌 Image Grid */
+  .imageHeading {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .imageGrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  
+  /* 📌 Image Wrapper */
+  .imageWrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Image */
+  .image {
+    width: 700px;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* ❌ Delete Icon */
+  .deleteIcon {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #d9534f;
+    color: white;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .deleteIcon:hover {
+    background: #c9302c;
+  }
+  
+  .noImage {
+    text-align: center;
+    font-size: 14px;
+    color: #777;
+    font-style: italic;
+  }
+
+
+  .backButtonWrapper {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .backButton {
+    background-color: #6c757d;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .backButton:hover {
+    background-color: #545b62;
+  }
+  .addImageBtn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto;
+  }
+  
+  .addImageBtn:hover {
+    background-color: #218838;
+  }
+  .topBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: 10px;
+  }
+  
+  
+  
+  .menuWrapper {
+    position: relative;
+  }
+  
+  .menuButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.2s ease-in-out;
+  }
+  
+  .menuButton:hover {
+    background: #e0e0e0;
+  }
+  
+  .menuDropdown {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 10;
+    width: 150px;
+    padding: 10px 10px;
+
+    
+    
+  }
+  
+  .menuDropdown button {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+  }
+  
+  .menuDropdown button:hover {
+    background-color: #f0f0f0;
+  }
+  .projectName {
+    color: #0d6efd;
+    font-weight: bold;
+  }
+  
+  
+  @media (max-width: 768px) {
+    .container {
+      padding: 15px;
+    }
+  
+    .image {
+      width: 300px;
+      height: 220px;
+    }
+  }
+  

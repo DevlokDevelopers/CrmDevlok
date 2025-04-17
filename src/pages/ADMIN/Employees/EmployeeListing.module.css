@@ -1,0 +1,334 @@
+.container {
+    padding: 20px;
+    background-color: #F4F9FD;
+  }
+  
+  /* Header Section */
+  .headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+  }
+  
+  .tabContainer {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .tab {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 20px;
+    background-color: #e5e7eb;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  
+  .tab:hover {
+    background-color: #d1d5db;
+    transform: translateY(-2px);
+  }
+  
+  .activeTab {
+    background: linear-gradient(90deg, #2563eb, #1e40af);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Add Button & Dropdown */
+  .addContainer {
+    position: relative;
+  }
+  
+  .addBtn {
+    background-color: #2563eb;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+  }
+  
+  .addBtn:hover {
+    background-color: #1e40af;
+  }
+  
+  .dropdown {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+    z-index: 100;
+    right: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    min-width: 250px;
+  }
+  
+  .dropdown div {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: #111827;
+  }
+  
+  .dropdown div:hover {
+    background-color: #f3f4f6;
+  }
+  
+  /* Lead Cards */
+  .leadContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .leadCard {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .leadCard:hover {
+    transform: scale(1.03);
+  }
+  
+  .leadInfo {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+    flex-wrap: nowrap; 
+    }
+  
+  .infoBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1; /* Allow all blocks to take equal width */
+    min-width: 0; 
+  }
+  
+  .infoBlock p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  /* Buttons in Cards */
+  .buttonContainer {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .detailsBtn,
+  .addimageBtn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #e5e7eb;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .detailsBtn:hover,
+  .addimageBtn:hover {
+    background-color: #d1d5db;
+  }
+  
+  /* Messages */
+  .noData,
+  .error {
+    color: #6b7280;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 15px;
+  }
+  .profileImage {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+  }
+  /* Add to EmployeeListing.module.css */
+
+.icon {
+  font-size: 1.5rem;
+  color: #007bff;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.icon:hover {
+  color: #0056b3;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal input {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.modal button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.modal button:hover {
+  background-color: #0056b3;
+}
+
+.iconContainer {
+  display: flex;
+  justify-content: flex-start; /* Align icons to the left */
+  align-items: center; /* Vertically align the icons */
+  gap: 10px; /* Adds space between the icons */
+}
+
+.glmEditicon,
+.glmDeleteicon {
+  font-size: 24px; /* Increase the font size to make the icon bigger */
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px; /* Set the height for the icon */
+  width: 30px;  /* Set the width for the icon */
+}
+
+.glmEditicon {
+  color: #007bff; /* Blue color for Edit icon */
+}
+
+.glmEditicon:hover {
+  color: #0056b3; /* Darker blue on hover */
+}
+
+.glmDeleteicon {
+  color: red; /* Red color for Delete icon */
+}
+
+.glmDeleteicon:hover {
+  color: rgb(241, 117, 117); /* Darker red on hover */
+}
+
+  
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .leadContainer {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 12px;
+    }
+  
+    .leadCard {
+      flex-direction: column;
+      padding: 15px;
+    }
+  
+    .infoBlock {
+      width: 48%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .leadContainer {
+      grid-template-columns: 1fr;
+    }
+  
+    .leadInfo {
+      flex-direction: column;
+      gap: 12px;
+    }
+  
+    .infoBlock {
+      width: 100%;
+    }
+  
+    .tabContainer {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      gap: 10px;
+    }
+  
+    .tabContainer::-webkit-scrollbar {
+      display: none;
+    }
+  
+    .tabContainer {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  
+    .tab {
+      font-size: 13px;
+    }
+  
+    .addBtn {
+      width: 100%;
+      margin-top: 10px;
+      text-align: center;
+    }
+    
+    .dropdown{
+      left: 5px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .container {
+      padding: 10px;
+    }
+  
+    .leadCard {
+      padding: 10px;
+    }
+  
+    .tab {
+      padding: 6px 10px;
+    }
+  }
+  

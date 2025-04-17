@@ -1,0 +1,109 @@
+/* 🌟 Main Container */
+.container {
+    padding: 20px;
+    background-color: #f4f9fd;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 🌟 Header */
+.headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+/* 🌟 Project List */
+.leadContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* 🌟 Project Card */
+.leadCard {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    padding: 20px 30px;
+    transition: transform 0.2s ease;
+}
+
+.leadCard:hover {
+    transform: translateY(-3px);
+}
+
+/* 🌟 Project Info - Using Grid Instead of Flex */
+.leadInfo {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* ✅ Creates 5 equal columns */
+    gap: 16px;
+    align-items: center;
+}
+
+/* 🌟 Info Block (Each Project Detail) */
+.infoBlock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap; /* ✅ Prevents line breaks */
+}
+
+/* 🌟 Text Styling */
+.infoBlock p {
+    margin: 0;
+    font-size: 16px;
+    color: #334155;
+}
+
+.infoBlock p strong {
+    color: #1e40af;
+}
+
+/* 🌟 Priority Section */
+.priority {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+}
+
+/* 🌟 Priority Icon */
+.priorityIcon {
+    font-size: 18px;
+}
+
+/* 🌟 Error & No Data */
+.error,
+.noData {
+    color: red;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 30px;
+}
+.projectIcon {
+    width: 40px;  /* Set icon size */
+    height: 40px;
+    border-radius: 8px; /* Optional: Rounded corners */
+    object-fit: cover; /* Ensures proper scaling */
+}
+
+
+/* 🌟 Responsive Fix (Mobile) */
+@media (max-width: 900px) {
+    .leadInfo {
+        grid-template-columns: repeat(2, 1fr); /* ✅ Two per row for smaller screens */
+    }
+}
+
+@media (max-width: 600px) {
+    .leadInfo {
+        grid-template-columns: repeat(1, 1fr); /* ✅ One per row on mobile */
+    }
+}

@@ -1,0 +1,173 @@
+.topnav {
+    margin-top: 10px;
+    height: 60px;
+    width: 100%;
+    background-color:#F4F9FD;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+  
+  /* Search Bar */
+  .searchContainer {
+    flex-grow: 1;
+    max-width: 300px;
+    transition: max-width 0.3s ease;
+  }
+  
+  /* Reduce Search Bar Width for Mobile */
+  .searchBar {
+    width: 100%;
+    height: 40px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 10px;
+    background-color: white;
+  }
+  
+  /* TopNav Icons */
+  .topnavIcons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .icon {
+    font-size: 20px;
+    color: #555;
+    cursor: pointer;
+  }
+  /* Bell Icon */
+.bellbox {
+  position: relative; /* Add position relative to properly position the badge */
+  margin-bottom: 5px;
+  height: 40px;
+  width: 40px;
+  background-color: white;
+  display: flex;
+  align-items: center; /* Vertically center */
+  justify-content: center; /* Horizontally center */
+  border-radius: 30%; /* Circular shape */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional for shadow */
+}
+
+.badge {
+  position: absolute;
+  top: -5px; /* Adjusted to bring the badge closer to the top-right */
+  right: -5px; /* Adjusted to bring the badge closer to the right */
+  background: red;
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  padding: 2px 6px;
+  font-weight: bold;
+  transform: translate(50%, -50%); /* Center the badge */
+}
+
+  
+  /* Bell Icon */
+  .bellicon {
+    font-size: 20px;
+    color: #555;
+    cursor: pointer;
+  }
+
+  
+
+  
+  /* Modal */
+  .notificationModal {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 16px;
+  }
+  
+  .modalContent h3 {
+    margin-top: 0;
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  
+  .notificationList {
+    list-style: none;
+    padding-left: 0;
+    font-size: 14px;
+  }
+  
+  .notificationList li {
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .closeButton {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+    margin-top: -35px;
+  }
+  
+  
+  
+  .userInfo {
+    height: 40px;
+    width: 130px;
+    padding-left: 15px;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+  
+  .username {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  /* ✅ Responsive for Mobile */
+  @media screen and (max-width: 768px) {
+    .searchContainer {
+      max-width: 150px; /* Reduce width */
+      margin-left: 40px; /* Move slightly to the right */
+    }
+  
+    .topnav {
+      padding: 0 10px; /* Reduce padding for mobile */
+    }
+  
+    .topnavIcons {
+      gap: 10px;
+    }
+    .userInfo{
+        gap: 10px;
+        width: 100px;
+        height: 30px;
+        margin-bottom: 15px;
+    }
+    .bellbox{
+        height: 30px;
+        width: 30px;
+        margin-bottom: 15px;
+    }
+    .searchBar{
+        height: 30px;
+        margin-left: 30px;
+    }
+    
+  }
+  

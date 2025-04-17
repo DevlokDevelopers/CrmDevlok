@@ -1,0 +1,176 @@
+/* Container */
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
+}
+
+.container:hover {
+    transform: translateY(-2px);
+}
+.backLinkContainer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.backLink {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  color: #2563eb;
+  transition: color 0.3s ease;
+}
+
+.backLink:hover {
+  color: #1e40af;
+}
+
+/* Title */
+.title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #2563eb;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+/* Form Layout */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Default: Two-column layout */
+.formGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+/* Responsive: Single-column layout for small screens */
+@media (max-width: 768px) {
+    .formGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Labels */
+label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #444;
+    font-size: 14px;
+}
+
+/* Inputs, Select, and Textarea */
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    outline: none;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+    background: #f8f9fa;
+}
+
+/* Hover & Focus Effects */
+input:hover,
+select:hover,
+textarea:hover {
+    border-color: #2563eb;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0px 0px 8px rgba(37, 99, 235, 0.3);
+    background: #ffffff;
+}
+
+/* Add Placeholder Animation */
+input::placeholder,
+textarea::placeholder {
+    color: #aaa;
+    font-style: italic;
+}
+
+/* Textarea Resizing */
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Save Button */
+.saveButton {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(37, 99, 235, 0.3);
+}
+
+.saveButton:hover {
+    background: linear-gradient(135deg, #1e40af, #1b3a9e);
+    transform: scale(1.03);
+}
+
+/* Submit Button Click Animation */
+.saveButton:active {
+    transform: scale(0.98);
+}
+
+/* Form Field with Icon */
+.inputGroup input {
+    padding-left: 40px;
+}
+
+.inputGroup .icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #2563eb;
+}
+
+/* Apply Icons for Fields */
+.emailIcon::before {
+    content: "📧";
+}
+
+.phoneIcon::before {
+    content: "📞";
+}
+
+/* Responsive: Full-width inputs on mobile */
+@media (max-width: 768px) {
+    .inputGroup {
+        grid-column: span 1;
+    }
+}

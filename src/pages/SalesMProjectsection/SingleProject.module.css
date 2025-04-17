@@ -1,0 +1,336 @@
+.projectContainer {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  background-color: #F3F7FA;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Left Panel */
+.leftPanel {
+  flex: 1;
+  background: #ffffff;
+  padding: 20px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #334155;
+}
+
+.leftPanel .projectTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1E293B;
+  margin-bottom: 4px;
+}
+
+.leftPanel .description {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #475569;
+  background: #F9FAFB;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-style: italic;
+}
+
+.leftPanel p {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #E5E7EB;
+  padding: 6px 0;
+  font-size: 13.5px;
+}
+
+.leftPanel p strong {
+  color: #111827;
+  font-weight: 600;
+}
+
+.leftPanel p:last-child {
+  background: #F3F4F6;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-weight: 600;
+  color: #1D4ED8;
+  margin-top: 6px;
+}
+
+
+/* Right Panel */
+.rightPanel {
+  flex: 2;
+  background: #FFFFFF;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.rightPanel h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #1F2937;
+}
+
+.rightPanel p {
+  font-size: 15px;
+  color: #4B5563;
+  margin-bottom: 12px;
+}
+
+/* Lead Container */
+.leadContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Lead Card */
+.leadCard {
+  background: white;
+  padding: 18px 22px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.leadCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Lead Info */
+.leadInfo {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.infoBlock p {
+  margin: 0;
+  font-size: 15px;
+  color: #374151;
+  font-weight: 500;
+}
+
+/* Follow Up Button */
+.followUpBtn {
+  background: #16A34A;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.followUpBtn:hover {
+  background: #15803D;
+}
+
+/* View Notes Button */
+.viewNotesBtn {
+  background-color: #3B82F6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.viewNotesBtn:hover {
+  background-color: #2563EB;
+}
+
+/* Message Link */
+.messageLink {
+  color: #1D4ED8;
+  background: none;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.messageLink:hover {
+  color: #1E40AF;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 10px;
+  padding: 24px;
+  width: 80%;
+  max-width: 600px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.modalContent h3 {
+  margin-top: 0;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.modalContent p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #4B5563;
+}
+
+/* Close Button */
+.closeBtn {
+  background: #EF4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 8px 12px;
+  font-size: 18px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.closeBtn:hover {
+  background: #DC2626;
+}
+
+/* Pagination */
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  gap: 8px;
+}
+
+.paginationBtn {
+  background: #E5E7EB;
+  color: #374151;
+  border: 1px solid #D1D5DB;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.paginationBtn:hover {
+  background: #2563EB;
+  color: white;
+}
+
+.activePage {
+  background: #2563EB;
+  color: white;
+  border: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .projectContainer {
+    flex-direction: column;
+  }
+
+  .leadContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 14px;
+  }
+
+  .leadCard {
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .leadInfo {
+    flex-direction: row;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .infoBlock {
+    width: 48%;
+  }
+}
+
+@media (max-width: 768px) {
+  .leadContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .leadInfo {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .infoBlock {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .projectContainer {
+    padding: 12px;
+  }
+
+  .rightPanel h2 {
+    font-size: 18px;
+  }
+
+  .rightPanel p {
+    font-size: 14px;
+  }
+
+  .leadCard {
+    padding: 12px;
+  }
+
+  .followUpBtn,
+  .viewNotesBtn {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}

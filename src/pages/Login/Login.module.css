@@ -1,0 +1,175 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #F4F4F4;
+   
+}
+
+.container {
+    display: flex;
+    width: 900px;
+    height: 500px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+
+.left {
+    width: 50%;
+    background-image: url('../../assets/startback.jpg') ; 
+    background-size:cover;
+    background-position:right;
+    display: flex;
+    flex-direction: column;
+    justify-content:top;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    
+}
+
+.left h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-top: 25%;
+}
+
+.left p {
+    font-size: 1.2rem;
+   
+}
+
+
+.right {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #F8F9FA;
+}
+
+.loginbox {
+    width: 80%;
+    max-width: 350px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.loginbox h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.inputgroup {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.inputgroup label {
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.inputgroup input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.forgotpassword {
+    font-size: 0.9rem;
+    color: #0D47A1;
+    text-decoration: none;
+    display: block;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    color: white;
+    background: #0564BC;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #08306B;
+}
+.error{
+    color: red;
+    font-family: 12px;
+}
+
+.loader {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    border: 2px solid #fff;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  
+  @keyframes spin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        width: 90%;
+        height: auto;
+    }
+
+    .left {
+        width: 100%;
+        height: 180px;
+    }
+    .left h1 {
+        font-size: 2.5rem;
+        margin-top: 10%;
+    }
+    .left p{
+        font-size: 1rem;
+    }
+
+    .right {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .loginbox {
+        width: 100%;
+        max-width: 300px;
+    }
+}

@@ -1,0 +1,420 @@
+/* Container */
+.container {
+    padding: 20px;
+    background-color: #F4F9FD;
+  }
+  
+  /* Header Section */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .addLeadBtn {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .addLeadBtn:hover {
+    background-color: #1d4ed8;
+  }
+  
+  /* Tab Section */
+  .tabContainer {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .tab {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 20px;
+    background-color: #e5e7eb;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .tab:hover {
+    background-color: #d1d5db;
+    transform: translateY(-2px);
+  }
+  
+  .activeTab {
+    background: linear-gradient(90deg, #2563eb, #1e40af);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Lead Container */
+  .leadContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .leadCard {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .leadCard:hover {
+    transform: scale(1.03);
+  }
+  
+  .leadInfo {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .infoBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1; /* Allow all blocks to take equal width */
+    min-width: 0;
+    
+    
+  }
+
+  
+  .infoBlock p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  /* Follow Up Button */
+  .followUpBtn {
+    background-color: #22c55e;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .followUpBtn:hover {
+    background-color: #16a34a;
+  }
+  .ViewDataBtn{
+    background-color: #e5e7eb;
+    color: black;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Error and No Data */
+  .error,
+  .noData {
+    color: red;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  /* ✅ Pagination Container */
+  .paginationContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    gap: 6px;
+  }
+  
+  /* ✅ Pagination Button */
+  .paginationBtn {
+    background-color: #e5e7eb;
+    color: #333;
+    border: 1px solid #d1d5db;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .paginationBtn:hover {
+    background-color: #2563eb;
+    color: white;
+  }
+  
+  /* ✅ Active Page Button */
+  .activePage {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+  }
+  
+  .viewNotesBtn {
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    margin-top: 12px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .viewNotesBtn:hover {
+    background-color: #45a049;
+  }
+  
+  /* Modal Styles */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modalContent {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  
+  .modalContent h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+  }
+  
+  .modalContent p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333;
+  }
+  
+  /* Close button for the modal */
+  .closeBtn {
+    background-color: #ff4c4c; /* Red background */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 8px 12px;
+    font-size: 18px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+  
+  .closeBtn:hover {
+    background-color: #f44336;
+  }
+  
+  /* Message Link Style */
+  .messageLink {
+    color: #2563eb; /* Blue color */
+    background: none; /* No background */
+    border: none; /* No border */
+    padding: 0; /* Remove padding */
+    font-size: 14px; /* Same font size */
+    text-decoration: none; /* Underline to make it look like a link */
+    cursor: pointer;
+    transition: color 0.3s ease;
+    font-weight: bolder;
+    margin-left: 10px;
+  }
+  
+  .messageLink:hover {
+    color: #1d4ed8; /* Darker blue on hover */
+    text-decoration: none; /* Remove underline on hover */
+  }
+  .addEventBtn {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .addEventBtn:hover {
+    background-color: #1d4ed8;
+  }
+  .deleteBtn {
+    background-color: #ff4d4f;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .deleteBtn:hover {
+    background-color: #d9363e;
+  }
+  
+  .multiLineText {
+    white-space: pre-wrap; /* allows line breaks and wraps long lines */
+    word-wrap: break-word; /* break long words if needed */
+    max-width: 200px; /* adjust based on your layout */
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .addEventBtn {
+      padding: 10px 18px;
+      font-size: 16px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .addEventBtn {
+      font-size: 14px;
+    }
+  }
+  
+  /* Responsive Design */
+  /* ✅ Responsive Design - Updated */
+  /* ✅ Corrected Responsive Code */
+  @media (max-width: 1024px) {
+    /* Leads Grid - Tablet View */
+    .leadContainer {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* 🛠️ Corrected Grid */
+      gap: 12px;
+    }
+  
+    .leadCard {
+      flex-direction: column; /* 📱 Stack cards for smaller screens */
+      padding: 15px;
+    }
+  
+    .leadInfo {
+      flex-direction: row;
+      gap: 10px;
+      flex-wrap: wrap; /* ✅ Allow wrapping in tablet */
+    }
+  
+    .infoBlock {
+      width: 48%; /* 🛠️ Two items per row */
+    }
+  
+    .addLeadBtn,
+    .followUpBtn {
+      font-size: 13px;
+      padding: 8px 12px;
+    }
+  
+    .tab {
+      padding: 6px 12px;
+      width: auto;
+    }
+  }
+  
+  /* ✅ Mobile & Small Screens */
+  @media (max-width: 768px) {
+    /* Single Column for Small Screens */
+    .leadContainer {
+      display: grid;
+      grid-template-columns: 1fr; /* 📱 Single column */
+      gap: 12px;
+    }
+  
+    .leadCard {
+      flex-direction: column;
+      padding: 12px;
+    }
+  
+    .leadInfo {
+      flex-direction: column;
+      gap: 12px;
+    }
+  
+    .infoBlock {
+      width: 100%; /* ✅ Full width for mobile */
+    }
+  
+    .tabContainer {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* ✅ Grid for better layout */
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+  
+    .tab {
+      width: 100%; /* ✅ Full width for mobile */
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+  
+    .addLeadBtn,
+    .followUpBtn {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+  }
+  
+  /* ✅ Extra Small Screens */
+  @media (max-width: 480px) {
+    /* Container Padding for Smaller Screens */
+    .container {
+      padding: 10px;
+    }
+  
+    .title {
+      font-size: 18px;
+    }
+  
+    .leadCard {
+      padding: 10px;
+      flex-direction: column;
+    }
+  
+    .addLeadBtn,
+    .followUpBtn {
+      padding: 6px 8px;
+      font-size: 12px;
+    }
+  
+    .tab {
+      width: 100%;
+      padding: 6px 10px;
+    }
+  }
+  

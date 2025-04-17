@@ -1,0 +1,115 @@
+/* Enhanced Form Container */
+.form-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #f0f4f8, #ffffff);
+    border: 1px solid #ddd;
+  }
+  
+  /* Header Styling */
+  .header {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 25px;
+  }
+  
+  /* Form Layout for Spacing */
+  .form-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* Input Field Styles */
+  .input-field {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .input-field:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+  }
+  
+  /* Input Pair (for side-by-side inputs) */
+  .input-pair {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .input-pair .input-field {
+    width: 48%; /* Keeps them side-by-side with small gaps */
+  }
+  
+  /* Label Styling */
+  label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  
+  /* Button Styling */
+  .button {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button-next {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .button-next:hover {
+    background-color: #0056b3;
+  }
+  
+  .button-back {
+    margin-right: 5px;
+    background-color: blue;
+    color: white;
+    
+  }
+  
+  .button-back:hover {
+    background-color: #5a6268;
+  }
+  
+  .button-submit {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .button-submit:hover {
+    background-color: #218838;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .input-pair {
+      flex-direction: column;
+    }
+  
+    .input-pair .input-field {
+      width: 100%;
+    }
+  }
+  

@@ -1,0 +1,29 @@
+.adminContainer {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  /* Main Content (Includes TopNav + Content) */
+  .mainContent {
+    margin-left: 250px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color:#F4F9FD;
+    transition: margin-left 0.3s ease;
+  }
+  
+  /* Page Content */
+  .pageContent {
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  /* Responsive Design for Mobile */
+  @media screen and (max-width: 768px) {
+    .mainContent {
+      margin-left: 0;
+    }
+  }
+  

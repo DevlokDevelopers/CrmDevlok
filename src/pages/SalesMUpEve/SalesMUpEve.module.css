@@ -1,0 +1,403 @@
+/* Container */
+.container {
+  padding: 20px;
+  background-color: #F4F9FD;
+  position: relative;
+}
+
+/* Heading */
+.heading {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #1f2937;
+}
+
+/* Error Message */
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* Event Grid */
+.eventGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 15px;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.pencilIcon,
+.trashIcon {
+  font-size: 10px;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+  margin-left: 10px;
+}
+
+.trashIcon {
+  color: red;
+}
+
+.pencilIcon {
+  color: blue;
+}
+
+.pencilIcon:hover {
+  color: #007bff;
+  transform: scale(1.1);
+}
+
+.trashIcon:hover {
+  color: #dc3545;
+  transform: scale(1.1);
+}
+
+/* Modal */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modalContent {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 85%;
+  max-height: 90vh; /* Prevent from growing too tall */
+  overflow-y: auto; /* Enable vertical scroll if needed */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+
+
+.modalContent h3 {
+  margin-bottom: 15px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.modalContent label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+.modalContent input,
+.modalContent textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modalActions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.modalActions button:first-child {
+  background-color: #28a745;
+  color: white;
+}
+.SaveStageBtn {
+  padding: 5px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  background-color: #2563eb;
+  color: #fff;
+}
+
+
+.SaveStageBtn:hover {
+  background-color: #1e40af;
+  
+}
+
+.linkButton {
+  padding: 5px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: 100;
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.linkButton:hover {
+  background-color: #5a6268;
+}
+
+.modalActions button:first-child:hover {
+  background-color: #218838;
+}
+
+.modalActions button:last-child {
+  background-color: #6c757d;
+  color: white;
+}
+
+.modalActions button:last-child:hover {
+  background-color: #5a6268;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Grid */
+@media (max-width: 768px) {
+  .eventGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Individual Card */
+.card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  border-left: 5px solid transparent;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+/* Priority Colors */
+.highPriority {
+  border-left-color: #dc2626;
+}
+
+.mediumPriority {
+  border-left-color: #fbbf24;
+}
+
+.lowPriority {
+  border-left-color: #10b981;
+}
+
+/* Event Details */
+.eventDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+/* Icon and Name */
+.iconAndName {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.eventIcon {
+  font-size: 18px;
+}
+
+.eventName {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  flex-grow: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Event Time */
+.eventTime {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.clockIcon {
+  font-size: 12px;
+}
+
+/* Notes */
+.notes {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Priority Label */
+.priorityLabel {
+  margin-top: 6px;
+  background-color: #f3f4f6;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* No Events Message */
+.noEvents {
+  font-size: 14px;
+  color: #6b7280;
+  text-align: center;
+  margin-top: 15px;
+}
+
+/* Add Event Button */
+.addEventBtn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: #2563eb;
+  color: #fff;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.addEventBtn:hover {
+  background-color: #1e40af;
+}
+
+/* Customer Name */
+.customerName {
+  font-size: 14px;
+  font-weight: bold;
+  color: #2c3e50;
+  background-color: #f1f8ff;
+  padding: 6px 10px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-top: 8px;
+  border-left: 4px solid #007bff;
+}
+
+/* Add Event Button - Mobile */
+@media (max-width: 768px) {
+  .addEventBtn {
+    position: relative;
+    width: 100%;
+    margin-bottom: 30px;
+    margin-left: 15px;
+  }
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.pageBtn {
+  padding: 6px 10px;
+  margin: 0 4px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 12px;
+  transition: background-color 0.2s;
+}
+
+.pageBtn.active {
+  background-color: #2563eb;
+  color: #fff;
+}
+
+.pageBtn:hover {
+  background-color: #dbeafe;
+}
+
+/* Event Type Tags */
+.cardTypeTag {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px 6px 0 0;
+  color: white;
+  width: fit-content;
+  margin-bottom: 4px;
+}
+
+.eventTag {
+  background-color: #007bff;
+}
+
+.followupTag {
+  background-color: #28a745;
+}
+
+/* Follow-up Status Box */
+.followupStatusBox {
+  background-color: #f1fdf5;
+  border-left: 4px solid #28a745;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-top: 10px;
+  font-size: 14px !important;
+  line-height: 1.4;
+  color: #2c3e50;
+}
+.followupStatusBox p{
+  font-size: 14px !important;
+  line-height: 1.4;
+  color: #2c3e50;
+}
+.priorityIcon {
+  margin-left: 6px;
+  font-size: 1rem;
+  vertical-align: middle;
+}

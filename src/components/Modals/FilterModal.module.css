@@ -1,0 +1,135 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  width: 90%;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  font-size: 14px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.closeBtn {
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.filtersContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.rangeInputs {
+  display: flex;
+  gap: 10px;
+}
+
+.rangeInputs input {
+  width: 48%;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.bedroomOptions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.bedroomOptions button {
+  padding: 10px 14px;
+  background: #e9f5ff;
+  border: 1px solid #89bde2;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-size: 14px;
+}
+
+.bedroomOptions .selected {
+  background: #1a73e8;
+  color: white;
+  border: none;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.resetBtn {
+  background: none;
+  border: none;
+  color: blue;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.applyBtn {
+  background: blue;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Responsive adjustments for mobile screens */
+@media (max-width: 600px) {
+  .modalContent {
+    width: 90%;
+    max-width: 400px;
+    padding: 15px;
+  }
+
+  .modalHeader {
+    font-size: 14px;
+  }
+
+  .filtersContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .rangeInputs {
+    flex-direction: row;  /* Keep inputs paired */
+    gap: 10px;
+  }
+
+  .rangeInputs input {
+    width: 48%;  /* Paired inputs on mobile */
+  }
+}

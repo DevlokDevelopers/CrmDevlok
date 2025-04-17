@@ -1,0 +1,72 @@
+/* ✅ Fullscreen Overlay to Darken Background */
+.followupModalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark transparent background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure it's on top */
+  }
+  
+  /* ✅ Popup Modal Box */
+  .followupModalContent {
+    background: #fff;
+    padding: 20px;
+    width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1001;
+  }
+  
+  /* ✅ Label Styling */
+  .followupModalContent label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  /* ✅ Input Fields */
+  .followupModalContent input,
+  .followupModalContent textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* ✅ Buttons */
+  .followupButtonGroup {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .followupButtonGroup button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .followupButtonGroup button:first-child {
+    background: #007bff;
+    color: white;
+  }
+  
+  .followupButtonGroup button:last-child {
+    background: #dc3545;
+    color: white;
+  }
+  
+  /* ✅ Close Button */
+  .followupModalContent h2 {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  

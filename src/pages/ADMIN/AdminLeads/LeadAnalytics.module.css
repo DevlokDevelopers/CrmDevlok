@@ -1,0 +1,179 @@
+/* General Container Styles */
+.container {
+    padding: 20px;
+    background-color: #F4F9FD;
+    border-radius: 10px;
+  }
+  
+  /* Header Section with "Add Event" button */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .addEventBtn {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .addEventBtn:hover {
+    background-color: #1d4ed8;
+  }
+  
+  /* Tab Navigation Styles */
+  .tabContainer {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .tab {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 20px;
+    background-color: #e5e7eb;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .tab:hover {
+    background-color: #d1d5db;
+    transform: translateY(-2px);
+  }
+  
+  .activeTab {
+    background: linear-gradient(90deg, #2563eb, #1e40af);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Graphs Section Styles */
+  .graphsContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    justify-items: center; /* Center the graphs in the grid */
+  }
+  
+  .graphCard {
+    background-color: #f9f9f9;
+    padding: 15px;
+    width: 500px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Stack title and graph vertically */
+    align-items: center; /* Center content horizontally */
+    justify-content: center; /* Center content vertically */
+  }
+  
+  .graphTitle {
+    font-size: 18px; /* Adjusted size */
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333; /* Ensuring the title color is dark */
+  }
+  
+  .noData {
+    text-align: center;
+    font-size: 16px;
+    color: #888;
+    margin-top: 20px;
+  }
+  
+  /* Legend Styling for Color Description */
+  .recharts-legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px; /* Reduced font size */
+    font-family: 'Roboto', sans-serif; /* Better font family */
+    margin: 5px 0;
+  }
+  
+  .recharts-legend-item .recharts-legend-icon {
+    margin-right: 10px;
+    border-radius: 50%; /* Circular legend icons */
+  }
+  
+  .recharts-legend-item .recharts-legend-text {
+    color: #333;
+    font-size: 12px; /* Smaller font for better spacing */
+  }
+  
+  .recharts-legend-item:hover .recharts-legend-text {
+    color: #2563eb; /* Hover effect on text */
+  }
+  
+  /* Responsive Design for Graphs */
+  @media (max-width: 768px) {
+    .graphsContainer {
+      grid-template-columns: 1fr;
+    }
+  
+    .graphCard {
+      padding: 10px;
+      width: 330px;
+    }
+  
+    .tabContainer {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* ✅ Grid for better layout */
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+  
+    .tab {
+      width: 100%; /* ✅ Full width for mobile */
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+  
+    .addEventBtn {
+      padding: 10px 18px;
+      font-size: 16px;
+    }
+  
+    .graphTitle {
+      font-size: 14px;
+    }
+  
+    .graphCard {
+      padding: 12px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .title {
+      font-size: 20px;
+    }
+  
+    .tab {
+      font-size: 12px;
+    }
+  
+    .addEventBtn {
+      font-size: 14px;
+    }
+  
+    .graphTitle {
+      font-size: 12px;
+    }
+  }
+  

@@ -1,0 +1,337 @@
+.container {
+    background-color: #F4F9FD;
+    position: relative;
+  }
+  
+  .heading {
+    font-size: 20px; 
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #1f2937;
+  }
+  
+  
+  .error {
+    color: red;
+    font-size: 14px; 
+    margin-top: 10px;
+  }
+
+  
+  .eventGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px; /* Reduced Gap */
+    margin-top: 15px; /* Reduced Margin */
+  }
+  .card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 12px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid transparent;
+    transition: transform 0.2s;
+    position: relative; /* ✅ Add this */
+  }
+  
+  .deleteButton {
+    position: absolute; /* ✅ Add these three lines */
+    top: 10px;
+    right: 10px;
+  
+    background: none;
+    border: none;
+    color: #ff4d4f;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .editButton {
+    position: absolute;
+    top: 10px;
+    right: 60px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #3b82f6; 
+  }
+
+
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+  }
+  
+  .modalContent {
+    background-color: #fff;
+    padding: 20px;
+    width: 95%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .modalActions button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .modalActions button:first-child {
+    background-color: #ccc;
+    color: #333;
+  }
+  
+  .modalActions button:last-child {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .modalActions button:last-child:hover {
+    background-color: #0056b3;
+  }
+  
+  .toggleStatus {
+    margin-top: 10px;
+    padding: 6px 12px;
+    background-color: #f0ad4e;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .toggleStatus:hover {
+    background-color: #ec971f;
+  }
+  
+  .statusFields {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  
+  .modalContent input,
+  .modalContent select,
+  .modalContent textarea {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+  
+  .modalActions {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+ 
+.noteBox {
+  background-color: #f4f4f4;
+  padding: 10px 12px;
+  border-left: 4px solid #888;
+  border-radius: 6px;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #333;
+  font-style: italic;
+  white-space: pre-wrap;
+}
+
+
+  
+  .actionButtons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  
+  
+  @media (max-width: 768px) {
+    .eventGrid {
+      grid-template-columns: 1fr; /* 1 Card Per Row in Small Screens */
+    }
+  }
+  
+  /* Individual Card */
+  .card {
+    background-color: white; /* ✅ Updated Background Color */
+    border-radius: 10px; /* Reduced Border Radius */
+    padding: 12px; /* Reduced Padding */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid transparent;
+    transition: transform 0.2s;
+  }
+  
+  .card:hover {
+    transform: translateY(-3px);
+  }
+  
+  /* Priority Colors */
+  .highPriority {
+    border-left-color: #dc2626; /* Red for High */
+  }
+  
+  .mediumPriority {
+    border-left-color: #fbbf24; /* Yellow for Medium */
+  }
+  
+  .lowPriority {
+    border-left-color: #10b981; /* Green for Low */
+  }
+  
+  /* Event Details */
+  .eventDetails {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 6px; /* Reduced Gap */
+  }
+  
+  /* Icon and Name */
+  .iconAndName {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .eventIcon {
+    font-size: 18px; /* Decreased Icon Size */
+  }
+  
+  /* Event Name */
+  .eventName {
+    font-size: 16px; /* Reduced Font Size */
+    font-weight: 600;
+    color: #1e293b;
+  }
+  
+  /* Event Time */
+  .eventTime {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px; /* Decreased Font Size */
+    color: #64748b;
+  }
+  
+  .clockIcon {
+    font-size: 12px;
+  }
+  
+  /* Notes */
+  .notes {
+    margin-top: 6px;
+    font-size: 13px; /* Reduced Font Size */
+    color: #6b7280;
+  }
+  
+  /* Priority Label */
+  .priorityLabel {
+    margin-top: 6px;
+    background-color: #f3f4f6;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 11px; /* Smaller Font */
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  /* No Events Message */
+  .noEvents {
+    font-size: 14px; /* Decreased Font Size */
+    color: #6b7280;
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  /* Add Event Button */
+  .addEventBtn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #2563eb;
+    color: #fff;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px; /* Smaller Border Radius */
+    font-size: 12px; /* Smaller Button Font */
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .addEventBtn:hover {
+    background-color: #1e40af;
+  }
+  .customerName {
+    font-size: 14px;
+    font-weight: bold;
+    color: #2c3e50; /* Dark blue for better readability */
+    background-color: #f1f8ff; /* Light blue background */
+    padding: 6px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 8px;
+    border-left: 4px solid #007bff; /* Blue left border for emphasis */
+  }
+  
+  /* Add Event Button - Mobile Responsive */
+  @media (max-width: 768px) {
+    .addEventBtn {
+      position: relative;
+      width: 100%;
+      margin-bottom: 30px;
+      margin-left: 15px;
+    }
+  }
+  
+  /* Pagination */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+  }
+  
+  .pageBtn {
+    padding: 6px 10px;
+    margin: 0 4px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 12px; /* Reduced Font Size */
+    transition: background-color 0.2s;
+  }
+  
+  .pageBtn.active {
+    background-color: #2563eb;
+    color: #fff;
+  }
+  
+  .pageBtn:hover {
+    background-color: #dbeafe;
+  }
+  

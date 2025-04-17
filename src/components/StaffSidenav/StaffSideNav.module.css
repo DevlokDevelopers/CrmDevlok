@@ -1,0 +1,192 @@
+.sidenav {
+    width: 250px;
+    height: 100vh;
+    background-color:white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Hide SideNav on Mobile */
+  .closed {
+    transform: translateX(-100%);
+  }
+  
+  /* Show SideNav on Desktop and Opened on Mobile */
+  .open {
+    transform: translateX(0);
+  }
+  
+  /* Overlay for Mobile View */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 5;
+  }
+  
+  /* Mobile Menu Button */
+  .menuBtn {
+    position: fixed;
+    top: 10px;
+    left: 5px;
+    background-color: #F4F9FD;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 15;
+  }
+  
+  /* Logo Container */
+  .logoContainer {
+    text-align: center;
+  }
+  
+  .logo {
+    margin-top: 10px;
+    width: 150px;
+    height: 70px;
+    border-radius: 5px;
+  }
+  .progressWrapper {
+    width: 140px;
+    height: 140px;
+    margin: 20px auto;
+    position: relative;
+  }
+  
+  .progressLabel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 20%);
+    text-align: center;
+  }
+  
+  .progressText {
+    display: block;
+    margin-top: 5px;
+    font-size: 14px;
+    color: #1e3a8a;
+    font-weight: bold;
+  }
+  
+  .companyName {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Nav Links */
+  .navLinks {
+    flex-grow: 1;
+    padding-top: 5px;
+  }
+  
+  .navItem {
+    padding: 8px 25px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #333;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  
+  .navItem:hover,
+  .navItem.active {
+    background-color: #dbeafe;
+    color: #007bff;
+  }
+  
+  .navIcon {
+    margin-right: 12px;
+    font-size: 16px;
+  }
+  
+  /* Footer - Logout */
+  .sidenavFooter {
+    padding: 10px 20px;
+    background-color: #f1f1f1;
+    text-align: center;
+  }
+  
+  .logoutBtn {
+    width: 100%;
+    padding: 10px;
+    background-color: #004E92;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .logoutBtn:hover {
+    background-color: blue;
+  }
+  .navItem.active {
+    background-color: #dbeafe; /* Light blue background */
+    color: #007bff; /* Blue text */
+    border-left: 4px solid #007bff;
+  }
+  
+  /* ✅ Change Icon Color for Active State */
+  .navItem.active .navIcon img {
+    filter: brightness(0) saturate(100%) invert(32%) sepia(98%) saturate(1468%) hue-rotate(202deg) brightness(99%) contrast(101%);
+  }
+  
+  
+  .socialMedia {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0;
+  }
+  
+  .socialIcon {
+    font-size: 24px;
+    color: #555;
+    transition: color 0.3s ease;
+  }
+  
+  .socialIcon:hover {
+    color: #007bff;
+  }
+  .gmailIcon {
+    color: #D14836; /* Gmail Red */
+  }
+  
+  .facebookIcon {
+    color: #1877F2; /* Facebook Blue */
+  }
+  
+  .instagramIcon {
+    color: #E1306C; /* Instagram Pink */
+  }
+  
+  /* ✅ Hover Effect to Scale Up */
+  .socialIcon:hover {
+    transform: scale(1.2);
+  }
+  
+  @media screen and (max-width: 768px) {
+    .sidenav{
+      height: 100%;
+    }
+    
+    .logo{
+      margin-top: 10px;
+    }
+    .navItem{
+      padding: 15px 20px;
+    }
+  }

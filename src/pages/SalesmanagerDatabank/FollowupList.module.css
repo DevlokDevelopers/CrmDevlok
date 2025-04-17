@@ -1,0 +1,184 @@
+.container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.createButton {
+    background-color: #2563eb;
+    color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.createButton:hover {
+    background-color: #1e40af;
+}
+
+.loading,
+.error,
+.noFollowups {
+    text-align: center;
+    color: #666;
+    font-size: 16px;
+}
+
+.followupContainer {
+    width: 100%;
+    padding: 20px 0;
+    overflow-x: auto;
+}
+
+.followupTable {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+.followupTable th,
+.followupTable td {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+    vertical-align: top;
+    word-wrap: break-word;
+}
+
+.followupTable th {
+    background-color: #f4f4f4;
+    font-weight: 600;
+    color: #333;
+}
+
+.followupInput {
+    width: 100%;
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.followupActions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.followupEditBtn,
+.followupSaveBtn,
+.followupDeleteBtn {
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: background 0.3s ease;
+    white-space: nowrap;
+}
+
+.followupEditBtn {
+    background-color: #f0ad4e;
+    color: white !important;
+}
+
+.followupEditBtn:hover {
+    background-color: #ec971f;
+}
+
+.followupSaveBtn {
+    background-color: #28a745;
+    color: white !important;
+}
+
+.followupSaveBtn:hover {
+    background-color: #218838;
+}
+
+.followupDeleteBtn {
+    background-color: #dc3545;
+    color: white !important;
+}
+
+.followupDeleteBtn:hover {
+    background-color: #c82333;
+}
+
+/* 📱 Mobile: Stack rows into cards */
+@media (max-width: 768px) {
+    .followupTable {
+        border: 0;
+    }
+
+    .followupTable thead {
+        display: none;
+    }
+
+    .followupTable tr {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        background: #f9f9f9;
+    }
+
+    .followupTable td {
+        display: block;
+        text-align: left;
+        border: none;
+        padding: 6px 8px;
+        font-size: 14px;
+    }
+
+    .followupTable td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: block;
+        margin-bottom: 4px;
+        color: #333;
+    }
+
+    .followupActions {
+        flex-direction: row;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        margin-top: 10px;
+    }
+
+    .followupEditBtn,
+    .followupSaveBtn,
+    .followupDeleteBtn {
+        width: auto;
+        min-width: 80px;
+        font-size: 13px;
+        margin-left: 5px;
+    }
+
+    .followupInput {
+        font-size: 13px;
+        padding: 6px;
+    }
+}

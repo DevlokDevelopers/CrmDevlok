@@ -1,0 +1,372 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Modal Overlay */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Modal Content */
+.modalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease-in-out;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+/* Input Field */
+.inputField {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+/* Textarea */
+.textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  height: 80px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  resize: none;
+}
+
+/* Row - Date & Time */
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Close Button */
+.closeButton {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  float: right;
+}
+
+/* Modal Title */
+.modalTitle {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Day Selection */
+.daySelection {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.dayButton {
+  padding: 5px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #f9fafb;
+  font-size: 12px;
+}
+
+.selectedDay {
+  background-color: #2563eb;
+  color: white;
+}
+
+/* Checkbox Container */
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+/* Save Button */
+.saveButton {
+  background-color: #2563eb;
+  color: white;
+  padding: 10px 18px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.saveButton:hover {
+  background-color: blue;
+}
+
+/* Add Event Button */
+.addEventButton {
+  position: relative;
+  background-color: #2563eb;
+  float: right;
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addEventButton:hover {
+  background-color: blue;
+}
+
+/* Calendar Container */
+.calendarContainer {
+  padding: 20px;
+  max-width: 90%;
+  margin: 20px auto;
+  background: #f9fafb;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Calendar Title */
+.calendarTitle {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  margin-left: 100px;
+}
+
+/* Calendar Wrapper */
+.calendarWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Custom Calendar */
+.customCalendar {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 12px;
+  border-collapse: collapse;
+}
+
+.react-calendar {
+  width: 100%;
+  border: 1px solid #d1d5db;
+}
+
+.react-calendar__tile {
+  border: 1px solid #e5e7eb;
+  padding: 12px;
+  text-align: center;
+  height: 70px;
+  position: relative;
+}
+
+/* Dot Styling */
+.eventList {
+  margin-top: 5px;
+  text-align: center;
+}
+
+.eventItem {
+  font-size: 12px;
+  margin-bottom: 2px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  background-color: #e5e7eb;
+  color: #333;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Priority Colors */
+.dotHigh {
+  background-color: #e3342f;
+  color: #fff;
+}
+
+.dotMedium {
+  background-color: #f6993f;
+  color: #fff;
+}
+
+.dotLow {
+  background-color: #38c172;
+  color: #fff;
+}
+
+/* Follow-up Specific Styles */
+.dotFollowUp {
+  background-color: #4caf50;
+  color: white;
+}
+
+/* + More Events */
+
+.moreEvents {
+  font-size: 12px;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* Event Cards */
+.eventsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+/* Event Card */
+.eventCard {
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  transition: transform 0.2s ease-in-out;
+}
+
+.eventCard:hover {
+  transform: translateY(-3px);
+}
+
+/* Priority & Follow-up Borders */
+.highPriority {
+  border-left: 5px solid #e3342f;
+}
+
+.mediumPriority {
+  border-left: 5px solid #f6993f;
+}
+
+.lowPriority {
+  border-left: 5px solid #38c172;
+}
+
+.followUpCard {
+  background: #e0f2f1;
+  border-left: 5px solid #4caf50;
+}
+
+/* Event Header */
+.eventHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+/* Event Time */
+.eventTime {
+  font-size: 14px;
+  color: #4b5563;
+}
+
+/* Event Priority */
+.eventPriority {
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: white;
+}
+
+/* Priority Backgrounds */
+.highPriority .eventPriority {
+  background-color: #e3342f;
+}
+
+.mediumPriority .eventPriority {
+  background-color: #f6993f;
+}
+
+.lowPriority .eventPriority {
+  background-color: #38c172;
+}
+
+.followUpCard .eventPriority {
+  background-color: #4caf50;
+}
+
+/* Event Notes */
+.eventNotes {
+  font-size: 14px;
+  color: #374151;
+  margin-top: 5px;
+}
+
+/* No Events Message */
+.noEvents {
+  text-align: center;
+  color: #888;
+  margin-top: 10px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .modalContent {
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  .eventItem {
+    font-size: 10px;
+    padding: 2px 4px;
+  }
+
+  .calendarTitle {
+    font-size: 24px;
+    margin-left: 0;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .addEventButton {
+    display: block;
+    width: 100%;
+    margin: 10px auto;
+    text-align: center;
+    float: none;
+  }
+
+  .calendarContainer {
+    padding: 15px;
+    max-width: 100%;
+  }
+}
