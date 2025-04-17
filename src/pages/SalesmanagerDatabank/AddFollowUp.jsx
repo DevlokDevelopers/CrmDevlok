@@ -54,11 +54,12 @@ const FollowUpCalendar = () => {
       const followUpList = response.data.followups || [];
 
       // Format events
+      // Assuming you want to handle user timezone (e.g., UTC or user local timezone)
       const formattedEvents = eventList.map((event) => ({
         id: event.id,
         type: "event",
         name: event.event_name,
-        date: dayjs(event.date_time).tz("UTC").format("YYYY-MM-DD"),
+        date: dayjs(event.date_time).tz(dayjs.tz.guess()).format("YYYY-MM-DD"), // Adjusting to local timezone
         time: dayjs(event.date_time).format("hh:mm A"),
         priority: event.priority,
         notes: event.notes,
