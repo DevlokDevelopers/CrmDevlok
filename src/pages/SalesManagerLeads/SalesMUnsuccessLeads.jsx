@@ -23,7 +23,7 @@ const UnSuccessLeads = () => {
     Unrecorded:"/salesmanager_unrecordedLeads",
     "Data Saved": "/Salesmanager_Datasaved",
     Closed: "/Salesmanager_closed_leads",
-    "Unsuccessfully Closed": "/Salesmanager_unsuccess_leads",
+    "Unsuccessfully": "/Salesmanager_unsuccess_leads",
     Pending: "/salesmanger_pending_leads",
   };
 

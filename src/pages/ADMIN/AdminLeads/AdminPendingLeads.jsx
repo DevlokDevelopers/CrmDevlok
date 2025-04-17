@@ -24,7 +24,7 @@ const AdminPendingLeads = () => {
     "Unrecorded": "/admin_unrecorded_leads",
     "Data Saved": "/admin_datasaved_leads",
     "Closed": "/admin_closed_leads",
-    "Unsuccessfully Closed": "/admin_unsuccess_lead",
+    "Unsuccessfully": "/admin_unsuccess_lead",
     "Pending": "/admin_pending_leads",
   };
 

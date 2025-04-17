@@ -118,8 +118,8 @@ const SalesMDashboard = () => {
   };
 
   const setupWebSockets = () => {
-    const notificationSocket = new WebSocket("ws://127.0.0.1:8001/ws/notifications/");
-    const leadNotificationSocket = new WebSocket("ws://127.0.0.1:8001/ws/lead-notifications/");
+    const notificationSocket = new WebSocket("wss://devlokcrm-production.up.railway.app/ws/notifications/");
+    const leadNotificationSocket = new WebSocket("wss://devlokcrm-production.up.railway.app/ws/lead-notifications/");
 
     notificationSocketRef.current = notificationSocket;
     leadNotificationSocketRef.current = leadNotificationSocket;

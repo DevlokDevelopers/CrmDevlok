@@ -31,7 +31,7 @@ const SalesmanagerAnalytics = () => {
     Unrecorded: "/salesmanager_unrecordedLeads",
     "Data Saved": "/Salesmanager_Datasaved",
     Closed: "/salesmanager_closed_leads",
-    "Unsuccessfully Closed": "/salesmanager_unsuccess_leads",
+    "Unsuccessfully": "/salesmanager_unsuccess_leads",
     Pending: "/salesmanger_pending_leads",
   };
 
