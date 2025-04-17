@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import styles from "./ResetPassword.module.css"
+import styles from "./Resetpassword.module.css"
 import devlogo from "../../assets/devicon.jpg"
 
 function ResetPassword() {
