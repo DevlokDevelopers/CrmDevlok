@@ -38,10 +38,9 @@
   .menuBtn {
     position: fixed;
     top: 10px;
-    left: 5px;
     background-color: #F4F9FD;
     border: none;
-    font-size: 22px;
+    font-size: 16px;
     cursor: pointer;
     z-index: 15;
   }
