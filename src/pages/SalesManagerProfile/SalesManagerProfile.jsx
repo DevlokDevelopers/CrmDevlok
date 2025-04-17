@@ -40,14 +40,19 @@ const SalesManagerProfile = () => {
       <div className={styles.profileCard}>
         <div className={styles.imageSection}>
         <img
-            src={profile.photo ? `https://devlokcrm-production.up.railway.app${profile.photo}` : ProfileImage}
-            alt={profile.username}
-            className={styles.profileImg}
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = ProfileImage;
-            }}
-          />
+          src={
+            profile.photo
+              ? `https://devlokcrm-production.up.railway.app${profile.photo.startsWith('/') ? profile.photo : '/' + profile.photo}`
+              : ProfileImage
+          }
+          alt={profile.username}
+          className={styles.profileImg}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = ProfileImage;
+          }}
+        />
+
 
         </div>
         <div className={styles.detailsSection}>
