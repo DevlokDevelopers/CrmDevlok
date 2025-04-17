@@ -38,12 +38,15 @@
   .menuBtn {
     position: fixed;
     top: 10px;
-    background-color: #F4F9FD;
+    left: 10px; /* Add this line to move it to the left corner */
+    background-color: transparent; /* Remove background */
     border: none;
-    font-size: 16px;
+    font-size: 20px;
     cursor: pointer;
     z-index: 15;
+    padding: 5px;
   }
+  
   
   /* Logo Container */
   .logoContainer {
