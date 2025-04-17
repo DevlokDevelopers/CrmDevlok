@@ -13,7 +13,7 @@ import {
   PointElement,
   LineElement,
 } from "chart.js";
-import styles from "./SalesMDashboard.module.css";
+import styles from "./SalesMdashboard.module.css";
 
 ChartJS.register(
   CategoryScale,
