@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import dayjs from "dayjs";
-import styles from "./FollowUpList.module.css";
+import styles from "./FollowupList.module.css";
 import StaffLayout from "../../components/Layouts/SalesMLayout";
 
 const FollowUpList = () => {
