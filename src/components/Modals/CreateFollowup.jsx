@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import styles from "./CreateFollowup.module.css"; // CSS Module
+
+dayjs.extend(utc); // Enable UTC plugin
 
 const FollowUpModal = ({ leadId, onClose, onFollowUpCreated }) => {
   const [followupDate, setFollowupDate] = useState("");
@@ -10,17 +14,17 @@ const FollowUpModal = ({ leadId, onClose, onFollowUpCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-  
-    // Ensure we get the correct local time value and convert it to UTC
-    const utcFollowUpDate = dayjs(followupDate).utc().format();  // Converts to UTC string
-  
+
+    // Convert selected date/time to UTC format
+    const utcFollowUpDate = dayjs(followupDate).utc().format(); // ISO string in UTC
+
     const followUpData = {
       followup_date: utcFollowUpDate,
       notes,
     };
-  
+
     const accessToken = localStorage.getItem("access_token");
-  
+
     try {
       await axios.post(
         `https://devlokcrm-production.up.railway.app/followups/createfollowup/${leadId}/`,
@@ -32,7 +36,7 @@ const FollowUpModal = ({ leadId, onClose, onFollowUpCreated }) => {
           },
         }
       );
-  
+
       onFollowUpCreated(); // Refresh follow-ups or notify success
       onClose(); // Close the modal
     } catch (error) {
@@ -41,7 +45,7 @@ const FollowUpModal = ({ leadId, onClose, onFollowUpCreated }) => {
       setIsLoading(false); // Reset loading state
     }
   };
-  
+
   return (
     <div className={styles.followupModalOverlay}>
       <div className={styles.followupModalContent}>
