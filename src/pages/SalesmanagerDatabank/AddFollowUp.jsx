@@ -118,7 +118,7 @@ const FollowUpCalendar = () => {
         <button className={styles.addEventButton} onClick={handleCreateFollowUp}>
           ➕ Create FollowUp
         </button>
-        <h2 className={styles.calendarTitle}>📅 Sales Manager Calendar</h2>
+        <h2 className={styles.calendarTitle}>Sales Manager Calendar</h2>
 
         {loading ? (
           <div className={styles.loading}>Loading events...</div>
