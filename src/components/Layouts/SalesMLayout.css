@@ -25,5 +25,9 @@
     .mainContent {
       margin-left: 0;
     }
+    .pageContent{
+      padding: 10px;
+      overflow: auto;
+    }
   }
   
