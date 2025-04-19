@@ -300,6 +300,9 @@
   
   /* Add Event Button - Mobile Responsive */
   @media (max-width: 768px) {
+    .container{
+      width: 100%;
+    }
     .addEventBtn {
       position: relative;
       width: 100%;
