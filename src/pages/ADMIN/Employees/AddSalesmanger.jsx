@@ -72,8 +72,25 @@ const AddSalesManager = () => {
       });
       setPreviewImage(null);
     } catch (err) {
-      console.error(err);
-      setErrorMsg(err.response?.data?.detail || 'Failed to add Sales Manager.');
+      console.error("Add SalesManager Error:", err.response?.data || err.message);
+  
+      if (err.response?.data) {
+        const data = err.response.data;
+        if (typeof data === 'string') {
+          setErrorMsg(data);
+        } else if (data.detail) {
+          setErrorMsg(data.detail);
+        } else if (typeof data === 'object') {
+          const messages = Object.entries(data)
+            .map(([field, msg]) => `${field}: ${Array.isArray(msg) ? msg.join(', ') : msg}`)
+            .join(' | ');
+          setErrorMsg(messages);
+        } else {
+          setErrorMsg('Failed to add Sales Manager.');
+        }
+      } else {
+        setErrorMsg('Something went wrong.');
+      }
     } finally {
       setLoading(false);
     }
