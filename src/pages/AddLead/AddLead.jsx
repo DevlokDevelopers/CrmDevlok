@@ -112,7 +112,7 @@ const AddLead = () => {
                 <option value="">Select Mode of Purpose</option>
                 <option value="Houes">House</option>
                 <option value="Land">Land</option>
-                <option value="Flat">FLates</option>
+                <option value="Flat">Flates</option>
                 <option value="Offices">Offices</option>
                 <option value="Godowns,Companies,Industries">Godowns,Companies,Industries etc</option>
                 <option value="Commercial Plots">Commercial Plots</option>
