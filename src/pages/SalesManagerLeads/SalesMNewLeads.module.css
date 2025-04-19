@@ -301,9 +301,7 @@
 /* ✅ Mobile & Small Screens */
 @media (max-width: 768px) {
   /* Single Column for Small Screens */
-  .header{
-    margin-bottom: 0px;
-  }
+  
   .leadContainer {
     display: grid;
     grid-template-columns: 1fr; /* 📱 Single column */
