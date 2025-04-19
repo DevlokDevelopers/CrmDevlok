@@ -123,6 +123,9 @@
   
   /* Responsive Design for Graphs */
   @media (max-width: 768px) {
+    .container{
+      width: 100%;
+    }
     .graphsContainer {
       grid-template-columns: 1fr;
     }
