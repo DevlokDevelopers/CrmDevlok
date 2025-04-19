@@ -184,11 +184,15 @@ const FollowUpList = () => {
                     </td>
                     <td>
                       {editingFollowup === followup.id ? (
-                        <input
-                          type="text"
-                          value={updatedData.status}
-                          onChange={(e) => setUpdatedData({ ...updatedData, status: e.target.value })}
-                        />
+                        <select
+                        value={updatedData.status}
+                        onChange={(e) => setUpdatedData({ ...updatedData, status: e.target.value })}
+                      >
+                        <option value="">Select status</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Complete">Complete</option>
+                        <option value="Postponed">Postponed</option>
+                      </select>
                       ) : (
                         followup.followup_status?.status || "—"
                       )}
