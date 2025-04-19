@@ -27,9 +27,15 @@
 
 /* Close Button */
 .closeButton {
-  background: transparent;
-  font-size: 18px;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #f3f4f6;
+  color: black;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
 }
 
 /* Modal Title */
