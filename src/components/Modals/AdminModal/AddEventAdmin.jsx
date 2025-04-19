@@ -124,7 +124,7 @@ const AdminAddEventModal = ({ isOpen, onClose }) => {
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
-        <button className={styles.closeButton} onClick={onClose}>✖</button>
+        
         <h3 className={styles.modalTitle}>Create Event</h3>
 
         <form className={styles.form}>
@@ -212,6 +212,9 @@ const AdminAddEventModal = ({ isOpen, onClose }) => {
           >
             Create Event
           </button>
+          <button className={styles.closeButton} onClick={onClose}>
+                    Cancel
+                    </button>
         </form>
       </div>
     </div>
