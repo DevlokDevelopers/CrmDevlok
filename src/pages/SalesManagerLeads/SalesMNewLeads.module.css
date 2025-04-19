@@ -307,6 +307,9 @@
     grid-template-columns: 1fr; /* 📱 Single column */
     gap: 12px;
   }
+  .leadContainer p{
+    color: black;
+  }
 
   .leadCard {
     flex-direction: column;
