@@ -138,9 +138,7 @@ const AddEventModal = ({ isOpen, onClose }) => {
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
-        <button className={styles.closeButton} onClick={onClose}>
-          ✖
-        </button>
+       
         <h3 className={styles.modalTitle}>Add Event</h3>
 
         <form className={styles.form}>
