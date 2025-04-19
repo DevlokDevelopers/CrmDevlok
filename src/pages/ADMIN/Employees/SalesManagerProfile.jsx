@@ -145,6 +145,9 @@ const AdminSalesManagerProfile = () => {
 
   const { photo, name, email, phone, joined_date } = details["Sales Manager"];
   const workSummary = details["Work Summary"];
+  const correctedPhoto = photo?.startsWith('/media/')
+  ? photo
+  : `/media${photo}`;
 
   return (
     <AdminLayout>
@@ -157,8 +160,8 @@ const AdminSalesManagerProfile = () => {
         </div>
 
         <div className={styles.profileCard}>
-          <img
-            src={photo ? `https://devlokcrm-production.up.railway.app/${photo}` : ProfileImage}
+        <img
+            src={photo ? `https://devlokcrm-production.up.railway.app${correctedPhoto}` : ProfileImage}
             alt={name}
             className={styles.profileImage}
             onError={(e) => { e.target.src = ProfileImage }}
