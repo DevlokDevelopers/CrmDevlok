@@ -158,7 +158,7 @@ const AdminSalesManagerProfile = () => {
 
         <div className={styles.profileCard}>
           <img
-            src={photo ? `https://devlokcrm-production.up.railway.app${photo}` : ProfileImage}
+            src={photo ? `https://devlokcrm-production.up.railway.app/${photo}` : ProfileImage}
             alt={name}
             className={styles.profileImage}
             onError={(e) => { e.target.src = ProfileImage }}

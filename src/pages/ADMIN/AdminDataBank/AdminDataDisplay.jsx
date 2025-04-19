@@ -130,7 +130,7 @@ const AdminDataDisplay = () => {
                 {images.map((img) => (
                   <div key={img.id} className={styles.imageWrapper}>
                     <img
-                      src={`http://127.0.0.1:8000${img.image}`}
+                      src={`https://devlokcrm-production.up.railway.app${img.image}`}
                       alt="Property"
                       className={styles.image}
                     />
