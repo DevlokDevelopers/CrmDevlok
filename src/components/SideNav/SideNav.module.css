@@ -161,6 +161,9 @@
   color: rgb(187, 19, 47);
   transform: scale(1.2);
 }
+.menuToggleBtn svg {
+  color: black; /* <-- This ensures the icon color stays black */
+}
 
 /* ✅ Hover Effect to Scale Up */
 
@@ -170,6 +173,7 @@
     height: 100%;
   }
   .menuToggleBtn {
+    -webkit-tap-highlight-color: transparent;
     top: 5px;     /* Move it slightly upward */
     left: 5px;     /* Move it slightly to the left */
   }
