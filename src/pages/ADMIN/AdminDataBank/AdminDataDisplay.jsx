@@ -98,7 +98,7 @@ const AdminDataDisplay = () => {
           <p className={styles.error}>{errorMessage}</p>
         ) : data ? (
           <div className={styles.card}>
-            <p>Name:<strong> {data.name}</strong></p>
+            <p className={styles.ptag}>Name:<strong> {data.name}</strong></p>
             <p>Email:<strong> {data.email}</strong></p>
             <p>Phone:<strong> {data.phonenumber}</strong></p>
             <p>District:<strong> {data.district}</strong></p>

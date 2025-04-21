@@ -184,6 +184,9 @@
     border: none;
     cursor: pointer;
   }
+  .ptag{
+    color: black;
+  }
   
   .backButton:hover {
     background-color: #545b62;
