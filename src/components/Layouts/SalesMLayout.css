@@ -23,7 +23,7 @@
   /* Responsive Design for Mobile */
   @media screen and (max-width: 768px) {
     .mainContent {
-      padding-top: calc(20px + env(safe-area-inset-top));
+      padding-top: calc(10px + env(safe-area-inset-top));
       margin-left: 0;
     }
     .pageContent{
