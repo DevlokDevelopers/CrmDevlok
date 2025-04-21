@@ -42,23 +42,23 @@ const AdminSearchResults = () => {
               <h3 className={styles.title}>
                 {item.name || item.project_name}
               </h3>
-              <p><strong>Email:</strong> {item.email || "N/A"}</p>
-              <p><strong>Phone:</strong> {item.phonenumber || "N/A"}</p>
-              <p><strong>District:</strong> {item.district || "N/A"}</p>
-              <p><strong>Place:</strong> {item.place || "N/A"}</p>
+              <p><strong>Email: {item.email || "N/A"}</strong></p>
+              <p><strong>Phone: {item.phonenumber || "N/A"}</strong></p>
+              <p><strong>District:{item.district || "N/A"}</strong> </p>
+              <p><strong>Place: {item.place || "N/A"}</strong></p>
 
               {source === "databank" && (
                 <>
-                  <p><strong>Address:</strong> {item.address || "N/A"}</p>
-                  <p><strong>Purpose:</strong> {item.purpose || "N/A"}</p>
-                  <p><strong>Mode of Property:</strong> {item.mode_of_property || "N/A"}</p>
-                  <p><strong>Price:</strong> {item.demand_price || "N/A"}</p>
-                  <p><strong>Location Proposal:</strong> {item.location_proposal_district}, {item.location_proposal_place}</p>
-                  <p><strong>Area (sqft):</strong> {item.area_in_sqft || "N/A"}</p>
-                  <p><strong>Building Type:</strong> {item.building_roof || "N/A"}</p>
-                  <p><strong>Floors:</strong> {item.number_of_floors || "N/A"}</p>
-                  <p><strong>BHK:</strong> {item.building_bhk || "N/A"}</p>
-                  <p><strong>Additional Notes:</strong> {item.additional_note || "N/A"}</p>
+                  <p><strong>Address: {item.address || "N/A"}</strong></p>
+                  <p><strong>Purpose: {item.purpose || "N/A"}</strong></p>
+                  <p><strong>Mode of Property: {item.mode_of_property || "N/A"}</strong></p>
+                  <p><strong>Price:{item.demand_price || "N/A"}</strong> </p>
+                  <p><strong>Location Proposal: {item.location_proposal_district}, {item.location_proposal_place}</strong></p>
+                  <p><strong>Area (sqft): {item.area_in_sqft || "N/A"}</strong></p>
+                  <p><strong>Building Type: {item.building_roof || "N/A"}</strong></p>
+                  <p><strong>Floors: {item.number_of_floors || "N/A"}</strong></p>
+                  <p><strong>BHK: {item.building_bhk || "N/A"}</strong></p>
+                  <p><strong>Additional Notes: {item.additional_note || "N/A"}</strong></p>
                 </>
               )}
 

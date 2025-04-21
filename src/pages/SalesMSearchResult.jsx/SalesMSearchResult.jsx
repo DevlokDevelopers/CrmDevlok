@@ -62,21 +62,22 @@ const SalesMSearchResults = () => {
               <h3 className={styles.title}>
                 {item.name || item.project_name}
               </h3>
-              <p><strong>Email:</strong> {item.email || "N/A"}</p>
-              <p><strong>Phone:</strong> {item.phonenumber || "N/A"}</p>
-              <p><strong>District:</strong> {item.district || "N/A"}</p>
-              <p><strong>Place:</strong> {item.place || "N/A"}</p>
+              <p><strong>Email: {item.email || "N/A"}</strong></p>
+              <p><strong>Phone: {item.phonenumber || "N/A"}</strong></p>
+              <p><strong>District: {item.district || "N/A"}</strong></p>
+              <p><strong>Place: {item.place || "N/A"}</strong></p>
 
               {type === "leads" && (
                 <>
-                  <p><strong>Address:</strong> {item.address || "N/A"}</p>
-                  <p><strong>Purpose:</strong> {item.purpose || "N/A"}</p>
-                  <p><strong>Mode of Purpose:</strong> {item.mode_of_purpose || "N/A"}</p>
-                  <p><strong>Message:</strong> {item.message || "N/A"}</p>
-                  <p><strong>Status:</strong> {item.status || "N/A"}</p>
-                  <p><strong>Stage:</strong> {item.stage || "N/A"}</p>
-                  <p><strong>Closed Date:</strong> {item.closed_date || "Not closed yet"}</p>
-                  <p><strong>Follower:</strong> {item.follower || "N/A"}</p>
+                  <p><strong>Address: {item.address || "N/A"}</strong></p>
+                  <p><strong>Purpose: {item.purpose || "N/A"}</strong></p>
+                  <p><strong>Mode of Purpose: {item.mode_of_purpose || "N/A"}</strong></p>
+                  <p><strong>Message: {item.message || "N/A"}</strong></p>
+                  <p><strong>Status: {item.status || "N/A"}</strong></p>
+                  <p><strong>Stage: {item.stage || "N/A"}</strong></p>
+                  <p><strong>Closed Date: {item.closed_date || "Not closed yet"}</strong></p>
+                  <p><strong>Follower: {item.follower || "N/A"}</strong></p>
+
                 </>
               )}
 

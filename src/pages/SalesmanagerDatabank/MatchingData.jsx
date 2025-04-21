@@ -94,21 +94,22 @@ const MatchingDatas = () => {
             {matches.map((match) => (
               <div key={match.data.id} className={styles.card}>
                 <h2>{match.data.name}</h2>
-                <p><strong>Email:</strong> {match.data.email}</p>
-                <p><strong>Phone:</strong> {match.data.phonenumber}</p>
-                <p><strong>District:</strong> {match.data.district}</p>
-                <p><strong>Place:</strong> {match.data.place}</p>
-                <p><strong>Address:</strong> {match.data.address}</p>
-                <p><strong>Purpose:</strong> {match.data.purpose}</p>
-                <p><strong>Property Type:</strong> {match.data.mode_of_property}</p>
-                <p><strong>Demand Price:</strong> ₹{match.data.demand_price}</p>
-                <p><strong>Area:</strong> {match.data.area_in_sqft} sqft</p>
-                <p><strong>Building Roof:</strong> {match.data.building_roof}</p>
-                <p><strong>Floors:</strong> {match.data.number_of_floors}</p>
-                <p><strong>BHK:</strong> {match.data.building_bhk}</p>
-                <p><strong>Additional Notes:</strong> {match.data.additional_note || "N/A"}</p>
-                <p><strong>Score:</strong> {match.score}</p>
-                <p><strong>Follower:</strong> {match.data.follower_name}</p>
+                <p><strong>Email: {match.data.email}</strong></p>
+              <p><strong>Phone: {match.data.phonenumber}</strong></p>
+              <p><strong>District: {match.data.district}</strong></p>
+              <p><strong>Place: {match.data.place}</strong></p>
+              <p><strong>Address: {match.data.address}</strong></p>
+              <p><strong>Purpose: {match.data.purpose}</strong></p>
+              <p><strong>Property Type: {match.data.mode_of_property}</strong></p>
+              <p><strong>Demand Price: ₹{match.data.demand_price}</strong></p>
+              <p><strong>Area: {match.data.area_in_sqft} sqft</strong></p>
+              <p><strong>Building Roof: {match.data.building_roof}</strong></p>
+              <p><strong>Floors: {match.data.number_of_floors}</strong></p>
+              <p><strong>BHK: {match.data.building_bhk}</strong></p>
+              <p><strong>Additional Notes: {match.data.additional_note || "N/A"}</strong></p>
+              <p><strong>Score: {match.score}</strong></p>
+              <p><strong>Follower: {match.data.follower_name}</strong></p>
+
               </div>
             ))}
           </div>

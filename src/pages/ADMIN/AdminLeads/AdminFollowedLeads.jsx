@@ -187,7 +187,7 @@ const AdminFollowedLeads = () => {
                 <div className={styles.infoBlock}>
                   <p><strong>Purpose: {lead.purpose}</strong></p>
                   <p><strong>Property Type: {lead.mode_of_purpose}</strong></p>
-                  <p>{formatDate(lead.timestamp)} {lead.message && (
+                  <p><strong>{formatDate(lead.timestamp)}</strong> {lead.message && (
                                     
                                     <span
                                         className={styles.messageLink}

@@ -145,25 +145,25 @@ const UnSuccessLeads = () => {
                       <p>
                         <strong>{lead.name}</strong>
                       </p>
-                      <p>{lead.phonenumber}</p>
-                      <p className={styles.multiLineText}>{lead.email}</p>
+                      <p><strong>{lead.phonenumber}</strong></p>
+                      <p className={styles.multiLineText}><strong>{lead.email}</strong></p>
                     </div>
 
                     {/* ✅ Place & Address */}
                     <div className={styles.infoBlock}>
-                      <p>
-                        {lead.place}, {lead.district}
+                      <p><strong>
+                        {lead.place}, {lead.district}</strong>
                       </p>
-                      <p className={styles.multiLineText}>{lead.address}</p>
+                      <p className={styles.multiLineText}><strong>{lead.address}</strong></p>
                     </div>
 
                     {/* ✅ Purpose */}
                     <div className={styles.infoBlock}>
-                      <p>
-                        Purpose: <strong>{lead.purpose}</strong>
+                      <p><strong>
+                        Purpose: {lead.purpose}</strong>
                       </p>
-                      <p>
-                        Property Type: <strong>{lead.mode_of_purpose}</strong>
+                      <p><strong>
+                        Property Type: {lead.mode_of_purpose}</strong>
                       </p>
                       <p>{lead.message && (
                                                                                                       
@@ -182,9 +182,9 @@ const UnSuccessLeads = () => {
 
                     {/* ✅ Email & Created At */}
                     <div className={styles.infoBlock}>
-                      <p>Lead Received: {formatDate(lead.timestamp)}</p>
-                      <p>Closed Date: {formatDate(lead.closed_date)}</p>
-                      <p>Type of Closing: {lead.stage}</p>
+                      <p><strong>Lead Received: {formatDate(lead.timestamp)}</strong></p>
+                      <p><strong>Closed Date: {formatDate(lead.closed_date)}</strong></p>
+                      <p><strong>Type of Closing: {lead.stage}</strong></p>
                     </div>
 
                     
