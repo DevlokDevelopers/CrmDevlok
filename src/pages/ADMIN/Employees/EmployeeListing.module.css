@@ -126,7 +126,7 @@
   .infoBlock p {
     margin: 0;
     font-size: 14px;
-    color: #333;
+    color: black;
   }
   
   /* Buttons in Cards */
@@ -285,6 +285,9 @@
   
     .infoBlock {
       width: 100%;
+    }
+    .infoBlock p{
+      color: black;
     }
   
     .tabContainer {
