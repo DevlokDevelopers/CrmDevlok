@@ -180,6 +180,9 @@
   .socialIcon:hover {
     transform: scale(1.2);
   }
+  .menuToggleBtn svg {
+    color: black; /* <-- This ensures the icon color stays black */
+  }
   
   @media screen and (max-width: 768px) {
     .sidenav{
@@ -193,6 +196,6 @@
       padding: 15px 20px;
     }
     .menuToggleBtn{
-      color: black;
+      -webkit-tap-highlight-color: transparent; 
     }
   }

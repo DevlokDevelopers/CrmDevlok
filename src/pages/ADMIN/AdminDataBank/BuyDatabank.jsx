@@ -132,7 +132,7 @@ const AdminBuyList = () => {
                 <div className={styles.leadInfo}>
                   <div className={styles.infoBlock}>
                     <p><strong>{item.name}</strong></p>
-                    <p>{item.phonenumber}</p>
+                    <p><strong>{item.phonenumber}</strong></p>
                     {item.is_in_project && (
                     <div className={styles.infoBlock}>
                       <p className={styles.inProjectTag}>
@@ -142,12 +142,12 @@ const AdminBuyList = () => {
                   )}
                   </div>
                   <div className={styles.infoBlock}>
-                    <p>{item.district}, {item.place}</p>
-                    <p>{item.address}</p>
+                    <p><strong>{item.district}, {item.place}</strong></p>
+                    <p><strong>{item.address}</strong></p>
                   </div>
                   <div className={styles.infoBlock}>
-                    <p>Purpose: <strong>{item.purpose}</strong></p>
-                    <p>Property Type: <strong>{item.mode_of_property}</strong></p>
+                    <p><strong>Purpose: {item.purpose}</strong></p>
+                    <p><strong>Property Type: {item.mode_of_property}</strong></p>
                   </div>
                   
                   <div className={styles.buttonContainer}>

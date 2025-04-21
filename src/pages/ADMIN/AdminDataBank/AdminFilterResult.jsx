@@ -41,21 +41,22 @@ const AdminFilteredResults = () => {
             {data.map((item) => (
               <div key={item.id} className={styles.resultCard}>
                 <h3>{item.name}</h3>
-                <p><strong>Follower:</strong> {item.follower_name}</p>
-                <p><strong>Email:</strong> {item.email}</p>
-                <p><strong>Phone:</strong> {item.phonenumber}</p>
-                <p><strong>District:</strong> {item.district}</p>
-                <p><strong>Place:</strong> {item.place}</p>
-                <p><strong>Address:</strong> {item.address}</p>
-                <p><strong>Purpose:</strong> {item.purpose}</p>
-                <p><strong>Property Type:</strong> {item.mode_of_property}</p>
-                <p><strong>Demand Price:</strong> ₹{item.demand_price}</p>
-                <p><strong>Proposed Location:</strong> {item.location_proposal_district}, {item.location_proposal_place}</p>
-                <p><strong>Area:</strong> {item.area_in_sqft} sqft</p>
-                <p><strong>Roof Type:</strong> {item.building_roof}</p>
-                <p><strong>Floors:</strong> {item.number_of_floors}</p>
-                <p><strong>BHK:</strong> {item.building_bhk}</p>
-                <p><strong>Additional Note:</strong> {item.additional_note}</p>
+                <p><strong>Follower: {item.follower_name}</strong></p>
+                <p><strong>Email: {item.email}</strong></p>
+                <p><strong>Phone: {item.phonenumber}</strong></p>
+                <p><strong>District: {item.district}</strong></p>
+                <p><strong>Place: {item.place}</strong></p>
+                <p><strong>Address: {item.address}</strong></p>
+                <p><strong>Purpose: {item.purpose}</strong></p>
+                <p><strong>Property Type: {item.mode_of_property}</strong></p>
+                <p><strong>Demand Price: ₹{item.demand_price}</strong></p>
+                <p><strong>Proposed Location: {item.location_proposal_district}, {item.location_proposal_place}</strong></p>
+                <p><strong>Area: {item.area_in_sqft} sqft</strong></p>
+                <p><strong>Roof Type: {item.building_roof}</strong></p>
+                <p><strong>Floors: {item.number_of_floors}</strong></p>
+                <p><strong>BHK: {item.building_bhk}</strong></p>
+                <p><strong>Additional Note: {item.additional_note}</strong></p>
+
                 {item.location_link && (
                   <p><a href={item.location_link} target="_blank" rel="noopener noreferrer">View Location</a></p>
                 )}
