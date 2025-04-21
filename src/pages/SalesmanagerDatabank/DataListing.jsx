@@ -6,7 +6,7 @@ import StaffLayout from "../../components/Layouts/SalesMLayout";
 import UploadImageModal from "../../components/Modals/AddImageModal";
 import UpdateStageModal from "../../components/Modals/UpdateStage";
 import { AlignJustify } from "lucide-react";
-import { FaMapMarkedAlt } from "react-icons/fa";
+import { MdLocationOn } from "react-icons/md";
 const DataDisplay = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -142,7 +142,7 @@ const DataDisplay = () => {
                     rel="noopener noreferrer"
                     className={styles.mapLink}
                   >
-                    <FaMapMarkedAlt style={{ marginRight: 8, verticalAlign: 'middle',fontSize: '20px', color: 'red' }} />
+                    <MdLocationOn style={{ marginRight: 8, verticalAlign: 'middle', fontSize: '20px', color: 'white' }} />
                     Open Location in Google Maps
                   </a>
                 </div>
