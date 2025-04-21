@@ -185,7 +185,7 @@
     cursor: pointer;
   }
   .ptag{
-    color: black;
+    color: rgba(10, 10, 10, 0.699);
   }
   
   .backButton:hover {
