@@ -142,7 +142,7 @@ const DataDisplay = () => {
                     rel="noopener noreferrer"
                     className={styles.mapLink}
                   >
-                    <FaMapMarkedAlt style={{ marginRight: 8, verticalAlign: 'middle' }} />
+                    <FaMapMarkedAlt style={{ marginRight: 8, verticalAlign: 'middle',fontSize: '20px', color: 'red' }} />
                     Open Location in Google Maps
                   </a>
                 </div>
