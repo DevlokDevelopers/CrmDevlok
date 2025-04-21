@@ -369,6 +369,9 @@
       top: auto;
       text-align: center;
     }
+    .title{
+      margin-left: 20px;
+    }
   }
   
   @media (max-width: 480px) {
