@@ -177,16 +177,16 @@ const AdminFollowedLeads = () => {
               <div className={styles.leadInfo}>
                 <div className={styles.infoBlock}>
                   <p><strong>{lead.name}</strong></p>
-                  <p>{lead.phonenumber}</p>
-                  <p className={styles.multiLineText}>{lead.email}</p>
+                  <p><strong>{lead.phonenumber}</strong></p>
+                  <p className={styles.multiLineText}><strong>{lead.email}</strong></p>
                 </div>
                 <div className={styles.infoBlock}>
-                  <p>{lead.place}, {lead.district}</p>
-                  <p className={styles.multiLineText}>{lead.address}</p>
+                  <p><strong>{lead.place}, {lead.district}</strong></p>
+                  <p className={styles.multiLineText}><strong>{lead.address}</strong></p>
                 </div>
                 <div className={styles.infoBlock}>
-                  <p>Purpose: <strong>{lead.purpose}</strong></p>
-                  <p>Property Type: <strong>{lead.mode_of_purpose}</strong></p>
+                  <p><strong>Purpose: {lead.purpose}</strong></p>
+                  <p><strong>Property Type: {lead.mode_of_purpose}</strong></p>
                   <p>{formatDate(lead.timestamp)} {lead.message && (
                                     
                                     <span
@@ -206,7 +206,7 @@ const AdminFollowedLeads = () => {
                 
                 
                 <div className={styles.infoBlock}>
-                  <p><strong>Follower:</strong> {lead.follower || "Not Assigned"}</p>
+                  <p><strong>Follower: {lead.follower || "Not Assigned"}</strong></p>
                   <button
                     className={styles.followUpBtn}
                     onClick={() => openAssignModal(lead.id)}
