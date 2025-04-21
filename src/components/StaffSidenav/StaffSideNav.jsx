@@ -101,7 +101,7 @@ const StaffSideNav = () => {
       )}
 
       {isMobile && (
-        <button className={styles.menuBtn} onClick={toggleMenu}>
+        <button className={styles.menuToggleBtn} onClick={toggleMenu}>
           {isOpen ? <FaTimes /> : <FaBars />}
         </button>
       )}

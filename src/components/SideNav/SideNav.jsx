@@ -50,7 +50,7 @@ const SideNav = () => {
       {isOpen && isMobile && <div className={styles.overlay} onClick={handleOverlayClick}></div>}
 
       {isMobile && (
-        <button className={styles.menuBtn} onClick={toggleMenu}>
+        <button className={styles.menuToggleBtn} onClick={toggleMenu}>
           {isOpen ? <FaTimes /> : <FaBars />}
         </button>
       )}

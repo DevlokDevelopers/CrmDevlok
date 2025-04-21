@@ -98,21 +98,21 @@ const AdminDataDisplay = () => {
           <p className={styles.error}>{errorMessage}</p>
         ) : data ? (
           <div className={styles.card}>
-            <p><strong>Name: {data.name}</strong></p>
-            <p><strong>Email: {data.email}</strong></p>
-            <p><strong>Phone: {data.phonenumber}</strong></p>
-            <p><strong>District: {data.district}</strong></p>
-            <p><strong>Place: {data.place}</strong></p>
-            <p><strong>Address: {data.address}</strong></p>
-            <p><strong>Purpose: {data.purpose}</strong></p>
-            <p><strong>Property Type: {data.mode_of_property}</strong></p>
-            <p><strong>Demand Price: ₹{data.demand_price}</strong></p>
-            <p><strong>Area: {data.area_in_sqft} </strong>sqft</p>
-            <p><strong>Building Roof: {data.building_roof}</strong></p>
-            <p><strong>Floors:{data.number_of_floors}</strong> </p>
-            <p><strong>BHK: {data.building_bhk}</strong></p>
-            <p><strong>Additional Notes: {data.additional_note || "N/A"}</strong></p>
-            <p><strong>Follower: {data.follower_name}</strong></p>
+            <p>Name:<strong> {data.name}</strong></p>
+            <p>Email:<strong> {data.email}</strong></p>
+            <p>Phone:<strong> {data.phonenumber}</strong></p>
+            <p>District:<strong> {data.district}</strong></p>
+            <p>Place: <strong>{data.place}</strong></p>
+            <p>Address: <strong>{data.address}</strong></p>
+            <p>Purpose:<strong> {data.purpose}</strong></p>
+            <p>Property Type: <strong>{data.mode_of_property}</strong></p>
+            <p>Demand Price:<strong> ₹{data.demand_price}</strong></p>
+            <p>Area: <strong>{data.area_in_sqft} </strong>sqft</p>
+            <p>Building Roof:<strong> {data.building_roof}</strong></p>
+            <p>Floors:<strong>{data.number_of_floors}</strong> </p>
+            <p>BHK: <strong>{data.building_bhk}</strong></p>
+            <p>Additional Notes: <strong>{data.additional_note || "N/A"}</strong></p>
+            <p>Follower: <strong>{data.follower_name}</strong></p>
             <p>
               <strong>Project:</strong>{" "}
               {data.is_in_project ? (
