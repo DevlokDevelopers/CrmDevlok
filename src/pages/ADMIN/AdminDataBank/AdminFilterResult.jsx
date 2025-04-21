@@ -41,7 +41,7 @@ const AdminFilteredResults = () => {
             {data.map((item) => (
               <div key={item.id} className={styles.resultCard}>
                 <h3>{item.name}</h3>
-                <p>Follower: <strong>{item.follower_name}</strong></p>
+                <p><strong>Follower: {item.follower_name}</strong></p>
               <p><strong>Email: {item.email}</strong></p>
               <p><strong>Phone: {item.phonenumber}</strong></p>
               <p><strong>District: {item.district}</strong></p>
@@ -55,7 +55,7 @@ const AdminFilteredResults = () => {
               <p><strong>Roof Type: {item.building_roof}</strong></p>
               <p><strong>Floors: {item.number_of_floors}</strong></p>
               <p><strong>BHK: {item.building_bhk}</strong></p>
-              <p>Additional Note: <strong>{item.additional_note}</strong></p>
+              <p><strong>Additional Note: {item.additional_note}</strong></p>
 
                 {item.location_link && (
                   <p><a href={item.location_link} target="_blank" rel="noopener noreferrer">View Location</a></p>
