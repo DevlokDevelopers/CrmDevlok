@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./AdminDataDisplay.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
+import { MdLocationOn } from "react-icons/md";
 
 const AdminDataDisplay = () => {
   const navigate = useNavigate();
@@ -123,6 +124,22 @@ const AdminDataDisplay = () => {
                 </button>
               )}
             </p>
+
+            {data.location_link && (
+              <div className={styles.imageWrapper}>
+                <div className={styles.mapBox}>
+                  <a
+                    href={data.location_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.mapLink}
+                  >
+                  <MdLocationOn style={{ marginRight: 8, verticalAlign: 'middle', fontSize: '20px', color: 'white' }} />
+                    Open Location in Google Maps
+                  </a>
+                </div>
+              </div>
+            )}
 
             <h3 className={styles.imageHeading}>Property Images</h3>
             {images.length > 0 ? (
