@@ -38,13 +38,13 @@
   .card h2 {
     margin-bottom: 10px;
     font-size: 20px;
-    color: #333;
+    color: black;
   }
   
   .card p {
     margin: 5px 0;
     font-size: 14px;
-    color: #555;
+    color: black;
   }
   
   .viewButton {

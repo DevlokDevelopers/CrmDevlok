@@ -121,7 +121,7 @@
   
   .card p {
     font-size: 16px;
-    color: #444;
+    color: black;
     margin-bottom: 10px;
     border-bottom: 1px solid #ddd;
     padding-bottom: 6px;
@@ -129,7 +129,7 @@
   
   .card p strong {
     font-weight: 600;
-    color: #333;
+    color: black;
   }
   
   /* 📌 Image Grid */
