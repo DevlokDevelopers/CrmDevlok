@@ -237,6 +237,16 @@
     border-radius: 8px;
     overflow: hidden;
   }
+  .mapLink {
+    display: inline-block;
+    padding: 10px 16px;
+    background-color: #4285f4;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 500;
+  }
   
   
   
