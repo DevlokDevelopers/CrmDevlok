@@ -10,6 +10,8 @@
     justify-content: center;
     align-items: center;
     z-index: 999;
+    overflow-y: auto; /* Add scroll support */
+    -webkit-overflow-scrolling: touch;
   }
   
   /* Modal Content - Shorter and Compact */
@@ -21,6 +23,8 @@
     max-width: 480px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.3s ease-in-out;
+    max-height: 90vh; /* Prevent overflow on tall content */
+    overflow-y: auto;
   }
   
   /* Close Button */
