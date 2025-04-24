@@ -157,6 +157,12 @@
       width: 100%;
     }
   
+    .row input[type="date"],
+    .row input[type="time"] {
+      width: 100%;
+      max-width: 100%; /* ✅ ensures full width but no overflow */
+    }
+  
     .checkboxLabel {
       gap: 4px;
       font-size: 11px;
