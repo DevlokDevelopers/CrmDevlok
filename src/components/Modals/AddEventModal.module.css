@@ -10,6 +10,8 @@
   justify-content: center;
   align-items: center;
   z-index: 999;
+  overflow-y: auto; /* Add scroll support */
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Modal Content - Shorter and Compact */
@@ -21,6 +23,8 @@
   max-width: 480px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   animation: fadeIn 0.3s ease-in-out;
+  max-height: 90vh; /* Prevent overflow on tall content */
+  overflow-y: auto;
 }
 
 /* Close Button */
@@ -82,6 +86,23 @@ select {
   width: 100%;
   font-size: 12px;
 }
+.row {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  flex-wrap: nowrap; /* ⛔ prevent wrapping on iOS */
+}
+
+.row div {
+  flex: 1;
+  min-width: 0; /* ✅ ensures inputs don’t overflow */
+}
+
+.row input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 
 /* Days Container */
 .daysContainer {
@@ -151,6 +172,12 @@ select {
 
   .row div {
     width: 100%;
+  }
+
+  .row input[type="date"],
+  .row input[type="time"] {
+    width: 100%;
+    max-width: 100%; /* ✅ ensures full width but no overflow */
   }
 
   .checkboxLabel {
