@@ -125,7 +125,7 @@ const TopNav = () => {
     <>
       <div className={styles.topnav}>
         <div className={styles.searchContainer}>
-          <input
+        <input
             type="text"
             value={query}
             onChange={handleInputChange}
@@ -142,10 +142,10 @@ const TopNav = () => {
                 <li
                   key={i}
                   onClick={() => {
-                    setQuery(s);
-                    setSuggestions([]);
-                    setShowSuggestions(false);
-                    handleSearch(s);
+                    setQuery(s); // Set query to the selected suggestion
+                    setSuggestions([]); // Clear suggestions
+                    setShowSuggestions(false); // Hide suggestion dropdown
+                    handleSearch(s); // Perform search with selected suggestion
                   }}
                 >
                   {s}
