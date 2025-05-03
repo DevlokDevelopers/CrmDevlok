@@ -27,6 +27,7 @@ const FilterModal = ({ isOpen, onClose, onApply }) => {
     numberOfFloorsMin: "",
     numberOfFloorsMax: "",
     buildingBhk: "",
+    distanceKm: "",
   });
 
   const handleChange = (e) => {
@@ -53,6 +54,7 @@ const FilterModal = ({ isOpen, onClose, onApply }) => {
       numberOfFloorsMin: "",
       numberOfFloorsMax: "",
       buildingBhk: "",
+      distanceKm: "",
     });
   };
 
@@ -77,6 +79,7 @@ const FilterModal = ({ isOpen, onClose, onApply }) => {
       numberOfFloorsMin: "number_of_floors_min",
       numberOfFloorsMax: "number_of_floors_max",
       buildingBhk: "building_bhk",
+      distanceKm: "distance_km",
     
     };
 
@@ -115,6 +118,18 @@ const FilterModal = ({ isOpen, onClose, onApply }) => {
             <label>Place</label>
             <input type="text" name="location" value={filters.location} onChange={handleChange} />
           </div>
+          <div className={styles.filterGroup}>
+            <label>Distance Within</label>
+            <select name="distanceKm" value={filters.distanceKm} onChange={handleChange}>
+              <option value="">Select Distance</option>
+              <option value="5">Within 5 km</option>
+              <option value="10">Within 10 km</option>
+              <option value="15">Within 15 km</option>
+              <option value="20">Within 20 km</option>
+            </select>
+          </div>
+
+
 
           <div className={styles.filterGroup}>
             <label>Purpose</label>
