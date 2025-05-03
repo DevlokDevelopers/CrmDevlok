@@ -134,26 +134,30 @@ const StaffTopNav = () => {
   };
 
   const handleInputChange = async (e) => {
-      const value = e.target.value;
-      setQuery(value);
-  
-      if (!value.trim()) {
+    const value = e.target.value;
+    setQuery(value);
+
+    if (!value.trim()) {
         setSuggestions([]);
         setShowSuggestions(false);
         return;
-      }
-  
-      try {
+    }
+
+    const accessToken = localStorage.getItem("access_token"); // Fetch token from localStorage
+    if (!accessToken) return;
+
+    try {
         const res = await axios.get(
-          `https://devlokcrm-production.up.railway.app/databank/salesMSearchAutoComplete/?q=${encodeURIComponent(value)}`,
-          { headers: { Authorization: `Bearer ${accessToken}` } }
+            `https://devlokcrm-production.up.railway.app/databank/salesMSearchAutoComplete/?q=${encodeURIComponent(value)}`,
+            { headers: { Authorization: `Bearer ${accessToken}` } }
         );
         setSuggestions(res.data.suggestions || []);
         setShowSuggestions(true);
-      } catch (err) {
+    } catch (err) {
         console.error("Suggestion fetch error:", err);
-      }
-    };
+    }
+  };
+
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
