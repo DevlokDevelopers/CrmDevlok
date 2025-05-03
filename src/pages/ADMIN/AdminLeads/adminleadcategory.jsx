@@ -20,6 +20,13 @@ const AdminLeadCategoryGraph = () => {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("access_token");
 
+  const predefinedCategories = [
+    "General Lead",
+    "Marketing data",
+    "Social Media",
+    "Main data",
+  ];
+
   useEffect(() => {
     if (!accessToken) {
       navigate("/login");
@@ -33,7 +40,20 @@ const AdminLeadCategoryGraph = () => {
       const res = await axios.get("https://devlokcrm-production.up.railway.app/leads/lead_category_graph_admin/", {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-      setCategoryData(res.data || []);
+
+      const apiData = res.data || [];
+      const categoryMap = {};
+      apiData.forEach((item) => {
+        categoryMap[item.category] = item.count;
+      });
+
+      // Fill in 0 for any missing category
+      const fullData = predefinedCategories.map((category) => ({
+        category,
+        count: categoryMap[category] || 0,
+      }));
+
+      setCategoryData(fullData);
     } catch (error) {
       console.error("Error fetching lead category graph:", error);
     }
@@ -63,17 +83,19 @@ const AdminLeadCategoryGraph = () => {
       legend: { display: false },
       title: { display: true, text: "Lead Categories Overview" },
     },
+    scales: {
+      y: {
+        beginAtZero: true,
+        precision: 0,
+      },
+    },
   };
 
   return (
     <AdminLayout>
       <h2>Lead Category Graph</h2>
       <div style={{ height: "400px", width: "100%" }}>
-        {categoryData.length > 0 ? (
-          <Bar data={chartData} options={options} />
-        ) : (
-          <p>Loading chart data...</p>
-        )}
+        <Bar data={chartData} options={options} />
       </div>
     </AdminLayout>
   );
