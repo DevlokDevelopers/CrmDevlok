@@ -99,7 +99,7 @@ const UnrecordedLeads = () => {
     <StaffLayout>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Followed Leads ({leads.length})</h2>
+          <h2 className={styles.title}>Unrecorded Leads ({leads.length})</h2>
           <button className={styles.addLeadBtn} onClick={handleAddLead}>
             + Add Lead
           </button>
