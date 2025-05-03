@@ -18,22 +18,29 @@
   .tabContainer {
     display: flex;
     gap: 10px;
-    margin-top: 20px;
+    margin-bottom: 15px;
   }
   
   .tab {
-    padding: 8px 16px;
-    border-radius: 6px;
+    padding: 8px 14px;
     border: none;
-    background: #e0e0e0;
+    border-radius: 20px;
+    background-color: #e5e7eb;
     color: #333;
+    font-size: 14px;
     cursor: pointer;
-    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .tab:hover {
+    background-color: #d1d5db;
+    transform: translateY(-2px);
   }
   
   .activeTab {
-    background-color: #007bff;
-    color: #fff;
+    background: linear-gradient(90deg, #2563eb, #1e40af);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
   
   .graphSelectContainer {
