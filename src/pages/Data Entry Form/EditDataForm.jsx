@@ -48,7 +48,12 @@ const DataEditForm = () => {
 
       // Ensure response is an array and extract the first object
       if (Array.isArray(response.data) && response.data.length > 0) {
-        setFormData((prev) => ({ ...prev, ...response.data[0] }));
+        const rawData = response.data[0];
+        const cleanedData = Object.fromEntries(
+          Object.entries(rawData).map(([key, value]) => [key, value === null ? "" : value])
+        );
+        setFormData((prev) => ({ ...prev, ...cleanedData }));
+
       } else {
         console.error("❌ Unexpected API response format", response.data);
       }
