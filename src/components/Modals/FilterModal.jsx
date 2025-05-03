@@ -28,6 +28,7 @@ const FilterModal = ({ isOpen, onClose, onApply }) => {
     numberOfFloorsMax: "",
     buildingBhk: "",
     distanceKm: "",
+    lead_category:"",
   });
 
   const handleChange = (e) => {
@@ -55,6 +56,7 @@ const FilterModal = ({ isOpen, onClose, onApply }) => {
       numberOfFloorsMax: "",
       buildingBhk: "",
       distanceKm: "",
+      lead_category:"",
     });
   };
 
@@ -80,6 +82,7 @@ const FilterModal = ({ isOpen, onClose, onApply }) => {
       numberOfFloorsMax: "number_of_floors_max",
       buildingBhk: "building_bhk",
       distanceKm: "distance_km",
+      lead_category:"lead_category",
     
     };
 
@@ -126,6 +129,16 @@ const FilterModal = ({ isOpen, onClose, onApply }) => {
               <option value="10">Within 10 km</option>
               <option value="15">Within 15 km</option>
               <option value="20">Within 20 km</option>
+            </select>
+          </div>
+          <div className={styles.filterGroup}>
+            <label>Lead Category</label>
+            <select name="distanceKm" value={filters.lead_category} onChange={handleChange}>
+              <option value="">Choose Lead Category</option>
+              <option value="Marketing data">Marketing data</option>
+              <option value="Social Media">Social Media</option>
+              <option value="Main data">Main data</option>
+              <option value="General Lead">General Lead</option>
             </select>
           </div>
 
