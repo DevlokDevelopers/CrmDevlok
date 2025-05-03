@@ -104,34 +104,37 @@ const StaffTopNav = () => {
     navigate("/salesmanagerProfile");
   };
 
-  const handleSearch = async () => {
-    if (!query.trim()) return;
+  const handleSearch = async (searchTerm) => {
+    const finalQuery = searchTerm || query;
+    if (!finalQuery.trim()) return;
+  
     const token = localStorage.getItem("access_token");
-
+  
     try {
       const response = await axios.get(
-        `https://devlokcrm-production.up.railway.app/databank/search_by_salesmanager/?q=${encodeURIComponent(query)}`,
+        `https://devlokcrm-production.up.railway.app/databank/search_by_salesmanager/?q=${encodeURIComponent(finalQuery)}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-
+  
       const { source, results } = response.data;
       if (!results || results.length === 0) {
         alert("No results found.");
         return;
       }
-
+  
       navigate("/salesmsearch_result", {
-        state: { type: source, results, query },
+        state: { type: source, results, query: finalQuery },
       });
     } catch (error) {
       console.error("Search error:", error);
       alert("Error occurred while searching.");
     }
   };
+  
 
   const handleInputChange = async (e) => {
     const value = e.target.value;
