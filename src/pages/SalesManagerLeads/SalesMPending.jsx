@@ -164,6 +164,11 @@ const PendingLeads = () => {
                       <p><strong>
                         Property Type: {lead.mode_of_purpose}</strong>
                       </p>
+                      {lead.lead_category?.length > 0 &&
+                          <p><strong>Category:</strong> {
+                            lead.lead_category.map((cat) => cat.category).join(", ")
+                          }</p>
+                      }
                       <p><strong>Stage : {lead.stage}</strong></p>
                       <p><strong>{formatDate(lead.timestamp)}</strong> {lead.message && (
                                                                               
