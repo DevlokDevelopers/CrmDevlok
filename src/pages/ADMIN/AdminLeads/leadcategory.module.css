@@ -102,16 +102,18 @@
     }
   
     .tabContainer {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-  
-    .tab {
-      width: 100%;
-      font-size: 13px;
-    }
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* ✅ Grid for better layout */
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+    
+      .tab {
+        width: 100%; /* ✅ Full width for mobile */
+        padding: 8px 10px;
+        font-size: 13px;
+      }
+    
   
     .graphWrapper {
       height: 300px;
