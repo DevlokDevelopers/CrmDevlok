@@ -103,7 +103,7 @@
   
     .tabContainer {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* ✅ Grid for better layout */
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* ✅ Grid for better layout */
         gap: 8px;
         margin-bottom: 10px;
       }
