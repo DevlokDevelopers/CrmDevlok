@@ -56,6 +56,7 @@ const FilteredResults = () => {
                 <p><strong>Roof Type:</strong> {item.building_roof}</p>
                 <p><strong>Floors:</strong> {item.number_of_floors}</p>
                 <p><strong>BHK:</strong> {item.building_bhk}</p>
+                <p><strong>Lead Category:</strong> {item.lead_category}</p>
                 <p><strong>Additional Note:</strong> {item.additional_note}</p>
                 {item.location_link && (
                   <div className={styles.imageWrapper}>
