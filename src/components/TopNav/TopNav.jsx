@@ -6,6 +6,8 @@ import styles from "./TopNav.module.css";
 
 // Global set to track seen messages
 const seenMessages = new Set();
+const [suggestions, setSuggestions] = useState([]);
+const [showSuggestions, setShowSuggestions] = useState(false);
 
 const TopNav = () => {
   const [query, setQuery] = useState("");
@@ -99,6 +101,28 @@ const TopNav = () => {
       alert("Error occurred while searching.");
     }
   };
+  const handleInputChange = async (e) => {
+    const value = e.target.value;
+    setQuery(value);
+  
+    if (value.trim().length === 0) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+  
+    try {
+      const res = await axios.get(
+        `https://devlokcrm-production.up.railway.app/databank/suggestions/?q=${encodeURIComponent(value)}`,
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      );
+      setSuggestions(res.data.suggestions || []);
+      setShowSuggestions(true);
+    } catch (err) {
+      console.error("Suggestion fetch error:", err);
+    }
+  };
+  
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") handleSearch();
@@ -108,14 +132,33 @@ const TopNav = () => {
     <>
       <div className={styles.topnav}>
         <div className={styles.searchContainer}>
-          <input
+        <input
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             className={styles.searchBar}
             placeholder="Search..."
           />
+
+          {showSuggestions && suggestions.length > 0 && (
+            <ul className={styles.suggestionDropdown}>
+              {suggestions.map((s, i) => (
+                <li
+                  key={i}
+                  onClick={() => {
+                    setQuery(s);
+                    setSuggestions([]);
+                    setShowSuggestions(false);
+                    handleSearch(); // Optional: auto search
+                  }}
+                >
+                  {s}
+                </li>
+              ))}
+            </ul>
+          )}
+
         </div>
 
         <div className={styles.topnavIcons}>
