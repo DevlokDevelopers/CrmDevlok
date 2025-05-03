@@ -136,15 +136,15 @@ const DataDisplay = () => {
             {data.location_link && (
               <div className={styles.imageWrapper}>
                 <div className={styles.mapBox}>
-                  <a
-                    href={data.location_link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.mapLink}
-                  >
-                    <MdLocationOn style={{ marginRight: 8, verticalAlign: 'middle', fontSize: '20px', color: 'white' }} />
-                    Open Location in Google Maps
-                  </a>
+                  <iframe
+                    title="Google Map"
+                    width="100%"
+                    height="300"
+                    frameBorder="0"
+                    style={{ border: 0 }}
+                    src={`https://www.google.com/maps?q=${data.location_link}&output=embed`}
+                    allowFullScreen
+                  />
                 </div>
               </div>
             )}
