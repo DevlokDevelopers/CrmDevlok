@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import { Bar } from "react-chartjs-2";
+import styles from "./leadcategory.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
+import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -55,7 +56,7 @@ const AdminLeadCategoryGraph = () => {
       return;
     }
     fetchLeadCategoryGraph();
-  }, [selectedGraph]); // Re-fetch data when selectedGraph changes
+  }, [selectedGraph]);
 
   const fetchLeadCategoryGraph = async () => {
     try {
@@ -86,7 +87,7 @@ const AdminLeadCategoryGraph = () => {
     datasets: [
       {
         label: selectedGraph === "Total" ? "Total Leads" : "Monthly Leads",
-        data: categoryData.map((item) => item.count), // Adjust this part based on data structure for Monthly
+        data: categoryData.map((item) => item.count),
         backgroundColor: [
           "#007bff",
           "#28a745",
@@ -113,9 +114,9 @@ const AdminLeadCategoryGraph = () => {
     },
   };
 
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-    navigate(tabPaths[tab]);
+  const handleTabChange = (tabName) => {
+    setActiveTab(tabName);
+    navigate(tabPaths[tabName]);
   };
 
   const handleGraphSelect = (event) => {
@@ -124,59 +125,44 @@ const AdminLeadCategoryGraph = () => {
 
   return (
     <AdminLayout>
-      {/* Tabs */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", padding: "20px" }}>
-        {Object.keys(tabPaths).map((tab) => (
-          <button
-            key={tab}
-            onClick={() => handleTabClick(tab)}
-            style={{
-              padding: "8px 16px",
-              borderRadius: "6px",
-              border: "none",
-              background: activeTab === tab ? "#007bff" : "#e0e0e0",
-              color: activeTab === tab ? "#fff" : "#333",
-              cursor: "pointer",
-              fontWeight: 500,
-            }}
+      <div className={styles.container}>
+        {/* Header */}
+        <div className={styles.header}>
+          <h2 className={styles.title}>Lead Category Graph</h2>
+        </div>
+
+        {/* Tabs */}
+        <div className={styles.tabContainer}>
+          {Object.keys(tabPaths).map((tab) => (
+            <button
+              key={tab}
+              className={`${styles.tab} ${activeTab === tab ? styles.activeTab : ""}`}
+              onClick={() => handleTabChange(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        {/* Dropdown for Graph Type */}
+        <div className={styles.graphSelectContainer}>
+          <select
+            value={selectedGraph}
+            onChange={handleGraphSelect}
+            className={styles.graphSelect}
           >
-            {tab}
-          </button>
-        ))}
-      </div>
+            <option value="Total">Total</option>
+            <option value="Monthly">Monthly</option>
+          </select>
+        </div>
 
-      {/* Dropdown for Graph Type */}
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "20px" }}>
-        <select
-          value={selectedGraph}
-          onChange={handleGraphSelect}
-          style={{
-            padding: "8px 16px",
-            borderRadius: "6px",
-            border: "1px solid #ccc",
-            fontSize: "16px",
-            cursor: "pointer",
-          }}
-        >
-          <option value="Total">Total</option>
-          <option value="Monthly">Monthly</option>
-        </select>
-      </div>
-
-      {/* Chart Container */}
-      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "20px" }}>
-        <h2 style={{ marginBottom: "20px" }}>Lead Category Graph</h2>
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: "12px",
-            boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-            padding: "20px",
-            height: "400px",
-            width: "100%",
-          }}
-        >
-          <Bar data={chartData} options={options} />
+        {/* Graph Container */}
+        <div className={styles.graphsContainer}>
+          <div className={styles.graphCard}>
+            <div className={styles.graphWrapper}>
+              <Bar data={chartData} options={options} />
+            </div>
+          </div>
         </div>
       </div>
     </AdminLayout>
