@@ -93,9 +93,19 @@ const AdminLeadCategoryGraph = () => {
 
   return (
     <AdminLayout>
-      <h2>Lead Category Graph</h2>
-      <div style={{ height: "400px", width: "100%" }}>
-        <Bar data={chartData} options={options} />
+      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "20px" }}>
+        <h2 style={{ marginBottom: "20px" }}>Lead Category Graph</h2>
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: "12px",
+            boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+            padding: "20px",
+            height: "400px",
+          }}
+        >
+          <Bar data={chartData} options={options} />
+        </div>
       </div>
     </AdminLayout>
   );
