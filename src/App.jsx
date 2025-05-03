@@ -65,6 +65,7 @@ import AdminSalesManagerProfile from './pages/ADMIN/Employees/SalesManagerProfil
 import AddGroundEmployee from './pages/ADMIN/Employees/AddGroundLevelEmployee'
 import AdminSearchResults from './pages/ADMIN/AdminSearchResult/AdminSearchResult'
 import AdminProfile from './pages/ADMIN/AdminProfile/AdminProfile'
+import AdminLeadCategoryGraph from './pages/ADMIN/AdminLeads/adminleadcategory'
 function App() {
 
   return (
@@ -133,6 +134,7 @@ function App() {
         <Route path='/add_ground_staff' element={<AddGroundEmployee/>} />
         <Route path='/admin_search_result' element={<AdminSearchResults/>} />
         <Route path='/admin_profile' element={<AdminProfile/>} />
+        <Route path='/adminleadcategorygraph' element={<AdminLeadCategoryGraph/>} />
 
 
 
