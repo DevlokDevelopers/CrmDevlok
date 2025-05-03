@@ -62,6 +62,7 @@ const AdminMatchingDatas = () => {
               <p><strong>Building Roof: {match.data.building_roof}</strong></p>
               <p><strong>Floors: {match.data.number_of_floors}</strong></p>
               <p><strong>BHK: {match.data.building_bhk}</strong></p>
+              <p><strong>Lead Category: {match.data.lead_category}</strong></p>
               <p><strong>Additional Notes: {match.data.additional_note || "N/A"}</strong></p>
               <p><strong>Score: {match.score}</strong></p>
               <p><strong>Follower: {match.data.follower_name}</strong></p>

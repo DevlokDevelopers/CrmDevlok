@@ -148,6 +148,7 @@ const AdminBuyList = () => {
                   <div className={styles.infoBlock}>
                     <p><strong>Purpose: {item.purpose}</strong></p>
                     <p><strong>Property Type: {item.mode_of_property}</strong></p>
+                    <p><strong>Lead Category: {item.lead_category}</strong></p>
                   </div>
                   
                   <div className={styles.buttonContainer}>
