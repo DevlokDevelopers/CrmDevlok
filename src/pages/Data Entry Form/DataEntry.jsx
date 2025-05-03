@@ -133,7 +133,7 @@ const DataEntryForm = () => {
               name="lead_category"
               value={formData.lead_category}
               onChange={handleChange}
-              className={styles['input-field']}
+              className={styles['select-field']}
               required
             >
               <option value="">Choose Lead Category</option>
@@ -141,7 +141,7 @@ const DataEntryForm = () => {
               <option value="Social Media">Social Media</option>
               <option value="Main data">Main data</option>
               <option value="General Lead">General Lead</option>
-            </select><br />
+            </select>
 
             <input name="demand_price" value={formData.demand_price} onChange={handleChange} placeholder="Demand Price*" className={styles['input-field']} required />
             <input name="area_in_sqft" value={formData.area_in_sqft} onChange={handleChange} placeholder="Area in Sqft*" className={styles['input-field']} required/>
