@@ -143,6 +143,11 @@ const AdminUnsuccessLeads = () => {
                 <div className={styles.infoBlock}>
                   <p><strong>Follower: {lead.follower || "Not Assigned"}</strong></p>
                   <p><strong>Type of Close: {lead.stage}</strong></p>
+                  {lead.lead_category?.length > 0 &&
+                          <p><strong>Category:</strong> {
+                            lead.lead_category.map((cat) => cat.category).join(", ")
+                          }</p>
+                      }
                   <p>{lead.message && (
                                                                       
                                                                       <span
