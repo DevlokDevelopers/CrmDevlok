@@ -129,6 +129,17 @@ const AdminLeadCategoryGraph = () => {
         {/* Header */}
         <div className={styles.header}>
           <h2 className={styles.title}>Lead Category Graph</h2>
+          <div className={styles.graphSelectContainer}>
+          <select
+            value={selectedGraph}
+            onChange={handleGraphSelect}
+            className={styles.graphSelect}
+          >
+            <option value="Total">Total</option>
+            <option value="Monthly">Monthly</option>
+          </select>
+        </div>
+
         </div>
 
         {/* Tabs */}
@@ -145,17 +156,7 @@ const AdminLeadCategoryGraph = () => {
         </div>
 
         {/* Dropdown for Graph Type */}
-        <div className={styles.graphSelectContainer}>
-          <select
-            value={selectedGraph}
-            onChange={handleGraphSelect}
-            className={styles.graphSelect}
-          >
-            <option value="Total">Total</option>
-            <option value="Monthly">Monthly</option>
-          </select>
-        </div>
-
+        
         {/* Graph Container */}
         <div className={styles.graphsContainer}>
           <div className={styles.graphCard}>
