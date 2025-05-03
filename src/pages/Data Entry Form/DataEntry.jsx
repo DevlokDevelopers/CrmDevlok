@@ -29,6 +29,7 @@ const DataEntryForm = () => {
     building_bhk: "",
     additional_note: "",
     location_link: "",
+    lead_category:"",
   });
 
   const accessToken = localStorage.getItem("access_token");
@@ -128,6 +129,20 @@ const DataEntryForm = () => {
           </>
         ) : (
           <>
+            <select
+              name="lead_category"
+              value={formData.lead_category}
+              onChange={handleChange}
+              className={styles['input-field']}
+              required
+            >
+              <option value="">Choose Lead Category</option>
+              <option value="Marketing data">Marketing data</option>
+              <option value="Social Media">Social Media</option>
+              <option value="Main data">Main data</option>
+              <option value="General Lead">General Lead</option>
+            </select>
+
             <input name="demand_price" value={formData.demand_price} onChange={handleChange} placeholder="Demand Price*" className={styles['input-field']} required />
             <input name="area_in_sqft" value={formData.area_in_sqft} onChange={handleChange} placeholder="Area in Sqft*" className={styles['input-field']} required/>
             <input name="location_proposal_district" value={formData.location_proposal_district} onChange={handleChange} placeholder="Proposal District" className={styles['input-field']} />
