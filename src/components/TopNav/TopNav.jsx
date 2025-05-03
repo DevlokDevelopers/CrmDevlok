@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaBell, FaUserCircle } from "react-icons/fa";
 import axios from "axios";
@@ -7,22 +7,17 @@ import styles from "./TopNav.module.css";
 // Global set to track seen messages
 const seenMessages = new Set();
 
-
 const TopNav = () => {
   const [query, setQuery] = useState("");
   const [notifications, setNotifications] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-
+  const navigate = useNavigate();
   const accessToken = localStorage.getItem("access_token");
 
   const addNotification = (message) => {
-    if (typeof message !== "string") return;
-
-    if (seenMessages.has(message)) return;
-
+    if (typeof message !== "string" || seenMessages.has(message)) return;
     seenMessages.add(message);
     setNotifications((prev) => [message, ...prev]);
   };
@@ -63,14 +58,12 @@ const TopNav = () => {
   useEffect(() => {
     const fetchReminders = async () => {
       if (!accessToken) return;
-
       try {
         const res = await axios.get("https://devlokcrm-production.up.railway.app/task/get_event_reminder/", {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
-
         const reminderMessages = (res.data.notifications || []).map((n) => n.message);
-        reminderMessages.forEach((msg) => addNotification(msg));
+        reminderMessages.forEach(addNotification);
       } catch (error) {
         console.error("Error fetching reminders:", error);
       }
@@ -78,7 +71,6 @@ const TopNav = () => {
 
     fetchReminders();
     const interval = setInterval(fetchReminders, 300000); // every 5 minutes
-
     return () => clearInterval(interval);
   }, [accessToken]);
 
@@ -86,33 +78,33 @@ const TopNav = () => {
 
   const handleSearch = async (searchTerm = query) => {
     if (!searchTerm.trim()) return;
-  
+
     try {
       const response = await axios.get(
         `https://devlokcrm-production.up.railway.app/databank/search_in_databank/?q=${encodeURIComponent(searchTerm)}`,
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
-  
+
       const { results, source } = response.data;
       if (!results || results.length === 0) return alert("No results found.");
-  
+
       navigate("/admin_search_result", { state: { results, query: searchTerm, source } });
     } catch (error) {
       console.error("Search error:", error);
       alert("Error occurred while searching.");
     }
   };
-  
+
   const handleInputChange = async (e) => {
     const value = e.target.value;
     setQuery(value);
-  
-    if (value.trim().length === 0) {
+
+    if (!value.trim()) {
       setSuggestions([]);
       setShowSuggestions(false);
       return;
     }
-  
+
     try {
       const res = await axios.get(
         `https://devlokcrm-production.up.railway.app/databank/auto_complete_search_admin/?q=${encodeURIComponent(value)}`,
@@ -124,7 +116,6 @@ const TopNav = () => {
       console.error("Suggestion fetch error:", err);
     }
   };
-  
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") handleSearch();
@@ -134,7 +125,7 @@ const TopNav = () => {
     <>
       <div className={styles.topnav}>
         <div className={styles.searchContainer}>
-        <input
+          <input
             type="text"
             value={query}
             onChange={handleInputChange}
@@ -150,22 +141,18 @@ const TopNav = () => {
               {suggestions.map((s, i) => (
                 <li
                   key={i}
-                  onClick={async () => {
-                    const selected = s;
-                    setQuery(selected);
+                  onClick={() => {
+                    setQuery(s);
                     setSuggestions([]);
                     setShowSuggestions(false);
-                    await new Promise((resolve) => setTimeout(resolve, 0)); // Wait for state to update
-                    handleSearch();
+                    handleSearch(s);
                   }}
-                  
                 >
                   {s}
                 </li>
               ))}
             </ul>
           )}
-
         </div>
 
         <div className={styles.topnavIcons}>
@@ -191,7 +178,7 @@ const TopNav = () => {
               className={styles.closeButton}
               onClick={() => {
                 setShowModal(false);
-                setNotifications([]); // Clear on modal close
+                setNotifications([]);
               }}
             >
               Close
