@@ -133,7 +133,7 @@ const FilterModal = ({ isOpen, onClose, onApply }) => {
           </div>
           <div className={styles.filterGroup}>
             <label>Lead Category</label>
-            <select name="distanceKm" value={filters.lead_category} onChange={handleChange}>
+            <select name="lead_category" value={filters.lead_category} onChange={handleChange}>
               <option value="">Choose Lead Category</option>
               <option value="Marketing data">Marketing data</option>
               <option value="Social Media">Social Media</option>
