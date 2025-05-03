@@ -8,6 +8,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
   }
   
   .title {
@@ -15,10 +17,27 @@
     font-weight: 600;
   }
   
+  .graphSelectContainer {
+    display: flex;
+    align-items: center;
+  }
+  
+  .graphSelect {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
   .tabContainer {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 15px;
+    margin: 20px 0;
   }
   
   .tab {
@@ -43,16 +62,9 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
   
-  .graphSelectContainer {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-  }
-  
-  
-  
   .graphsContainer {
-    margin-top: 40px;
+    margin-top: 30px;
+    width: 100%;
   }
   
   .graphCard {
@@ -66,50 +78,43 @@
     height: 400px;
     width: 100%;
   }
-  .graphSelect {
-    background-color: #2563eb;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-
-
+  
+  /* Responsive Styles */
   @media (max-width: 768px) {
     .header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    
-      .title {
-        font-size: 20px;
-      }
-      .graphSelectContainer {
-        justify-content: flex-start;
-        margin-top: 15px;
-      }
-    
-      .graphSelect {
-        width: 100%;
-        font-size: 14px;
-      }
-    
-      .graphWrapper {
-        height: 300px;
-      }
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .title {
+      font-size: 20px;
+    }
+  
+    .graphSelectContainer {
+      justify-content: flex-start;
+      width: 100%;
+      margin-top: 10px;
+    }
+  
+    .graphSelect {
+      width: 100%;
+      font-size: 14px;
+    }
+  
     .tabContainer {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* ✅ Grid for better layout */
-        gap: 8px;
-        margin-bottom: 10px;
-      }
-    
-      .tab {
-        width: 100%; /* ✅ Full width for mobile */
-        padding: 8px 10px;
-        font-size: 13px;
-      }
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+  
+    .tab {
+      width: 100%;
+      font-size: 13px;
+    }
+  
+    .graphWrapper {
+      height: 300px;
+    }
   }
+  
