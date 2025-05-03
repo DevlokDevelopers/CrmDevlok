@@ -113,7 +113,7 @@ const TopNav = () => {
   
     try {
       const res = await axios.get(
-        `https://devlokcrm-production.up.railway.app/databank/suggestions/?q=${encodeURIComponent(value)}`,
+        `https://devlokcrm-production.up.railway.app/databank/auto_complete_search_admin/?q=${encodeURIComponent(value)}`,
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
       setSuggestions(res.data.suggestions || []);
@@ -139,6 +139,8 @@ const TopNav = () => {
             onKeyDown={handleKeyDown}
             className={styles.searchBar}
             placeholder="Search..."
+            onFocus={() => setShowSuggestions(suggestions.length > 0)}
+            onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
           />
 
           {showSuggestions && suggestions.length > 0 && (
