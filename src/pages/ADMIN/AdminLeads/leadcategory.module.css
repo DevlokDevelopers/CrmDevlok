@@ -1,6 +1,7 @@
 .container {
     margin: 0 auto;
     padding: 20px;
+    width: 100%;
   }
   
   .header {
@@ -52,7 +53,6 @@
   
   .graphsContainer {
     margin-top: 40px;
-    width: 95%;
   }
   
   .graphCard {
