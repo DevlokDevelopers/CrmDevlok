@@ -121,5 +121,8 @@
     .graphWrapper {
       height: 300px;
     }
+    .graphCard{
+        width: 100%;
+    }
   }
   
