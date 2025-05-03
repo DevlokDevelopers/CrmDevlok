@@ -20,6 +20,27 @@ const AdminLeadCategoryGraph = () => {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("access_token");
 
+  const tabPaths = {
+      "Analytics":"/admin_lead_analytics",
+      "New": "/admin_new_leads",
+      "Followed": "/admin_followed_leads",
+      "Unrecorded": "/admin_unrecorded_leads",
+      "Data Saved": "/admin_datasaved_leads",
+      "Closed": "/admin_closed_leads",
+      "Unsuccessfully": "/admin_unsuccess_lead",
+      "Pending": "/admin_pending_leads",
+      "Category graph":"/adminleadcategorygraph"
+    };
+  
+  
+    useEffect(() => {
+      const matchedTab = Object.keys(tabPaths).find(
+        (tab) => tabPaths[tab] === location.pathname
+      );
+      setActiveTab(matchedTab || "Analytics");
+    }, [location.pathname]);
+  
+
   const predefinedCategories = [
     "General Lead",
     "Marketing data",
