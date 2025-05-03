@@ -84,24 +84,25 @@ const TopNav = () => {
 
   const handleProfileClick = () => navigate("/admin_profile");
 
-  const handleSearch = async () => {
-    if (!query.trim()) return;
-
+  const handleSearch = async (searchTerm = query) => {
+    if (!searchTerm.trim()) return;
+  
     try {
       const response = await axios.get(
-        `https://devlokcrm-production.up.railway.app/databank/search_in_databank/?q=${encodeURIComponent(query)}`,
+        `https://devlokcrm-production.up.railway.app/databank/search_in_databank/?q=${encodeURIComponent(searchTerm)}`,
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
-
+  
       const { results, source } = response.data;
       if (!results || results.length === 0) return alert("No results found.");
-
-      navigate("/admin_search_result", { state: { results, query, source } });
+  
+      navigate("/admin_search_result", { state: { results, query: searchTerm, source } });
     } catch (error) {
       console.error("Search error:", error);
       alert("Error occurred while searching.");
     }
   };
+  
   const handleInputChange = async (e) => {
     const value = e.target.value;
     setQuery(value);
@@ -149,12 +150,15 @@ const TopNav = () => {
               {suggestions.map((s, i) => (
                 <li
                   key={i}
-                  onClick={() => {
-                    setQuery(s);
+                  onClick={async () => {
+                    const selected = s;
+                    setQuery(selected);
                     setSuggestions([]);
                     setShowSuggestions(false);
-                    handleSearch(); // Optional: auto search
+                    await new Promise((resolve) => setTimeout(resolve, 0)); // Wait for state to update
+                    handleSearch();
                   }}
+                  
                 >
                   {s}
                 </li>
