@@ -9,6 +9,8 @@ const StaffTopNav = () => {
   const [notifications, setNotifications] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   // To prevent duplicate messages in current session
   const seenMessagesRef = useRef(new Set());
@@ -131,6 +133,28 @@ const StaffTopNav = () => {
     }
   };
 
+  const handleInputChange = async (e) => {
+      const value = e.target.value;
+      setQuery(value);
+  
+      if (!value.trim()) {
+        setSuggestions([]);
+        setShowSuggestions(false);
+        return;
+      }
+  
+      try {
+        const res = await axios.get(
+          `https://devlokcrm-production.up.railway.app/databank/salesMSearchAutoComplete/?q=${encodeURIComponent(value)}`,
+          { headers: { Authorization: `Bearer ${accessToken}` } }
+        );
+        setSuggestions(res.data.suggestions || []);
+        setShowSuggestions(true);
+      } catch (err) {
+        console.error("Suggestion fetch error:", err);
+      }
+    };
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleSearch();
@@ -144,11 +168,31 @@ const StaffTopNav = () => {
           <input
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             className={styles.searchBar}
             placeholder="Search..."
+            onFocus={() => setShowSuggestions(suggestions.length > 0)}
+            onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
           />
+          
+          {showSuggestions && suggestions.length > 0 && (
+            <ul className={styles.suggestionDropdown}>
+              {suggestions.map((s, i) => (
+                <li
+                  key={i}
+                  onClick={() => {
+                  setQuery(s); // Set query to the selected suggestion
+                  setSuggestions([]); // Clear suggestions
+                  setShowSuggestions(false); // Hide suggestion dropdown
+                  handleSearch(s); // Perform search with selected suggestion
+                  }}
+                >
+                {s}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         <div className={styles.topnavIcons}>
