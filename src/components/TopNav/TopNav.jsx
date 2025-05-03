@@ -6,14 +6,15 @@ import styles from "./TopNav.module.css";
 
 // Global set to track seen messages
 const seenMessages = new Set();
-const [suggestions, setSuggestions] = useState([]);
-const [showSuggestions, setShowSuggestions] = useState(false);
+
 
 const TopNav = () => {
   const [query, setQuery] = useState("");
   const [notifications, setNotifications] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const accessToken = localStorage.getItem("access_token");
 
