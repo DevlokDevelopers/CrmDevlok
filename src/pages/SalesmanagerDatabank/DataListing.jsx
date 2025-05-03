@@ -123,6 +123,7 @@ const DataDisplay = () => {
             <p><strong>Building Roof: {data.building_roof}</strong></p>
             <p><strong>Floors: {data.number_of_floors}</strong></p>
             <p><strong>BHK: {data.building_bhk}</strong></p>
+            <p><strong>Lead Category: {data.lead_category}</strong></p>
             <p><strong>Additional Notes: {data.additional_note || "N/A"}</strong></p>
 
             {data.is_in_project && (
