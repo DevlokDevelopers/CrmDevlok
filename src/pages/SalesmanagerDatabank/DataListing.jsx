@@ -125,6 +125,7 @@ const DataDisplay = () => {
             <p><strong>BHK: {data.building_bhk}</strong></p>
             <p><strong>Lead Category: {data.lead_category}</strong></p>
             <p><strong>Additional Notes: {data.additional_note || "N/A"}</strong></p>
+            <p><strong>image folder: {data.image_folder}</strong></p>
 
             {data.is_in_project && (
               <p>
