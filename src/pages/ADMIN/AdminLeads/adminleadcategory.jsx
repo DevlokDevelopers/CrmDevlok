@@ -59,28 +59,34 @@ const AdminLeadCategoryGraph = () => {
   }, [selectedGraph]);
 
   const fetchLeadCategoryGraph = async () => {
+    const baseURL = "https://devlokcrm-production.up.railway.app/leads";
+    const endpoint =
+      selectedGraph === "Monthly"
+        ? "/lead_category_current_month/"
+        : "/lead_category_graph_admin/";
+  
     try {
-      const res = await axios.get(
-        "https://devlokcrm-production.up.railway.app/leads/lead_category_graph_admin/",
-        { headers: { Authorization: `Bearer ${accessToken}` } }
-      );
-
-      const apiData = res.data || [];
+      const res = await axios.get(`${baseURL}${endpoint}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+  
+      const apiData = selectedGraph === "Monthly" ? res.data.data : res.data;
       const categoryMap = {};
       apiData.forEach((item) => {
         categoryMap[item.category] = item.count;
       });
-
+  
       const fullData = predefinedCategories.map((category) => ({
         category,
         count: categoryMap[category] || 0,
       }));
-
+  
       setCategoryData(fullData);
     } catch (error) {
       console.error("Error fetching lead category graph:", error);
     }
   };
+  
 
   const chartData = {
     labels: categoryData.map((item) => item.category),
