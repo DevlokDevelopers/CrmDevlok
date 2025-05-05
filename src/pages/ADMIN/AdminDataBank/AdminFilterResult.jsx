@@ -59,8 +59,20 @@ const AdminFilteredResults = () => {
               <p><strong>Lead Category: {item.lead_category}</strong></p>
 
                 {item.location_link && (
-                  <p><a href={item.location_link} target="_blank" rel="noopener noreferrer">View Location</a></p>
-                )}
+                                  <div className={styles.imageWrapper}>
+                                    <div className={styles.mapBox}>
+                                      <iframe
+                                        title="Google Map"
+                                        width="100%"
+                                        height="300"
+                                        frameBorder="0"
+                                        style={{ border: 0 }}
+                                        src={`https://www.google.com/maps?q=${encodeURIComponent(item.location_link)}&output=embed`}
+                                        allowFullScreen
+                                      />
+                                    </div>
+                                  </div>
+                                )}
               </div>
             ))}
           </div>
