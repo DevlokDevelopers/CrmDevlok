@@ -30,6 +30,7 @@ const DataEntryForm = () => {
     additional_note: "",
     location_link: "",
     lead_category:"",
+    image_folder:"",
   });
 
   const accessToken = localStorage.getItem("access_token");
@@ -152,7 +153,7 @@ const DataEntryForm = () => {
             <input name="building_bhk" value={formData.building_bhk} onChange={handleChange} placeholder="BHK" className={styles['input-field']} />
             <textarea name="additional_note" value={formData.additional_note} onChange={handleChange} placeholder="Additional Notes" className={styles['textarea-field']} />
             <input name="location_link" value={formData.location_link} onChange={handleChange} placeholder="Google Maps Link" className={styles['input-field']} />
-
+            <input name="image_folder" value={formData.image_folder} onChange={handleChange} placeholder="image_folder" className={styles['input-field']} />
             <button type="button" onClick={() => setStep(1)} className={`${styles['button']} ${styles['button-back']}`}>Back</button>
             <button type="submit" className={`${styles['button']} ${styles['button-submit']}`}>Submit</button>
           </>
