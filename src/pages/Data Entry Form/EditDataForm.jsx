@@ -30,7 +30,15 @@ const DataEditForm = () => {
     building_bhk: "",
     additional_note: "",
     location_link: "",
+    lead_category: "" // Add lead_category to state
   });
+
+  const predefinedCategories = [
+    "General Lead",
+    "Marketing data",
+    "Social Media",
+    "Main data"
+  ];
 
   useEffect(() => {
     if (!databankId) {
@@ -52,8 +60,13 @@ const DataEditForm = () => {
         const cleanedData = Object.fromEntries(
           Object.entries(rawData).map(([key, value]) => [key, value === null ? "" : value])
         );
-        setFormData((prev) => ({ ...prev, ...cleanedData }));
-
+        
+        // Set the form data, including lead_category
+        setFormData((prev) => ({
+          ...prev,
+          ...cleanedData,
+          lead_category: rawData.lead_category || ""  // Set lead_category from response
+        }));
       } else {
         console.error("❌ Unexpected API response format", response.data);
       }
@@ -147,6 +160,22 @@ const DataEditForm = () => {
               <input name="building_bhk" value={formData.building_bhk} onChange={handleChange} placeholder="BHK" className={styles['input-field']} />
               <textarea name="additional_note" value={formData.additional_note} onChange={handleChange} placeholder="Additional Notes" className={styles['textarea-field']} />
               <input name="location_link" value={formData.location_link} onChange={handleChange} placeholder="Google Maps Link" className={styles['input-field']} />
+
+              {/* Lead Category Dropdown */}
+              <select
+                name="lead_category"
+                value={formData.lead_category}
+                onChange={handleChange}
+                className={styles['select-field']}
+                required
+              >
+                <option value="">Choose Lead Category</option>
+                {predefinedCategories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
 
               <button type="button" onClick={() => setStep(1)} className={`${styles['button']} ${styles['button-back']}`}>Back</button>
               <button type="submit" className={`${styles['button']} ${styles['button-submit']}`}>Submit</button>
