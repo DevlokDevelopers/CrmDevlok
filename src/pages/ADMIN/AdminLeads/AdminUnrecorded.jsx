@@ -32,6 +32,7 @@ const AdminUnrecordedLeads = () => {
     "Closed": "/admin_closed_leads",
     "Unsuccessfully": "/admin_unsuccess_lead",
     "Pending": "/admin_pending_leads",
+    "Category":"/adminleadcategorygraph"
   };
 
   const getActiveTab = () => {
