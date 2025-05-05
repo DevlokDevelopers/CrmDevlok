@@ -30,7 +30,8 @@ const DataEditForm = () => {
     building_bhk: "",
     additional_note: "",
     location_link: "",
-    lead_category: "" // Add lead_category to state
+    lead_category: "",
+    image_folder: "",
   });
 
   const predefinedCategories = [
@@ -65,7 +66,8 @@ const DataEditForm = () => {
         setFormData((prev) => ({
           ...prev,
           ...cleanedData,
-          lead_category: rawData.lead_category || ""  // Set lead_category from response
+          lead_category: rawData.lead_category || "",
+          image_folder: rawData.image_folder || "",   
         }));
       } else {
         console.error("❌ Unexpected API response format", response.data);
@@ -176,6 +178,14 @@ const DataEditForm = () => {
                   </option>
                 ))}
               </select>
+              <input
+                name="image_folder"
+                value={formData.image_folder}
+                onChange={handleChange}
+                placeholder="Image Folder"
+                className={styles['input-field']}
+              />
+
 
               <button type="button" onClick={() => setStep(1)} className={`${styles['button']} ${styles['button-back']}`}>Back</button>
               <button type="submit" className={`${styles['button']} ${styles['button-submit']}`}>Submit</button>
