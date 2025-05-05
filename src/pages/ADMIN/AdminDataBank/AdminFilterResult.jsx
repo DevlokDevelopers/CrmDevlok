@@ -56,6 +56,7 @@ const AdminFilteredResults = () => {
               <p><strong>Floors: {item.number_of_floors}</strong></p>
               <p><strong>BHK: {item.building_bhk}</strong></p>
               <p><strong>Additional Note: {item.additional_note}</strong></p>
+              <p><strong>Lead Category: {item.lead_category}</strong></p>
 
                 {item.location_link && (
                   <p><a href={item.location_link} target="_blank" rel="noopener noreferrer">View Location</a></p>
