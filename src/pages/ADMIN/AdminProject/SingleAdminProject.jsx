@@ -38,7 +38,7 @@ const AdminProjectDetails = () => {
 
     try {
       const response = await axios.get(
-        `https://devlokcrm-production.up.railway.app/project/retrive_project/${id}/`,
+        `https://devlokcrmbackend.up.railway.app/project/retrive_project/${id}/`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -73,7 +73,7 @@ const AdminProjectDetails = () => {
 
     try {
       await axios.put(
-        `https://devlokcrm-production.up.railway.app/project/edit_project/${id}/`,
+        `https://devlokcrmbackend.up.railway.app/project/edit_project/${id}/`,
         editForm,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -92,7 +92,7 @@ const AdminProjectDetails = () => {
     const token = localStorage.getItem("access_token");
 
     axios
-      .get(`https://devlokcrm-production.up.railway.app/databank/lead_into_db_admin/${lead.lead}/`, {
+      .get(`https://devlokcrmbackend.up.railway.app/databank/lead_into_db_admin/${lead.lead}/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -126,7 +126,7 @@ const AdminProjectDetails = () => {
 
     try {
       await axios.delete(
-        `https://devlokcrm-production.up.railway.app/project/remove_data_banks/${id}/`,
+        `https://devlokcrmbackend.up.railway.app/project/remove_data_banks/${id}/`,
         {
           headers: { Authorization: `Bearer ${token}` },
           data: { data_bank_ids: [dataBankId] },
@@ -154,7 +154,7 @@ const AdminProjectDetails = () => {
     }
 
     try {
-      await axios.delete(`https://devlokcrm-production.up.railway.app/project/remove_project/${id}/`, {
+      await axios.delete(`https://devlokcrmbackend.up.railway.app/project/remove_project/${id}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

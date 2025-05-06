@@ -60,7 +60,7 @@ const AdminFollowedLeads = () => {
   const fetchLeads = async () => {
     const token = localStorage.getItem("access_token");
     try {
-      const res = await axios.get("https://devlokcrm-production.up.railway.app/leads/admin_followed_lead_list/", {
+      const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/admin_followed_lead_list/", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLeads(res.data);
@@ -73,7 +73,7 @@ const AdminFollowedLeads = () => {
   const fetchSalesManagers = async () => {
     const token = localStorage.getItem("access_token");
     try {
-      const res = await axios.get("https://devlokcrm-production.up.railway.app/auth/list_of_salesmangers/", {
+      const res = await axios.get("https://devlokcrmbackend.up.railway.app/auth/list_of_salesmangers/", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setSalesManagers(res.data);
@@ -118,7 +118,7 @@ const AdminFollowedLeads = () => {
     setLoading(true);
     try {
       await axios.patch(
-        `https://devlokcrm-production.up.railway.app/leads/add_follower/${selectedLeadId}/`,
+        `https://devlokcrmbackend.up.railway.app/leads/add_follower/${selectedLeadId}/`,
         { sales_manager_id: parseInt(selectedSM) },
         { headers: { Authorization: `Bearer ${token}` } }
       );

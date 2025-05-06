@@ -53,7 +53,7 @@ const AdminLeadAnalytics = () => {
       }
       try {
         const response = await axios.get(
-          "https://devlokcrm-production.up.railway.app/leads/lead_graph/",
+          "https://devlokcrmbackend.up.railway.app/leads/lead_graph/",
           {
             headers: { Authorization: `Bearer ${token}` },
           }

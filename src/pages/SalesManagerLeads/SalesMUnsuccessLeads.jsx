@@ -44,7 +44,7 @@ const UnSuccessLeads = () => {
 
     try {
       const response = await axios.get(
-        "https://devlokcrm-production.up.railway.app/leads/unsuccessfully_closed_leads/",
+        "https://devlokcrmbackend.up.railway.app/leads/unsuccessfully_closed_leads/",
         {
           headers: {
             Authorization: `Bearer ${token}`,

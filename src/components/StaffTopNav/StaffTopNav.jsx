@@ -16,8 +16,8 @@ const StaffTopNav = () => {
   const seenMessagesRef = useRef(new Set());
 
   useEffect(() => {
-    const notificationSocket = new WebSocket("wss://devlokcrm-production.up.railway.app/ws/notifications/");
-    const leadNotificationSocket = new WebSocket("wss://devlokcrm-production.up.railway.app/ws/lead-notifications/");
+    const notificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/notifications/");
+    const leadNotificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/lead-notifications/");
 
     const addNotification = (message) => {
       const msgStr = typeof message === "string" ? message : JSON.stringify(message);
@@ -60,7 +60,7 @@ const StaffTopNav = () => {
       if (!token) return;
 
       axios
-        .get("https://devlokcrm-production.up.railway.app/followups/followup-reminders/", {
+        .get("https://devlokcrmbackend.up.railway.app/followups/followup-reminders/", {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
@@ -112,7 +112,7 @@ const StaffTopNav = () => {
   
     try {
       const response = await axios.get(
-        `https://devlokcrm-production.up.railway.app/databank/search_by_salesmanager/?q=${encodeURIComponent(finalQuery)}`,
+        `https://devlokcrmbackend.up.railway.app/databank/search_by_salesmanager/?q=${encodeURIComponent(finalQuery)}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -151,7 +151,7 @@ const StaffTopNav = () => {
 
     try {
         const res = await axios.get(
-            `https://devlokcrm-production.up.railway.app/databank/salesMSearchAutoComplete/?q=${encodeURIComponent(value)}`,
+            `https://devlokcrmbackend.up.railway.app/databank/salesMSearchAutoComplete/?q=${encodeURIComponent(value)}`,
             { headers: { Authorization: `Bearer ${accessToken}` } }
         );
         setSuggestions(res.data.suggestions || []);

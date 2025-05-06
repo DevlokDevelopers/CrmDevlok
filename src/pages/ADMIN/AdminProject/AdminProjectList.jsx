@@ -25,7 +25,7 @@ const AdminProjects = () => {
     }
 
     try {
-      const response = await axios.get("https://devlokcrm-production.up.railway.app/project/list_projects/", {
+      const response = await axios.get("https://devlokcrmbackend.up.railway.app/project/list_projects/", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProjects(response.data.projects); // Use 'projects' key from response

@@ -59,7 +59,7 @@ const AdminLeadCategoryGraph = () => {
   }, [selectedGraph]);
 
   const fetchLeadCategoryGraph = async () => {
-    const baseURL = "https://devlokcrm-production.up.railway.app/leads";
+    const baseURL = "https://devlokcrmbackend.up.railway.app/leads";
     const endpoint =
       selectedGraph === "Monthly"
         ? "/lead_category_current_month/"

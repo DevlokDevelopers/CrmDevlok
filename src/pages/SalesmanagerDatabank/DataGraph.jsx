@@ -48,7 +48,7 @@ const SalesMDataGraph = () => {
     }
 
     try {
-      const response = await axios.get("https://devlokcrm-production.up.railway.app/databank/salesmanager_databank_graph/", {
+      const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/salesmanager_databank_graph/", {
         headers: { Authorization: `Bearer ${token}` },
       });
 

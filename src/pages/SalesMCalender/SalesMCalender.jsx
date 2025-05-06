@@ -39,7 +39,7 @@ const SalesMCalendar = () => {
       }
 
       const response = await axios.get(
-        "https://devlokcrm-production.up.railway.app/followups/salesmanager_all_events/",
+        "https://devlokcrmbackend.up.railway.app/followups/salesmanager_all_events/",
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -111,7 +111,7 @@ const SalesMCalendar = () => {
     try {
       const accessToken = localStorage.getItem("access_token");
       await axios.delete(
-        `https://devlokcrm-production.up.railway.app/task/salesmanager_event_delete/${eventId}/`,
+        `https://devlokcrmbackend.up.railway.app/task/salesmanager_event_delete/${eventId}/`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

@@ -57,7 +57,7 @@ const LeadsList = () => {
 
     try {
       const response = await axios.get(
-        "https://devlokcrm-production.up.railway.app/leads/get_new_leads/",
+        "https://devlokcrmbackend.up.railway.app/leads/get_new_leads/",
         {
           headers: {
             Authorization: `Bearer ${token}`, // ✅ Pass Token in Header
@@ -142,7 +142,7 @@ const LeadsList = () => {
   
     try {
       await axios.post(
-        `https://devlokcrm-production.up.railway.app/leads/takelead/${leadId}/`,
+        `https://devlokcrmbackend.up.railway.app/leads/takelead/${leadId}/`,
         {},
         {
           headers: {

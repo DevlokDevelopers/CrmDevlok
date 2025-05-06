@@ -34,7 +34,7 @@ const AdminAddEventModal = ({ isOpen, onClose }) => {
   const createEventAPI = async (payload) => {
     try {
       const response = await axios.post(
-        "https://devlokcrm-production.up.railway.app/task/create_event/",
+        "https://devlokcrmbackend.up.railway.app/task/create_event/",
         payload,
         {
           headers: {

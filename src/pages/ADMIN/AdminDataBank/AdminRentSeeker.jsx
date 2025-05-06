@@ -45,7 +45,7 @@ const AdminRentseekerList = () => {
     }
 
     try {
-      const response = await axios.get("https://devlokcrm-production.up.railway.app/databank/rental_seeker/", {
+      const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/rental_seeker/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -43,7 +43,7 @@ const DataSavedLeads = () => {
 
     try {
       const response = await axios.get(
-        "https://devlokcrm-production.up.railway.app/leads/datasaved_leads/",
+        "https://devlokcrmbackend.up.railway.app/leads/datasaved_leads/",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -100,7 +100,7 @@ const DataSavedLeads = () => {
     const accessToken = localStorage.getItem("access_token");
 
   axios
-    .get(`https://devlokcrm-production.up.railway.app/databank/lead_into_db_sales/${lead.id}/`, {
+    .get(`https://devlokcrmbackend.up.railway.app/databank/lead_into_db_sales/${lead.id}/`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     })
     .then((response) => {

@@ -45,7 +45,7 @@ const AdminSellList = () => {
     }
 
     try {
-      const response = await axios.get("https://devlokcrm-production.up.railway.app/databank/sell_databank/", {
+      const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/sell_databank/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

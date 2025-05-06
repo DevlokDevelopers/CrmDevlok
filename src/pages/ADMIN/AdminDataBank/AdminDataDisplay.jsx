@@ -27,7 +27,7 @@ const AdminDataDisplay = () => {
     }
 
     axios
-      .get(`https://devlokcrm-production.up.railway.app/databank/admin_single_databank/${databankId}/`, {
+      .get(`https://devlokcrmbackend.up.railway.app/databank/admin_single_databank/${databankId}/`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       .then((response) => {
@@ -44,7 +44,7 @@ const AdminDataDisplay = () => {
 
   const fetchImages = () => {
     axios
-      .get(`https://devlokcrm-production.up.railway.app/databank/admin_view_images/${databankId}/`, {
+      .get(`https://devlokcrmbackend.up.railway.app/databank/admin_view_images/${databankId}/`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       .then((response) => setImages(response.data))
@@ -56,7 +56,7 @@ const AdminDataDisplay = () => {
     setAddProjectError("");
 
     axios
-      .get("https://devlokcrm-production.up.railway.app/project/list_projects/", {
+      .get("https://devlokcrmbackend.up.railway.app/project/list_projects/", {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       .then((res) => {
@@ -72,7 +72,7 @@ const AdminDataDisplay = () => {
 
     axios
       .post(
-        `https://devlokcrm-production.up.railway.app/project/add_data_into_project/${projectId}/`,
+        `https://devlokcrmbackend.up.railway.app/project/add_data_into_project/${projectId}/`,
         { data_bank_ids: [databankId] },
         {
           headers: { Authorization: `Bearer ${accessToken}` },
@@ -148,7 +148,7 @@ const AdminDataDisplay = () => {
                 {images.map((img) => (
                   <div key={img.id} className={styles.imageWrapper}>
                     <img
-                      src={`https://devlokcrm-production.up.railway.app${img.image}`}
+                      src={`https://devlokcrmbackend.up.railway.app${img.image}`}
                       alt="Property"
                       className={styles.image}
                     />

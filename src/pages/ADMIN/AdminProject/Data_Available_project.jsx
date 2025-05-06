@@ -31,7 +31,7 @@ const AdminDataForProject = () => {
     }
 
     try {
-      const response = await axios.get("https://devlokcrm-production.up.railway.app/databank/databank_project_list/", {
+      const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/databank_project_list/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -69,7 +69,7 @@ const AdminDataForProject = () => {
 
     try {
       await axios.post(
-        `https://devlokcrm-production.up.railway.app/project/add_data_into_project/${projectId}/`,
+        `https://devlokcrmbackend.up.railway.app/project/add_data_into_project/${projectId}/`,
         { data_bank_ids: [databankId] },
         {
           headers: {

@@ -43,7 +43,7 @@ const PendingLeads = () => {
 
     try {
       const response = await axios.get(
-        "https://devlokcrm-production.up.railway.app/leads/pending_leads_salesmanager/",
+        "https://devlokcrmbackend.up.railway.app/leads/pending_leads_salesmanager/",
         {
           headers: {
             Authorization: `Bearer ${token}`,

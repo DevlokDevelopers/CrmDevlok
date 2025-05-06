@@ -39,7 +39,7 @@ const AdminUpcomingEvents = () => {
     }
 
     try {
-      const response = await axios.get("https://devlokcrm-production.up.railway.app/task/list_events/", {
+      const response = await axios.get("https://devlokcrmbackend.up.railway.app/task/list_events/", {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 
@@ -83,7 +83,7 @@ const AdminUpcomingEvents = () => {
 
     try {
       const accessToken = localStorage.getItem("access_token");
-      await axios.delete(`https://devlokcrm-production.up.railway.app/task/event_delete/${eventId}/`, {
+      await axios.delete(`https://devlokcrmbackend.up.railway.app/task/event_delete/${eventId}/`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       alert("Event deleted successfully!");
@@ -147,7 +147,7 @@ const AdminUpcomingEvents = () => {
       };
 
       await axios.put(
-        `https://devlokcrm-production.up.railway.app/task/event_update/${editEventData.id}/`,
+        `https://devlokcrmbackend.up.railway.app/task/event_update/${editEventData.id}/`,
         payload,
         {
           headers: {
@@ -183,7 +183,7 @@ const AdminUpcomingEvents = () => {
       const method = editEventData.event_status ? "put" : "post";
 
       await axios[method](
-        `https://devlokcrm-production.up.railway.app/task/admin_event_status_entry/${editEventData.id}/`,
+        `https://devlokcrmbackend.up.railway.app/task/admin_event_status_entry/${editEventData.id}/`,
         statusPayload,
         {
           headers: {

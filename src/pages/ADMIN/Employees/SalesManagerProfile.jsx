@@ -29,7 +29,7 @@ const AdminSalesManagerProfile = () => {
     }
 
     try {
-      const res = await axios.get(`https://devlokcrm-production.up.railway.app/task/admin_salesmanager_workhistory/${id}/`, {
+      const res = await axios.get(`https://devlokcrmbackend.up.railway.app/task/admin_salesmanager_workhistory/${id}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setDetails(res.data);
@@ -48,7 +48,7 @@ const AdminSalesManagerProfile = () => {
     }
 
     try {
-      const res = await axios.get(`https://devlokcrm-production.up.railway.app/project/salesmanager_project_admin/${id}/`, {
+      const res = await axios.get(`https://devlokcrmbackend.up.railway.app/project/salesmanager_project_admin/${id}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProjects(res.data);
@@ -79,7 +79,7 @@ const AdminSalesManagerProfile = () => {
     try {
       setUpdating(true);
   
-      await axios.put(`https://devlokcrm-production.up.railway.app/auth/update_salesmanager/${id}/`, formData, {
+      await axios.put(`https://devlokcrmbackend.up.railway.app/auth/update_salesmanager/${id}/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -94,7 +94,7 @@ const AdminSalesManagerProfile = () => {
         }
   
         await axios.patch(
-          `https://devlokcrm-production.up.railway.app/auth/update_salesmanager_password/${id}/`,
+          `https://devlokcrmbackend.up.railway.app/auth/update_salesmanager_password/${id}/`,
           { password: newPassword },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -117,7 +117,7 @@ const AdminSalesManagerProfile = () => {
   
     const token = localStorage.getItem("access_token");
     try {
-      await axios.delete(`https://devlokcrm-production.up.railway.app/auth/delete_salesmanager/${id}/`, {
+      await axios.delete(`https://devlokcrmbackend.up.railway.app/auth/delete_salesmanager/${id}/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -161,7 +161,7 @@ const AdminSalesManagerProfile = () => {
 
         <div className={styles.profileCard}>
         <img
-            src={photo ? `https://devlokcrm-production.up.railway.app${correctedPhoto}` : ProfileImage}
+            src={photo ? `https://devlokcrmbackend.up.railway.app${correctedPhoto}` : ProfileImage}
             alt={name}
             className={styles.profileImage}
             onError={(e) => { e.target.src = ProfileImage }}
@@ -233,7 +233,7 @@ const AdminSalesManagerProfile = () => {
                       src={
                         editData.photo
                           ? URL.createObjectURL(editData.photo)
-                          : (photo ? `https://devlokcrm-production.up.railway.app${photo}` : ProfileImage)
+                          : (photo ? `https://devlokcrmbackend.up.railway.app${photo}` : ProfileImage)
                       }
                       alt="Preview"
                       className={styles.previewImage}

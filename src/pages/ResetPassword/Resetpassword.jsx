@@ -23,7 +23,7 @@ function ResetPassword() {
 
     try {
       const response = await fetch(
-        `https://devlokcrm-production.up.railway.app/auth/logic/reset-password/${token}/`,
+        `https://devlokcrmbackend.up.railway.app/auth/logic/reset-password/${token}/`,
         {
           method: "POST",
           headers: {

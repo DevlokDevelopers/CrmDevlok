@@ -35,7 +35,7 @@ const FollowUpList = () => {
     try {
       const accessToken = localStorage.getItem("access_token");
       const response = await axios.get(
-        `https://devlokcrm-production.up.railway.app/followups/lead_wise_followup/${leadId}`,
+        `https://devlokcrmbackend.up.railway.app/followups/lead_wise_followup/${leadId}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -70,7 +70,7 @@ const FollowUpList = () => {
 
       // Always update followup date and notes
       await axios.put(
-        `https://devlokcrm-production.up.railway.app/followups/edit_followup/${id}/`,
+        `https://devlokcrmbackend.up.railway.app/followups/edit_followup/${id}/`,
         {
           followup_date: updatedData.followup_date,
           notes: updatedData.notes
@@ -85,7 +85,7 @@ const FollowUpList = () => {
       // Only update follow-up status if status is entered
       if (updatedData.status.trim()) {
         const method = updatedData.status ? "put" : "post";
-        const statusURL = `https://devlokcrm-production.up.railway.app/followups/followup_status_entry/${id}/`;
+        const statusURL = `https://devlokcrmbackend.up.railway.app/followups/followup_status_entry/${id}/`;
         await axios[method](
           statusURL,
           {
@@ -114,7 +114,7 @@ const FollowUpList = () => {
     if (!window.confirm("Are you sure you want to delete this follow-up?")) return;
     try {
       const accessToken = localStorage.getItem("access_token");
-      await axios.delete(`https://devlokcrm-production.up.railway.app/followups/cancel_followup/${id}/`, {
+      await axios.delete(`https://devlokcrmbackend.up.railway.app/followups/cancel_followup/${id}/`, {
         headers: { Authorization: `Bearer ${accessToken}` }
       });
       alert("Follow-up deleted!");

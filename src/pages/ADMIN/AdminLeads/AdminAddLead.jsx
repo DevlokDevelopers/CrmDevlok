@@ -36,7 +36,7 @@ const AdminAddLead = () => {
   useEffect(() => {
     const fetchSalesManagers = async () => {
       try {
-        const res = await axios.get("https://devlokcrm-production.up.railway.app/auth/list_of_salesmangers/", {
+        const res = await axios.get("https://devlokcrmbackend.up.railway.app/auth/list_of_salesmangers/", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
@@ -83,7 +83,7 @@ const AdminAddLead = () => {
     };
 
     try {
-      await axios.post("https://devlokcrm-production.up.railway.app/leads/admin_manually_enter_lead/", payload, {
+      await axios.post("https://devlokcrmbackend.up.railway.app/leads/admin_manually_enter_lead/", payload, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },

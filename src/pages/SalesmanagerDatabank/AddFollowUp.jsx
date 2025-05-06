@@ -41,7 +41,7 @@ const FollowUpCalendar = () => {
       }
 
       const response = await axios.get(
-        "https://devlokcrm-production.up.railway.app/followups/salesmanager_all_events/",
+        "https://devlokcrmbackend.up.railway.app/followups/salesmanager_all_events/",
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

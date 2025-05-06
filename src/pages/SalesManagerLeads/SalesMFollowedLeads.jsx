@@ -44,7 +44,7 @@ const FollowedLeads = () => {
 
     try {
       const response = await axios.get(
-        "https://devlokcrm-production.up.railway.app/leads/get_followed_leads/",
+        "https://devlokcrmbackend.up.railway.app/leads/get_followed_leads/",
         {
           headers: { Authorization: `Bearer ${token}` },
         }

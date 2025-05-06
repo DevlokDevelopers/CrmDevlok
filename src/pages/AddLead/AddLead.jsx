@@ -49,7 +49,7 @@ const AddLead = () => {
     };
 
     try {
-      await axios.post("https://devlokcrm-production.up.railway.app/leads/enter_leads/", payload, {
+      await axios.post("https://devlokcrmbackend.up.railway.app/leads/enter_leads/", payload, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },

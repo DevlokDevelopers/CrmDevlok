@@ -14,7 +14,7 @@ const FilteredResults = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://devlokcrm-production.up.railway.app/databank/filter/", {
+        const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/filter/", {
           params: Object.fromEntries(queryParams.entries()),
         });
         setData(response.data);

@@ -15,7 +15,7 @@ function Forgotpassword() {
 
     try {
       const response = await axios.post(
-        'https://devlokcrm-production.up.railway.app/auth/forgot-password/',
+        'https://devlokcrmbackend.up.railway.app/auth/forgot-password/',
         { email }
       )
 

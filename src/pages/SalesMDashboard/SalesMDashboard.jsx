@@ -71,7 +71,7 @@ const SalesMDashboard = () => {
 
   const fetchCrmPerformance = async () => {
     try {
-      const res = await axios.get("https://devlokcrm-production.up.railway.app/leads/salesmanager_crm_performance/", {
+      const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/salesmanager_crm_performance/", {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       setCrmData(res.data || []);
@@ -82,7 +82,7 @@ const SalesMDashboard = () => {
 
   const fetchLeadGraph = async () => {
     try {
-      const res = await axios.get("https://devlokcrm-production.up.railway.app/leads/salesmanager_lead_graph_total/", {
+      const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/salesmanager_lead_graph_total/", {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       setLeadData(res.data || {});
@@ -93,7 +93,7 @@ const SalesMDashboard = () => {
 
   const fetchUpcomingEvents = async () => {
     try {
-      const res = await axios.get("https://devlokcrm-production.up.railway.app/followups/Upcomming_salesmanager_event/", {
+      const res = await axios.get("https://devlokcrmbackend.up.railway.app/followups/Upcomming_salesmanager_event/", {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       setEvents({
@@ -107,7 +107,7 @@ const SalesMDashboard = () => {
 
   const fetchFollowupReminders = async () => {
     try {
-      const res = await axios.get("https://devlokcrm-production.up.railway.app/followups/followup-reminders/", {
+      const res = await axios.get("https://devlokcrmbackend.up.railway.app/followups/followup-reminders/", {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const reminderMessages = res.data.notifications?.map((n) => n.message) || [];
@@ -118,8 +118,8 @@ const SalesMDashboard = () => {
   };
 
   const setupWebSockets = () => {
-    const notificationSocket = new WebSocket("wss://devlokcrm-production.up.railway.app/ws/notifications/");
-    const leadNotificationSocket = new WebSocket("wss://devlokcrm-production.up.railway.app/ws/lead-notifications/");
+    const notificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/notifications/");
+    const leadNotificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/lead-notifications/");
 
     notificationSocketRef.current = notificationSocket;
     leadNotificationSocketRef.current = leadNotificationSocket;

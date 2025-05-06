@@ -23,8 +23,8 @@ const TopNav = () => {
   };
 
   useEffect(() => {
-    const notificationSocket = new WebSocket("wss://devlokcrm-production.up.railway.app/ws/notifications/");
-    const leadNotificationSocket = new WebSocket("wss://devlokcrm-production.up.railway.app/ws/lead-notifications/");
+    const notificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/notifications/");
+    const leadNotificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/lead-notifications/");
 
     notificationSocket.onmessage = (event) => {
       try {
@@ -59,7 +59,7 @@ const TopNav = () => {
     const fetchReminders = async () => {
       if (!accessToken) return;
       try {
-        const res = await axios.get("https://devlokcrm-production.up.railway.app/task/get_event_reminder/", {
+        const res = await axios.get("https://devlokcrmbackend.up.railway.app/task/get_event_reminder/", {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
         const reminderMessages = (res.data.notifications || []).map((n) => n.message);
@@ -81,7 +81,7 @@ const TopNav = () => {
 
     try {
       const response = await axios.get(
-        `https://devlokcrm-production.up.railway.app/databank/search_in_databank/?q=${encodeURIComponent(searchTerm)}`,
+        `https://devlokcrmbackend.up.railway.app/databank/search_in_databank/?q=${encodeURIComponent(searchTerm)}`,
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
 
@@ -107,7 +107,7 @@ const TopNav = () => {
 
     try {
       const res = await axios.get(
-        `https://devlokcrm-production.up.railway.app/databank/auto_complete_search_admin/?q=${encodeURIComponent(value)}`,
+        `https://devlokcrmbackend.up.railway.app/databank/auto_complete_search_admin/?q=${encodeURIComponent(value)}`,
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
       setSuggestions(res.data.suggestions || []);

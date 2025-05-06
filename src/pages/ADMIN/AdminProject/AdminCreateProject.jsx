@@ -46,7 +46,7 @@ const AdminCreateProject = () => {
 
     try {
       const response = await axios.post(
-        "https://devlokcrm-production.up.railway.app/project/create_project/",
+        "https://devlokcrmbackend.up.railway.app/project/create_project/",
         form,
         {
           headers: {

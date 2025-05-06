@@ -58,7 +58,7 @@ const AdminPendingLeads = () => {
       return;
     }
     try {
-      const res = await axios.get("https://devlokcrm-production.up.railway.app/leads/get_pending_leads/", {
+      const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/get_pending_leads/", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLeads(res.data);

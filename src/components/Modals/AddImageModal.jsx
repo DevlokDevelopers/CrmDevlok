@@ -38,7 +38,7 @@ const UploadImageModal = ({ isOpen, onClose, databankId, onUploadSuccess }) => {
 
     try {
       const response = await axios.post(
-        `https://devlokcrm-production.up.railway.app/databank/add_image_into_db/${databankId}/`,
+        `https://devlokcrmbackend.up.railway.app/databank/add_image_into_db/${databankId}/`,
         formData,
         {
           headers: {

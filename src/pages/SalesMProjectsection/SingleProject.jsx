@@ -27,7 +27,7 @@ const SalesmanagerProjectDetails = () => {
 
       try {
         const response = await axios.get(
-          `https://devlokcrm-production.up.railway.app/project/salesmanger_single_project/${id}/`,
+          `https://devlokcrmbackend.up.railway.app/project/salesmanger_single_project/${id}/`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

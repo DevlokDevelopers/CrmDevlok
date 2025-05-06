@@ -44,7 +44,7 @@ const AdminBuyList = () => {
       return;
     }
     try {
-      const response = await axios.get("https://devlokcrm-production.up.railway.app/databank/databank_buy/", {
+      const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/databank_buy/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

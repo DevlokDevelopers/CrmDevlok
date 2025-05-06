@@ -49,7 +49,7 @@ const DataEditForm = () => {
 
     console.log(`📥 Fetching databank data for ID: ${databankId}`);
 
-    axios.get(`https://devlokcrm-production.up.railway.app/databank/single_databank/${databankId}/`, {
+    axios.get(`https://devlokcrmbackend.up.railway.app/databank/single_databank/${databankId}/`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     })
     .then((response) => {
@@ -110,7 +110,7 @@ const DataEditForm = () => {
       console.log("📤 Submitting data:", Object.fromEntries(formDataToSend.entries()));
 
       await axios.patch(
-        `https://devlokcrm-production.up.railway.app/databank/editdata_Databank/${databankId}/`,
+        `https://devlokcrmbackend.up.railway.app/databank/editdata_Databank/${databankId}/`,
         formDataToSend,
         {
           headers: {

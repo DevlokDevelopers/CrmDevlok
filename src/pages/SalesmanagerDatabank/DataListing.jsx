@@ -28,7 +28,7 @@ const DataDisplay = () => {
     }
 
     axios
-      .get(`https://devlokcrm-production.up.railway.app/databank/single_databank/${databankId}/`, {
+      .get(`https://devlokcrmbackend.up.railway.app/databank/single_databank/${databankId}/`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       .then((response) => {
@@ -49,7 +49,7 @@ const DataDisplay = () => {
 
   const fetchImages = () => {
     axios
-      .get(`https://devlokcrm-production.up.railway.app/databank/view_images/${databankId}/`, {
+      .get(`https://devlokcrmbackend.up.railway.app/databank/view_images/${databankId}/`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       .then((response) => setImages(response.data))
@@ -59,7 +59,7 @@ const DataDisplay = () => {
   const handleDeleteImage = (imageId) => {
     if (window.confirm("Are you sure you want to delete this image?")) {
       axios
-        .delete(`https://devlokcrm-production.up.railway.app/databank/delete_image/${databankId}/${imageId}/`, {
+        .delete(`https://devlokcrmbackend.up.railway.app/databank/delete_image/${databankId}/${imageId}/`, {
           headers: { Authorization: `Bearer ${accessToken}` },
         })
         .then(() => {
@@ -157,7 +157,7 @@ const DataDisplay = () => {
               <div className={styles.imageGrid}>
                 {images.map((img) => (
                   <div key={img.id} className={styles.imageWrapper}>
-                    <img src={`https://devlokcrm-production.up.railway.app${img.image}`} alt="Property" className={styles.image} />
+                    <img src={`https://devlokcrmbackend.up.railway.app${img.image}`} alt="Property" className={styles.image} />
                     <span className={styles.deleteIcon} onClick={() => handleDeleteImage(img.id)}>❌</span>
                   </div>
                 ))}

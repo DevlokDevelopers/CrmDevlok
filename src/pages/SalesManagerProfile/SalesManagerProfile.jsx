@@ -16,8 +16,8 @@ const SalesManagerProfile = () => {
         };
 
         const [profileRes, summaryRes] = await Promise.all([
-          axios.get("https://devlokcrm-production.up.railway.app/auth/salesmanager_details/", { headers }),
-          axios.get("https://devlokcrm-production.up.railway.app/task/salesmanager_personal_workhistory/", { headers }),
+          axios.get("https://devlokcrmbackend.up.railway.app/auth/salesmanager_details/", { headers }),
+          axios.get("https://devlokcrmbackend.up.railway.app/task/salesmanager_personal_workhistory/", { headers }),
         ]);
 
         setProfile(profileRes.data);
@@ -40,7 +40,7 @@ const SalesManagerProfile = () => {
       <div className={styles.profileCard}>
         <div className={styles.imageSection}>
         <img
-            src={profile.photo ? `https://devlokcrm-production.up.railway.app${profile.photo}` : ProfileImage}
+            src={profile.photo ? `https://devlokcrmbackend.up.railway.app${profile.photo}` : ProfileImage}
             alt={profile.username}
             className={styles.profileImg}
             onError={(e) => {

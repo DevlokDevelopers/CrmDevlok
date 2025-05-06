@@ -53,7 +53,7 @@ const AddSalesManager = () => {
   
     try {
       await axios.post(
-        'https://devlokcrm-production.up.railway.app/auth/add_salesmanager/',
+        'https://devlokcrmbackend.up.railway.app/auth/add_salesmanager/',
         data,
         {
           headers: {

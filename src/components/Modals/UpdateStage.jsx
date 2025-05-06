@@ -23,7 +23,7 @@ const UpdateStageModal = ({ isOpen, onClose, leadId, accessToken }) => {
 
     try {
       await axios.put(
-        `https://devlokcrm-production.up.railway.app/leads/update_stage/${leadId}/`,
+        `https://devlokcrmbackend.up.railway.app/leads/update_stage/${leadId}/`,
         { stage: selectedStage },
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );

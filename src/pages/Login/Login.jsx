@@ -19,7 +19,7 @@ function Login() {
       console.log('Attempting login with:', { email, password }); // Log email and password
 
       const response = await axios.post(
-        'https://devlokcrm-production.up.railway.app/auth/login/', // Your login endpoint
+        'https://devlokcrmbackend.up.railway.app/auth/login/', // Your login endpoint
         { email, password }
       );
 

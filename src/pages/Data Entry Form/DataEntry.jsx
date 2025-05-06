@@ -41,7 +41,7 @@ const DataEntryForm = () => {
       return;
     }
 
-    axios.get(`https://devlokcrm-production.up.railway.app/databank/get_lead_data/${leadId}/`, {
+    axios.get(`https://devlokcrmbackend.up.railway.app/databank/get_lead_data/${leadId}/`, {
       headers: { Authorization: `Bearer ${accessToken}` }
     })
     .then((response) => {
@@ -79,7 +79,7 @@ const DataEntryForm = () => {
         }
       });
 
-      await axios.post(`https://devlokcrm-production.up.railway.app/databank/datacollection/${leadId}/`, formDataToSend, {
+      await axios.post(`https://devlokcrmbackend.up.railway.app/databank/datacollection/${leadId}/`, formDataToSend, {
         headers: { Authorization: `Bearer ${accessToken}` }
       });
 
@@ -96,7 +96,7 @@ const DataEntryForm = () => {
 
   const updateLeadStage = async () => {
     try {
-      await axios.put(`https://devlokcrm-production.up.railway.app/leads/update_stage/${leadId}/`, 
+      await axios.put(`https://devlokcrmbackend.up.railway.app/leads/update_stage/${leadId}/`, 
         { stage: "Data Saved" },
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );

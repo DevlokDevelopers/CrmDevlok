@@ -27,7 +27,7 @@ const FollowUpModal = ({ leadId, onClose, onFollowUpCreated }) => {
 
     try {
       await axios.post(
-        `https://devlokcrm-production.up.railway.app/followups/createfollowup/${leadId}/`,
+        `https://devlokcrmbackend.up.railway.app/followups/createfollowup/${leadId}/`,
         followUpData,
         {
           headers: {

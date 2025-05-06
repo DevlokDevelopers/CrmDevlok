@@ -58,7 +58,7 @@ const AdminUnsuccessLeads = () => {
       return;
     }
     try {
-      const res = await axios.get("https://devlokcrm-production.up.railway.app/leads/get_unsuccessful_leads/", {
+      const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/get_unsuccessful_leads/", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLeads(res.data);

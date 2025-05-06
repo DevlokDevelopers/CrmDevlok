@@ -34,7 +34,7 @@ const StaffSideNav = () => {
         }
 
         const response = await axios.get(
-          "https://devlokcrm-production.up.railway.app/leads/salesmanager_monthly_performance/",
+          "https://devlokcrmbackend.up.railway.app/leads/salesmanager_monthly_performance/",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,

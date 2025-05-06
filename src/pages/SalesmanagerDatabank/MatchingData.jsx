@@ -24,7 +24,7 @@ const MatchingDatas = () => {
     }
 
     axios
-      .get(`https://devlokcrm-production.up.railway.app/databank/match_property/${databankId}/`, {
+      .get(`https://devlokcrmbackend.up.railway.app/databank/match_property/${databankId}/`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       .then((response) => {
@@ -44,7 +44,7 @@ const MatchingDatas = () => {
     setSending(true);
     try {
       const response = await axios.post(
-        `https://devlokcrm-production.up.railway.app/databank/send_matching_pdf/${databankId}/`,
+        `https://devlokcrmbackend.up.railway.app/databank/send_matching_pdf/${databankId}/`,
         {},
         {
           headers: {

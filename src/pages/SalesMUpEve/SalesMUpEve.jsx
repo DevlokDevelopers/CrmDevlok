@@ -26,7 +26,7 @@ const UpcomingEvents = () => {
 
     try {
       const response = await axios.get(
-        "https://devlokcrm-production.up.railway.app/followups/Upcomming_salesmanager_event/",
+        "https://devlokcrmbackend.up.railway.app/followups/Upcomming_salesmanager_event/",
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
@@ -70,8 +70,8 @@ const UpcomingEvents = () => {
     const accessToken = localStorage.getItem("access_token");
     const url =
       item.type === "event"
-        ? `https://devlokcrm-production.up.railway.app/task/salesmanager_event_delete/${item.id}/`
-        : `https://devlokcrm-production.up.railway.app/followups/cancel_followup/${item.id}/`;
+        ? `https://devlokcrmbackend.up.railway.app/task/salesmanager_event_delete/${item.id}/`
+        : `https://devlokcrmbackend.up.railway.app/followups/cancel_followup/${item.id}/`;
 
     try {
       await axios.delete(url, {
@@ -111,8 +111,8 @@ const UpcomingEvents = () => {
 
     const url =
       editItem.type === "event"
-        ? `https://devlokcrm-production.up.railway.app/task/salesmanager_event_update/${editItem.id}/`
-        : `https://devlokcrm-production.up.railway.app/followups/edit_followup/${editItem.id}/`;
+        ? `https://devlokcrmbackend.up.railway.app/task/salesmanager_event_update/${editItem.id}/`
+        : `https://devlokcrmbackend.up.railway.app/followups/edit_followup/${editItem.id}/`;
 
     try {
       await axios.put(url, payload, {
@@ -135,8 +135,8 @@ const UpcomingEvents = () => {
     const isPending = !editItem.status;
     const url =
       editItem.type === "event"
-        ? `https://devlokcrm-production.up.railway.app/task/sm_event_status_entry/${editItem.id}/`
-        : `https://devlokcrm-production.up.railway.app/followups/followup_status_entry/${editItem.id}/`;
+        ? `https://devlokcrmbackend.up.railway.app/task/sm_event_status_entry/${editItem.id}/`
+        : `https://devlokcrmbackend.up.railway.app/followups/followup_status_entry/${editItem.id}/`;
 
     const method = isPending ? "post" : "put";
 

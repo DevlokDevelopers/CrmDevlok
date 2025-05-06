@@ -22,7 +22,7 @@ const AdminMatchingDatas = () => {
     }
 
     axios
-      .get(`https://devlokcrm-production.up.railway.app/databank/match_property/${databankId}/`, {
+      .get(`https://devlokcrmbackend.up.railway.app/databank/match_property/${databankId}/`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       .then((response) => {

@@ -47,7 +47,7 @@ const AdminDataGraph = () => {
     }
 
     try {
-      const response = await axios.get("https://devlokcrm-production.up.railway.app/databank/databank_graph/", {
+      const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/databank_graph/", {
         headers: { Authorization: `Bearer ${token}` },
       });
 

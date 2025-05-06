@@ -33,7 +33,7 @@ const AdminProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axios.get("https://devlokcrm-production.up.railway.app/auth/get_admin/", {
+        const res = await axios.get("https://devlokcrmbackend.up.railway.app/auth/get_admin/", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -90,7 +90,7 @@ const AdminProfile = () => {
     setLoading(true);
     try {
       const res = await axios.put(
-        "https://devlokcrm-production.up.railway.app/auth/update-admin/",
+        "https://devlokcrmbackend.up.railway.app/auth/update-admin/",
         updatePayload,
         { headers: { Authorization: `Bearer ${token}` } }
       );

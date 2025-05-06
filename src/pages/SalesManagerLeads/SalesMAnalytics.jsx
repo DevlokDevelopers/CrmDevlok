@@ -54,7 +54,7 @@ const SalesmanagerAnalytics = () => {
 
       try {
         const response = await axios.get(
-          "https://devlokcrm-production.up.railway.app/leads/salesmanager_lead_graph/",
+          "https://devlokcrmbackend.up.railway.app/leads/salesmanager_lead_graph/",
           {
             headers: { Authorization: `Bearer ${token}` },
           }

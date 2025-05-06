@@ -20,7 +20,7 @@ const SalesMSearchResults = () => {
 
       try {
         const response = await axios.get(
-          `https://devlokcrm-production.up.railway.app/databank/lead_into_db_sales/${item.lead}/`,
+          `https://devlokcrmbackend.up.railway.app/databank/lead_into_db_sales/${item.lead}/`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
