@@ -109,6 +109,7 @@ const AdminDataDisplay = () => {
             <p><strong>Property Type: {data.mode_of_property}</strong></p>
             <p><strong>Demand Price: ₹{data.demand_price}</strong></p>
             <p><strong>Area: {data.area_in_sqft} sqft</strong></p>
+            <p><strong>Proposed Location: {data.location_proposal_district},{data.location_proposal_place}</strong></p>
             <p><strong>Building Roof: {data.building_roof}</strong></p>
             <p><strong>Floors: {data.number_of_floors}</strong></p>
             <p><strong>BHK: {data.building_bhk}</strong></p>
