@@ -42,10 +42,10 @@ export const NotificationProvider = ({ children }) => {
     fetchReminders();
 
     const notificationSocket = new WebSocket(
-      "wss://devlokcrm-production.up.railway.app/ws/notifications/"
+      "wss://devlokcrmbackend.up.railway.app/ws/notifications/"
     );
     const leadNotificationSocket = new WebSocket(
-      "wss://devlokcrm-production.up.railway.app/ws/lead-notifications/"
+      "wss://devlokcrmbackend.up.railway.app/ws/lead-notifications/"
     );
 
     notificationSocketRef.current = notificationSocket;
