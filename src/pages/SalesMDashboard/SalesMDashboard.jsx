@@ -124,6 +124,7 @@ const SalesMDashboard = () => {
     notificationSocketRef.current = notificationSocket;
     leadNotificationSocketRef.current = leadNotificationSocket;
 
+    // Handle incoming messages
     notificationSocket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       const msg = data.message || String(event.data);
@@ -135,6 +136,27 @@ const SalesMDashboard = () => {
       const msg = data.message || "New lead notification received";
       addNotification(msg);
     };
+
+    // Handle socket errors and attempt to reconnect
+    notificationSocket.onerror = () => {
+      console.error("Notification WebSocket error, attempting to reconnect...");
+      setTimeout(setupWebSockets, 5000);
+    };
+
+    leadNotificationSocket.onerror = () => {
+      console.error("Lead Notification WebSocket error, attempting to reconnect...");
+      setTimeout(setupWebSockets, 5000);
+    };
+
+    // Implement ping to keep connection alive
+    setInterval(() => {
+      if (notificationSocket.readyState === WebSocket.OPEN) {
+        notificationSocket.send(JSON.stringify({ type: 'ping' }));
+      }
+      if (leadNotificationSocket.readyState === WebSocket.OPEN) {
+        leadNotificationSocket.send(JSON.stringify({ type: 'ping' }));
+      }
+    }, 30000); // Ping every 30 seconds
 
     return () => {
       notificationSocket.close();
@@ -159,7 +181,6 @@ const SalesMDashboard = () => {
     setNotifications([]);
     localStorage.removeItem("salesmanager_notifications");
   };
-  
 
   const formatDate = (str) => {
     const d = new Date(str);
@@ -168,7 +189,6 @@ const SalesMDashboard = () => {
     const year = d.getFullYear();
     return `${day}/${month}/${year}`;
   };
-  
 
   return (
     <StaffLayout>
@@ -259,8 +279,8 @@ const SalesMDashboard = () => {
         <div className={styles.notificationsContainer}>
           <h3>Live Notifications</h3>
           <button onClick={clearNotifications} className={styles.clearBtn}>
-      Clear All
-    </button>
+            Clear All
+          </button>
           {notifications.length > 0 ? (
             <ul>
               {notifications

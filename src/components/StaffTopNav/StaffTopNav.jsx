@@ -12,12 +12,16 @@ const StaffTopNav = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  // To prevent duplicate messages in current session
   const seenMessagesRef = useRef(new Set());
+  const notificationSocketRef = useRef(null);
+  const leadNotificationSocketRef = useRef(null);
 
   useEffect(() => {
     const notificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/notifications/");
     const leadNotificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/lead-notifications/");
+
+    notificationSocketRef.current = notificationSocket;
+    leadNotificationSocketRef.current = leadNotificationSocket;
 
     const addNotification = (message) => {
       const msgStr = typeof message === "string" ? message : JSON.stringify(message);
@@ -55,48 +59,23 @@ const StaffTopNav = () => {
       console.error("Lead Notification WebSocket error:", error);
     };
 
-    const pollFollowupReminders = () => {
-      const token = localStorage.getItem("access_token");
-      if (!token) return;
-
-      axios
-        .get("https://devlokcrmbackend.up.railway.app/followups/followup-reminders/", {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          const followupList = response.data.notifications;
-
-          const shownFollowups = JSON.parse(localStorage.getItem("shown_followups") || "[]");
-          const shownSet = new Set(shownFollowups);
-
-          const newMessages = [];
-
-          followupList.forEach((item) => {
-            const msg = item.message;
-            if (!shownSet.has(msg)) {
-              newMessages.push(msg);
-              shownSet.add(msg);
-              seenMessagesRef.current.add(msg);
-            }
-          });
-
-          if (newMessages.length > 0) {
-            setNotifications((prev) => [...newMessages, ...prev]);
-            localStorage.setItem("shown_followups", JSON.stringify(Array.from(shownSet)));
-          }
-        })
-        .catch((error) => {
-          console.error("Follow-up polling error:", error);
-        });
+    // Ping-Pong Mechanism to keep connection alive
+    const keepAlive = () => {
+      if (notificationSocket.readyState === WebSocket.OPEN) {
+        notificationSocket.send(JSON.stringify({ type: "ping" }));
+      }
+      if (leadNotificationSocket.readyState === WebSocket.OPEN) {
+        leadNotificationSocket.send(JSON.stringify({ type: "ping" }));
+      }
     };
 
-    pollFollowupReminders();
-    const intervalId = setInterval(pollFollowupReminders, 5 * 60 * 1000);
+    // Interval to send "ping" every 30 seconds
+    const pingIntervalId = setInterval(keepAlive, 30 * 1000);
 
     return () => {
+      clearInterval(pingIntervalId);
       notificationSocket.close();
       leadNotificationSocket.close();
-      clearInterval(intervalId);
     };
   }, []);
 
@@ -107,9 +86,9 @@ const StaffTopNav = () => {
   const handleSearch = async (searchTerm) => {
     const finalQuery = searchTerm || query;
     if (!finalQuery.trim()) return;
-  
+
     const token = localStorage.getItem("access_token");
-  
+
     try {
       const response = await axios.get(
         `https://devlokcrmbackend.up.railway.app/databank/search_by_salesmanager/?q=${encodeURIComponent(finalQuery)}`,
@@ -119,13 +98,13 @@ const StaffTopNav = () => {
           },
         }
       );
-  
+
       const { source, results } = response.data;
       if (!results || results.length === 0) {
         alert("No results found.");
         return;
       }
-  
+
       navigate("/salesmsearch_result", {
         state: { type: source, results, query: finalQuery },
       });
@@ -134,33 +113,31 @@ const StaffTopNav = () => {
       alert("Error occurred while searching.");
     }
   };
-  
 
   const handleInputChange = async (e) => {
     const value = e.target.value;
     setQuery(value);
 
     if (!value.trim()) {
-        setSuggestions([]);
-        setShowSuggestions(false);
-        return;
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
     }
 
     const accessToken = localStorage.getItem("access_token"); // Fetch token from localStorage
     if (!accessToken) return;
 
     try {
-        const res = await axios.get(
-            `https://devlokcrmbackend.up.railway.app/databank/salesMSearchAutoComplete/?q=${encodeURIComponent(value)}`,
-            { headers: { Authorization: `Bearer ${accessToken}` } }
-        );
-        setSuggestions(res.data.suggestions || []);
-        setShowSuggestions(true);
+      const res = await axios.get(
+        `https://devlokcrmbackend.up.railway.app/databank/salesMSearchAutoComplete/?q=${encodeURIComponent(value)}`,
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      );
+      setSuggestions(res.data.suggestions || []);
+      setShowSuggestions(true);
     } catch (err) {
-        console.error("Suggestion fetch error:", err);
+      console.error("Suggestion fetch error:", err);
     }
   };
-
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -182,20 +159,20 @@ const StaffTopNav = () => {
             onFocus={() => setShowSuggestions(suggestions.length > 0)}
             onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
           />
-          
+
           {showSuggestions && suggestions.length > 0 && (
             <ul className={styles.suggestionDropdown}>
               {suggestions.map((s, i) => (
                 <li
                   key={i}
                   onClick={() => {
-                  setQuery(s); // Set query to the selected suggestion
-                  setSuggestions([]); // Clear suggestions
-                  setShowSuggestions(false); // Hide suggestion dropdown
-                  handleSearch(s); // Perform search with selected suggestion
+                    setQuery(s); // Set query to the selected suggestion
+                    setSuggestions([]); // Clear suggestions
+                    setShowSuggestions(false); // Hide suggestion dropdown
+                    handleSearch(s); // Perform search with selected suggestion
                   }}
                 >
-                {s}
+                  {s}
                 </li>
               ))}
             </ul>
