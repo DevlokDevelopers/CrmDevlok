@@ -1,21 +1,16 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import { useQuery, useMutation } from '@tanstack/react-query';
 import styles from "./AdminLeads.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { NotebookPen } from "lucide-react";
 import FancySpinner from "../../../components/Loader/Loader";
-import { useDebounce } from 'use-debounce';  // Add this import if you want to debounce
 
 const AdminFollowedLeads = () => {
-  const [leads, setLeads] = useState([]);
-  const [salesManagers, setSalesManagers] = useState([]);
   const [selectedLeadId, setSelectedLeadId] = useState(null);
   const [selectedSM, setSelectedSM] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [loadingLeads, setLoadingLeads] = useState(false);
-  const [loadingSM, setLoadingSM] = useState(false);
-  const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const leadsPerPage = 8;
   const [selectedMessage, setSelectedMessage] = useState("");
@@ -43,51 +38,39 @@ const AdminFollowedLeads = () => {
   };
 
   const [activeTab, setActiveTab] = useState(getActiveTab());
-  const [debouncedSearchTerm] = useDebounce("", 500);  // Add debounce for search if needed
 
-  useEffect(() => {
-    fetchLeads();
-    fetchSalesManagers();
-  }, []);
+  // React Query: Fetch Leads
+  const { data: leads, isLoading: loadingLeads, isError: leadsError, refetch: refetchLeads } = useQuery(
+    ['leads'],
+    async () => {
+      const token = localStorage.getItem("access_token");
+      const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/admin_followed_lead_list/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    },
+    {
+      staleTime: 60000, // Cache data for 1 minute
+      refetchOnWindowFocus: false, // Disable refetch on window focus for performance
+    }
+  );
 
-  useEffect(() => {
-    setActiveTab(getActiveTab());
-  }, [location.pathname]);
+  // React Query: Fetch Sales Managers
+  const { data: salesManagers, isLoading: loadingSM, isError: smError } = useQuery(
+    ['salesManagers'],
+    async () => {
+      const token = localStorage.getItem("access_token");
+      const res = await axios.get("https://devlokcrmbackend.up.railway.app/auth/list_of_salesmangers/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    }
+  );
 
   const handleTabChange = (tabName) => {
     const path = tabPaths[tabName];
     setActiveTab(tabName);
     if (path !== "#") navigate(path);
-  };
-
-  const fetchLeads = async () => {
-    const token = localStorage.getItem("access_token");
-    setLoadingLeads(true);  // Set loading state for leads
-    try {
-      const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/admin_followed_lead_list/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setLeads(res.data);
-    } catch (err) {
-      setError("Failed to fetch followed leads.");
-    } finally {
-      setLoadingLeads(false);  // Set loading to false after fetching leads
-    }
-  };
-
-  const fetchSalesManagers = async () => {
-    const token = localStorage.getItem("access_token");
-    setLoadingSM(true);  // Set loading state for sales managers
-    try {
-      const res = await axios.get("https://devlokcrmbackend.up.railway.app/auth/list_of_salesmangers/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setSalesManagers(res.data);
-    } catch (err) {
-      setError("Failed to fetch sales managers.");
-    } finally {
-      setLoadingSM(false);  // Set loading to false after fetching sales managers
-    }
   };
 
   const openAssignModal = (leadId) => {
@@ -121,7 +104,7 @@ const AdminFollowedLeads = () => {
       navigate("/login");
       return;
     }
-    setLoadingLeads(true);  // Set loading state for lead assignment
+
     try {
       await axios.patch(
         `https://devlokcrmbackend.up.railway.app/leads/add_follower/${selectedLeadId}/`,
@@ -129,11 +112,9 @@ const AdminFollowedLeads = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       closeModal();
-      fetchLeads();
+      refetchLeads(); // Refetch leads after assigning the follower
     } catch (err) {
-      setError("Failed to change follower.");
-    } finally {
-      setLoadingLeads(false);
+      alert("Failed to change follower.");
     }
   };
 
@@ -148,14 +129,14 @@ const AdminFollowedLeads = () => {
   // Calculate paginated leads
   const indexOfLast = currentPage * leadsPerPage;
   const indexOfFirst = indexOfLast - leadsPerPage;
-  const currentLeads = useMemo(() => leads.slice(indexOfFirst, indexOfLast), [leads, currentPage]);
-  const totalPages = useMemo(() => Math.ceil(leads.length / leadsPerPage), [leads]);
+  const currentLeads = useMemo(() => leads?.slice(indexOfFirst, indexOfLast), [leads, currentPage]);
+  const totalPages = useMemo(() => Math.ceil(leads?.length / leadsPerPage), [leads]);
 
   return (
     <AdminLayout>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Followed Leads ({leads.length})</h2>
+          <h2 className={styles.title}>Followed Leads ({leads?.length || 0})</h2>
           <button className={styles.addEventBtn} onClick={() => navigate("/admin_manually_enter_lead")}>
             + Add Lead
           </button>
@@ -180,10 +161,10 @@ const AdminFollowedLeads = () => {
           </div>
         ) : (
           <div className={styles.leadContainer}>
-            {currentLeads.length === 0 ? (
+            {currentLeads?.length === 0 ? (
               <p className={styles.noLeadsMessage}>No lead available for now</p>
             ) : (
-              currentLeads.map((lead) => (
+              currentLeads?.map((lead) => (
                 <div key={lead.id} className={styles.leadCard}>
                   <div className={styles.leadInfo}>
                     <div className={styles.infoBlock}>
@@ -241,6 +222,7 @@ const AdminFollowedLeads = () => {
         )}
       </div>
 
+      {/* Modal for Sales Manager Assignment */}
       {showModal && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
@@ -252,7 +234,7 @@ const AdminFollowedLeads = () => {
               className={styles.dropdown}
             >
               <option value="">Select Sales Manager</option>
-              {salesManagers.map((sm) => (
+              {salesManagers?.map((sm) => (
                 <option key={sm.id} value={sm.id}>
                   {sm.username}
                 </option>
@@ -269,6 +251,7 @@ const AdminFollowedLeads = () => {
         </div>
       )}
 
+      {/* Modal for Lead Notes */}
       {showMessageModal && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
