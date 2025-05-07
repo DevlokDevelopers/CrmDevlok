@@ -3,6 +3,7 @@ import axios from "axios";
 import { Bar, Line } from "react-chartjs-2";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { useNavigate } from "react-router-dom";
+import { useNotifications } from "../../../components/NotificationContext/Notification Context"; // Importing the context hook
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -31,17 +32,12 @@ const AdminDashboard = () => {
   const [crmData, setCrmData] = useState([]);
   const [leadData, setLeadData] = useState(null);
   const [events, setEvents] = useState([]);
-  const [notifications, setNotifications] = useState([]);
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("access_token");
 
+  const { notifications, clearNotifications } = useNotifications();  // Accessing notifications and the clear function from context
+
   useEffect(() => {
-    // Optional: remove the clear flag on full reload
-    localStorage.removeItem("admin_notifications_cleared");
-
-    const saved = JSON.parse(localStorage.getItem("admin_notifications")) || [];
-    setNotifications(saved);
-
     if (!accessToken) {
       navigate("/login");
       return;
@@ -60,7 +56,7 @@ const AdminDashboard = () => {
       clearInterval(reminderInterval);
       socketCleanup();
     };
-  }, []);
+  }, []);  // Empty dependency ensures these effects run only once
 
   const fetchCrmPerformance = async () => {
     try {
@@ -96,44 +92,14 @@ const AdminDashboard = () => {
   };
 
   const fetchReminders = async () => {
-    const cleared = localStorage.getItem("admin_notifications_cleared") === "true";
-    if (cleared) return;
-
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/task/get_event_reminder/", {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-
-      const newMessages = (res.data.notifications || []).map((n) => n.message);
-      const prevStored = JSON.parse(localStorage.getItem("admin_notifications")) || [];
-
-      const combined = [...newMessages, ...prevStored];
-      const deduplicated = Array.from(new Set(combined));
-      const sorted = deduplicated.reverse(); // newest first
-
-      setNotifications(sorted);
-      localStorage.setItem("admin_notifications", JSON.stringify(sorted));
-    } catch (error) {
-      console.error("Error fetching event reminders:", error);
+      (res.data.notifications || []).forEach((n) => addNotification(n.message));
+    } catch (err) {
+      console.error("Reminder fetch error:", err);
     }
-  };
-
-  const clearNotifications = () => {
-    setNotifications([]);
-    localStorage.setItem("admin_notifications", JSON.stringify([]));
-    localStorage.setItem("admin_notifications_cleared", "true");
-  };
-
-  const handleWebSocketMessage = (msg) => {
-    const cleared = localStorage.getItem("admin_notifications_cleared") === "true";
-    if (cleared) return;
-
-    setNotifications((prev) => {
-      if (prev.includes(msg)) return prev;
-      const updated = [msg, ...prev];
-      localStorage.setItem("admin_notifications", JSON.stringify(updated));
-      return updated;
-    });
   };
 
   const setupWebSocket = () => {
@@ -166,7 +132,6 @@ const AdminDashboard = () => {
       console.error("Lead WebSocket error:", error);
     };
 
-    // Handle WebSocket reconnection if necessary
     const reconnectWebSocket = () => {
       setTimeout(() => {
         setupWebSocket();
