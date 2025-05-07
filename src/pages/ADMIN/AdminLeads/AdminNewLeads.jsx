@@ -4,6 +4,7 @@ import axios from "axios";
 import styles from "./AdminLeads.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { NotebookPen } from "lucide-react";
+import FancySpinner from "../../components/Loader/Loader";
 
 const AdminNewLeads = () => {
   const [leads, setLeads] = useState([]);
@@ -59,6 +60,7 @@ const AdminNewLeads = () => {
 
   const fetchLeads = async () => {
     const token = localStorage.getItem("access_token");
+    setLoading(true);
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/get_new_leads/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -67,11 +69,14 @@ const AdminNewLeads = () => {
     } catch (err) {
       console.error(err);
       setError("Failed to fetch leads.");
+    } finally {
+      setLoading(false);
     }
   };
-
+  
   const fetchSalesManagers = async () => {
     const token = localStorage.getItem("access_token");
+    setLoading(true);
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/auth/list_of_salesmangers/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -80,8 +85,11 @@ const AdminNewLeads = () => {
     } catch (err) {
       console.error(err);
       setError("Failed to fetch sales managers.");
+    } finally {
+      setLoading(false);
     }
   };
+  
 
   const openAssignModal = (leadId) => {
     setSelectedLeadId(leadId);
@@ -161,6 +169,12 @@ const AdminNewLeads = () => {
 
   return (
     <AdminLayout>
+      {loading && (
+        <div className={styles.loaderWrapper}>
+          <FancySpinner />
+        </div>
+      )}
+
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>New Leads ({leads.length})</h2>
