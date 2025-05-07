@@ -1,82 +1,90 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 
 const NotificationContext = createContext();
 
 export const NotificationProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
+  const notificationSocketRef = useRef(null);
+  const leadNotificationSocketRef = useRef(null);
+  const intervalRef = useRef(null);
   const accessToken = localStorage.getItem("access_token");
-  const role = localStorage.getItem("role"); // Assuming role is stored in localStorage (admin or sales_manager)
+  const role = localStorage.getItem("role");
 
   const addNotification = (msg) => {
     setNotifications((prev) => {
       if (prev.includes(msg)) return prev;
       const updated = [msg, ...prev];
-      localStorage.setItem("notifications", JSON.stringify(updated)); // Store notifications in localStorage for both roles
+      localStorage.setItem("notifications", JSON.stringify(updated));
       return updated;
     });
   };
 
   const fetchReminders = async () => {
     try {
-      if (role === "sales_manager") {
-        // Sales Manager fetches followup reminders
-        const res = await axios.get("https://devlokcrm-production.up.railway.app/followups/followup-reminders/", {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
-        (res.data.notifications || []).forEach((n) => addNotification(n.message)); // Add sales manager-specific notifications
-      } else if (role === "admin") {
-        // Admin fetches task reminders
-        const res = await axios.get("https://devlokcrm-production.up.railway.app/task/get_event_reminder/", {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
-        (res.data.notifications || []).forEach((n) => addNotification(n.message)); // Add admin-specific notifications
-      }
+      const url =
+        role === "sales_manager"
+          ? "https://devlokcrm-production.up.railway.app/followups/followup-reminders/"
+          : "https://devlokcrm-production.up.railway.app/task/get_event_reminder/";
+
+      const res = await axios.get(url, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+
+      (res.data.notifications || []).forEach((n) => addNotification(n.message));
     } catch (err) {
       console.error("Reminder fetch error:", err);
     }
   };
 
-  const setupWebSocket = () => {
-    const wsList = [
-      new WebSocket("wss://devlokcrm-production.up.railway.app/ws/notifications/"),
-      new WebSocket("wss://devlokcrm-production.up.railway.app/ws/lead-notifications/"),
-    ];
-
-    wsList.forEach((ws) => {
-      ws.onmessage = (event) => {
-        try {
-          const data = JSON.parse(event.data);
-          addNotification(data.message || data.notification || "New notification");
-        } catch (err) {
-          console.error("WS message error:", err);
-        }
-      };
-      ws.onerror = console.error;
-      ws.onclose = () => setTimeout(setupWebSocket, 5000); // Reconnect
-    });
-
-    return () => wsList.forEach(ws => ws.close());
-  };
-
   useEffect(() => {
     setNotifications(JSON.parse(localStorage.getItem("notifications")) || []);
     fetchReminders();
-    const cleanup = setupWebSocket();
-    const interval = setInterval(fetchReminders, 300000); // Refresh reminders every 5 minutes
-    return () => {
-      cleanup();
-      clearInterval(interval);
+
+    const notificationSocket = new WebSocket(
+      "wss://devlokcrm-production.up.railway.app/ws/notifications/"
+    );
+    const leadNotificationSocket = new WebSocket(
+      "wss://devlokcrm-production.up.railway.app/ws/lead-notifications/"
+    );
+
+    notificationSocketRef.current = notificationSocket;
+    leadNotificationSocketRef.current = leadNotificationSocket;
+
+    const handleMessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        addNotification(data.message || data.notification || "New notification");
+      } catch (err) {
+        console.error("WS message error:", err);
+      }
     };
-  }, [role]); // Re-run effect if role changes
+
+    notificationSocket.onmessage = handleMessage;
+    leadNotificationSocket.onmessage = handleMessage;
+
+    notificationSocket.onerror = console.error;
+    leadNotificationSocket.onerror = console.error;
+
+    intervalRef.current = setInterval(fetchReminders, 300000); // 5 min
+
+    return () => {
+      // Cleanup: close WebSockets and interval
+      notificationSocket.close();
+      leadNotificationSocket.close();
+      clearInterval(intervalRef.current);
+    };
+  }, [role]); // only re-run when role changes
 
   const clearNotifications = () => {
     setNotifications([]);
-    localStorage.setItem("notifications", JSON.stringify([])); // Clear all notifications for both roles
+    localStorage.setItem("notifications", JSON.stringify([]));
   };
 
   return (
-    <NotificationContext.Provider value={{ notifications, addNotification, clearNotifications }}>
+    <NotificationContext.Provider
+      value={{ notifications, addNotification, clearNotifications }}
+    >
       {children}
     </NotificationContext.Provider>
   );
