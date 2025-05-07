@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaBell, FaUserCircle } from "react-icons/fa";
-import { useNotifications } from "../NotificationContext/Notification Context";  // Import Notification Context
+import { useNotifications } from "../NotificationContext/Notification Context";
 import axios from "axios";
 import styles from "./StaffTopNav.module.css";
 
@@ -12,7 +12,7 @@ const StaffTopNav = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
-  const { notifications, addNotification } = useNotifications();  // Use context
+  const { notifications, clearNotifications } = useNotifications();
 
   const handleProfileClick = () => {
     navigate("/salesmanagerProfile");
@@ -101,10 +101,10 @@ const StaffTopNav = () => {
                 <li
                   key={i}
                   onClick={() => {
-                    setQuery(s); // Set query to the selected suggestion
-                    setSuggestions([]); // Clear suggestions
-                    setShowSuggestions(false); // Hide suggestion dropdown
-                    handleSearch(s); // Perform search with selected suggestion
+                    setQuery(s);
+                    setSuggestions([]);
+                    setShowSuggestions(false);
+                    handleSearch(s);
                   }}
                 >
                   {s}
@@ -137,7 +137,7 @@ const StaffTopNav = () => {
               className={styles.closeButton}
               onClick={() => {
                 setShowModal(false);
-                addNotification([]);  // Clear notifications in context
+                clearNotifications(); // ✅ CORRECT way to clear
               }}
             >
               Close

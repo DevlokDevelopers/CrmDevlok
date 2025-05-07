@@ -12,9 +12,13 @@ export const NotificationProvider = ({ children }) => {
   const role = localStorage.getItem("role");
 
   const addNotification = (msg) => {
+    const newNotification = {
+      message: msg,
+      timestamp: new Date().toISOString(),
+    };
     setNotifications((prev) => {
-      if (prev.includes(msg)) return prev;
-      const updated = [msg, ...prev];
+      if (prev.some((n) => n.message === msg)) return prev;
+      const updated = [newNotification, ...prev];
       localStorage.setItem("notifications", JSON.stringify(updated));
       return updated;
     });
@@ -38,7 +42,15 @@ export const NotificationProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    setNotifications(JSON.parse(localStorage.getItem("notifications")) || []);
+    // Normalize any old string-based notifications
+    const stored = JSON.parse(localStorage.getItem("notifications")) || [];
+    const normalized = stored.map((n) =>
+      typeof n === "string"
+        ? { message: n, timestamp: new Date().toISOString() }
+        : n
+    );
+    setNotifications(normalized);
+
     fetchReminders();
 
     const notificationSocket = new WebSocket(
@@ -54,7 +66,8 @@ export const NotificationProvider = ({ children }) => {
     const handleMessage = (event) => {
       try {
         const data = JSON.parse(event.data);
-        addNotification(data.message || data.notification || "New notification");
+        const msg = data.message || data.notification || "New notification";
+        addNotification(msg);
       } catch (err) {
         console.error("WS message error:", err);
       }
@@ -66,15 +79,14 @@ export const NotificationProvider = ({ children }) => {
     notificationSocket.onerror = console.error;
     leadNotificationSocket.onerror = console.error;
 
-    intervalRef.current = setInterval(fetchReminders, 300000); // 5 min
+    intervalRef.current = setInterval(fetchReminders, 5 * 60 * 1000);
 
     return () => {
-      // Cleanup: close WebSockets and interval
       notificationSocket.close();
       leadNotificationSocket.close();
       clearInterval(intervalRef.current);
     };
-  }, [role]); // only re-run when role changes
+  }, [role]);
 
   const clearNotifications = () => {
     setNotifications([]);
