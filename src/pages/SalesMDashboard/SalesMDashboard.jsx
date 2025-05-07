@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
 import { Bar, Line } from "react-chartjs-2";
+import axios from "axios";
 import StaffLayout from "../../components/Layouts/SalesMLayout";
+import { useNotifications } from "../../components/NotificationContext/Notification Context";  // Import NotificationContext
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -30,26 +31,12 @@ const SalesMDashboard = () => {
   const [crmData, setCrmData] = useState([]);
   const [leadData, setLeadData] = useState(null);
   const [events, setEvents] = useState({ followups: [], events: [] });
-  const [notifications, setNotifications] = useState([]);
   const accessToken = localStorage.getItem("access_token");
 
-  const notificationSocketRef = useRef(null);
-  const leadNotificationSocketRef = useRef(null);
+  const { notifications, addNotification, clearNotifications } = useNotifications();  // Use NotificationContext
 
   useEffect(() => {
-    // Load notifications from localStorage on first render
-    const saved = localStorage.getItem("salesmanager_notifications");
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        setNotifications(parsed);
-      } catch (err) {
-        console.error("Error parsing saved notifications:", err);
-      }
-    }
-
     fetchAllData();
-    const cleanupSockets = setupWebSockets();
 
     const reminderInterval = setInterval(fetchFollowupReminders, 5 * 60 * 1000);
     const eventInterval = setInterval(fetchUpcomingEvents, 60 * 60 * 1000);
@@ -57,8 +44,6 @@ const SalesMDashboard = () => {
     return () => {
       clearInterval(reminderInterval);
       clearInterval(eventInterval);
-      if (notificationSocketRef.current) notificationSocketRef.current.close();
-      if (leadNotificationSocketRef.current) leadNotificationSocketRef.current.close();
     };
   }, []);
 
@@ -111,75 +96,10 @@ const SalesMDashboard = () => {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const reminderMessages = res.data.notifications?.map((n) => n.message) || [];
-      reminderMessages.forEach((msg) => addNotification(msg));
+      reminderMessages.forEach((msg) => addNotification(msg));  // Add reminder notification
     } catch (error) {
       console.error("Followup reminders error:", error);
     }
-  };
-
-  const setupWebSockets = () => {
-    const notificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/notifications/");
-    const leadNotificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/lead-notifications/");
-
-    notificationSocketRef.current = notificationSocket;
-    leadNotificationSocketRef.current = leadNotificationSocket;
-
-    // Handle incoming messages
-    notificationSocket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      const msg = data.message || String(event.data);
-      addNotification(msg);
-    };
-
-    leadNotificationSocket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      const msg = data.message || "New lead notification received";
-      addNotification(msg);
-    };
-
-    // Handle socket errors and attempt to reconnect
-    notificationSocket.onerror = () => {
-      console.error("Notification WebSocket error, attempting to reconnect...");
-      setTimeout(setupWebSockets, 5000);
-    };
-
-    leadNotificationSocket.onerror = () => {
-      console.error("Lead Notification WebSocket error, attempting to reconnect...");
-      setTimeout(setupWebSockets, 5000);
-    };
-
-    // Implement ping to keep connection alive
-    setInterval(() => {
-      if (notificationSocket.readyState === WebSocket.OPEN) {
-        notificationSocket.send(JSON.stringify({ type: 'ping' }));
-      }
-      if (leadNotificationSocket.readyState === WebSocket.OPEN) {
-        leadNotificationSocket.send(JSON.stringify({ type: 'ping' }));
-      }
-    }, 30000); // Ping every 30 seconds
-
-    return () => {
-      notificationSocket.close();
-      leadNotificationSocket.close();
-    };
-  };
-
-  const addNotification = (message) => {
-    const newNote = {
-      message,
-      timestamp: new Date().toISOString(),
-    };
-
-    setNotifications((prev) => {
-      const updated = [newNote, ...prev];
-      localStorage.setItem("salesmanager_notifications", JSON.stringify(updated));
-      return updated;
-    });
-  };
-
-  const clearNotifications = () => {
-    setNotifications([]);
-    localStorage.removeItem("salesmanager_notifications");
   };
 
   const formatDate = (str) => {

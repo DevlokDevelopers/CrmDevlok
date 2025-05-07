@@ -1,83 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaBell, FaUserCircle } from "react-icons/fa";
+import { useNotifications } from "../NotificationContext/Notification Context";  // Import Notification Context
 import axios from "axios";
 import styles from "./StaffTopNav.module.css";
 
 const StaffTopNav = () => {
   const [query, setQuery] = useState("");
-  const [notifications, setNotifications] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
-  const seenMessagesRef = useRef(new Set());
-  const notificationSocketRef = useRef(null);
-  const leadNotificationSocketRef = useRef(null);
-
-  useEffect(() => {
-    const notificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/notifications/");
-    const leadNotificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/lead-notifications/");
-
-    notificationSocketRef.current = notificationSocket;
-    leadNotificationSocketRef.current = leadNotificationSocket;
-
-    const addNotification = (message) => {
-      const msgStr = typeof message === "string" ? message : JSON.stringify(message);
-      if (!seenMessagesRef.current.has(msgStr)) {
-        seenMessagesRef.current.add(msgStr);
-        setNotifications((prev) => [message, ...prev]);
-      }
-    };
-
-    notificationSocket.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        const message = data.message || data;
-        addNotification(message);
-      } catch (err) {
-        console.error("Notification parse error:", err);
-      }
-    };
-
-    leadNotificationSocket.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        const message = data.message || data.notification || "New lead notification";
-        addNotification(message);
-      } catch (err) {
-        console.error("Lead notification parse error:", err);
-      }
-    };
-
-    notificationSocket.onerror = (error) => {
-      console.error("Notification WebSocket error:", error);
-    };
-
-    leadNotificationSocket.onerror = (error) => {
-      console.error("Lead Notification WebSocket error:", error);
-    };
-
-    // Ping-Pong Mechanism to keep connection alive
-    const keepAlive = () => {
-      if (notificationSocket.readyState === WebSocket.OPEN) {
-        notificationSocket.send(JSON.stringify({ type: "ping" }));
-      }
-      if (leadNotificationSocket.readyState === WebSocket.OPEN) {
-        leadNotificationSocket.send(JSON.stringify({ type: "ping" }));
-      }
-    };
-
-    // Interval to send "ping" every 30 seconds
-    const pingIntervalId = setInterval(keepAlive, 30 * 1000);
-
-    return () => {
-      clearInterval(pingIntervalId);
-      notificationSocket.close();
-      leadNotificationSocket.close();
-    };
-  }, []);
+  const { notifications, addNotification } = useNotifications();  // Use context
 
   const handleProfileClick = () => {
     navigate("/salesmanagerProfile");
@@ -124,7 +59,7 @@ const StaffTopNav = () => {
       return;
     }
 
-    const accessToken = localStorage.getItem("access_token"); // Fetch token from localStorage
+    const accessToken = localStorage.getItem("access_token");
     if (!accessToken) return;
 
     try {
@@ -202,7 +137,7 @@ const StaffTopNav = () => {
               className={styles.closeButton}
               onClick={() => {
                 setShowModal(false);
-                setNotifications([]);
+                addNotification([]);  // Clear notifications in context
               }}
             >
               Close
@@ -210,7 +145,9 @@ const StaffTopNav = () => {
             <ul className={styles.notificationList}>
               {notifications.length > 0 ? (
                 notifications.map((msg, index) => (
-                  <li key={index}>{typeof msg === "string" ? msg : JSON.stringify(msg)}</li>
+                  <li key={index}>
+                    {typeof msg === "string" ? msg : JSON.stringify(msg)}
+                  </li>
                 ))
               ) : (
                 <li>No new notifications</li>
