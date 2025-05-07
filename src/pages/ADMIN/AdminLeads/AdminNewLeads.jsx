@@ -169,11 +169,7 @@ const AdminNewLeads = () => {
 
   return (
     <AdminLayout>
-      {loading && (
-        <div className={styles.loaderWrapper}>
-          <FancySpinner />
-        </div>
-      )}
+      
 
       <div className={styles.container}>
         <div className={styles.header}>
@@ -198,6 +194,11 @@ const AdminNewLeads = () => {
             </button>
           ))}
         </div>
+        {loading && (
+        <div className={styles.loaderWrapper}>
+          <FancySpinner />
+        </div>
+      )}
 
         {error && <p className={styles.error}>{error}</p>}
 
