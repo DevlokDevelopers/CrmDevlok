@@ -4,7 +4,7 @@ import axios from "axios";
 import styles from "./AdminLeads.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { NotebookPen } from "lucide-react";
-import FancySpinner from "../../components/Loader/Loader";
+import FancySpinner from "../../../components/Loader/Loader";
 
 const AdminNewLeads = () => {
   const [leads, setLeads] = useState([]);
