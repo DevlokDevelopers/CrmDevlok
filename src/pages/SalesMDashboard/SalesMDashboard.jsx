@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
-import { Bar, Line } from "react-chartjs-2";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { Bar, Line } from "react-chartjs-2";
 import StaffLayout from "../../components/Layouts/SalesMLayout";
-import { useNotifications } from "../../components/NotificationContext/Notification Context";  // Import NotificationContext
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -31,12 +30,26 @@ const SalesMDashboard = () => {
   const [crmData, setCrmData] = useState([]);
   const [leadData, setLeadData] = useState(null);
   const [events, setEvents] = useState({ followups: [], events: [] });
+  const [notifications, setNotifications] = useState([]);
   const accessToken = localStorage.getItem("access_token");
 
-  const { notifications, addNotification, clearNotifications } = useNotifications();  // Use NotificationContext
+  const notificationSocketRef = useRef(null);
+  const leadNotificationSocketRef = useRef(null);
 
   useEffect(() => {
+    // Load notifications from localStorage on first render
+    const saved = localStorage.getItem("salesmanager_notifications");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setNotifications(parsed);
+      } catch (err) {
+        console.error("Error parsing saved notifications:", err);
+      }
+    }
+
     fetchAllData();
+    const cleanupSockets = setupWebSockets();
 
     const reminderInterval = setInterval(fetchFollowupReminders, 5 * 60 * 1000);
     const eventInterval = setInterval(fetchUpcomingEvents, 60 * 60 * 1000);
@@ -44,6 +57,8 @@ const SalesMDashboard = () => {
     return () => {
       clearInterval(reminderInterval);
       clearInterval(eventInterval);
+      if (notificationSocketRef.current) notificationSocketRef.current.close();
+      if (leadNotificationSocketRef.current) leadNotificationSocketRef.current.close();
     };
   }, []);
 
@@ -96,11 +111,55 @@ const SalesMDashboard = () => {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const reminderMessages = res.data.notifications?.map((n) => n.message) || [];
-      reminderMessages.forEach((msg) => addNotification(msg));  // Add reminder notification
+      reminderMessages.forEach((msg) => addNotification(msg));
     } catch (error) {
       console.error("Followup reminders error:", error);
     }
   };
+
+  const setupWebSockets = () => {
+    const notificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/notifications/");
+    const leadNotificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/lead-notifications/");
+
+    notificationSocketRef.current = notificationSocket;
+    leadNotificationSocketRef.current = leadNotificationSocket;
+
+    notificationSocket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      const msg = data.message || String(event.data);
+      addNotification(msg);
+    };
+
+    leadNotificationSocket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      const msg = data.message || "New lead notification received";
+      addNotification(msg);
+    };
+
+    return () => {
+      notificationSocket.close();
+      leadNotificationSocket.close();
+    };
+  };
+
+  const addNotification = (message) => {
+    const newNote = {
+      message,
+      timestamp: new Date().toISOString(),
+    };
+
+    setNotifications((prev) => {
+      const updated = [newNote, ...prev];
+      localStorage.setItem("salesmanager_notifications", JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const clearNotifications = () => {
+    setNotifications([]);
+    localStorage.removeItem("salesmanager_notifications");
+  };
+  
 
   const formatDate = (str) => {
     const d = new Date(str);
@@ -109,6 +168,7 @@ const SalesMDashboard = () => {
     const year = d.getFullYear();
     return `${day}/${month}/${year}`;
   };
+  
 
   return (
     <StaffLayout>
@@ -199,8 +259,8 @@ const SalesMDashboard = () => {
         <div className={styles.notificationsContainer}>
           <h3>Live Notifications</h3>
           <button onClick={clearNotifications} className={styles.clearBtn}>
-            Clear All
-          </button>
+      Clear All
+    </button>
           {notifications.length > 0 ? (
             <ul>
               {notifications
