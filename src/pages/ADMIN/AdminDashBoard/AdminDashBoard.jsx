@@ -33,7 +33,6 @@ const AdminDashboard = () => {
   const [events, setEvents] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const navigate = useNavigate();
-
   const accessToken = localStorage.getItem("access_token");
 
   useEffect(() => {
@@ -166,6 +165,16 @@ const AdminDashboard = () => {
     leadNotificationSocket.onerror = (error) => {
       console.error("Lead WebSocket error:", error);
     };
+
+    // Handle WebSocket reconnection if necessary
+    const reconnectWebSocket = () => {
+      setTimeout(() => {
+        setupWebSocket();
+      }, 5000); // Reconnect after 5 seconds
+    };
+
+    notificationSocket.onclose = reconnectWebSocket;
+    leadNotificationSocket.onclose = reconnectWebSocket;
 
     return () => {
       notificationSocket.close();

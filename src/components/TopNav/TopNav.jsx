@@ -22,10 +22,22 @@ const TopNav = () => {
     setNotifications((prev) => [message, ...prev]);
   };
 
-  useEffect(() => {
+  // WebSocket setup with automatic reconnection
+  const setupWebSocket = () => {
     const notificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/notifications/");
     const leadNotificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/lead-notifications/");
 
+    // Ping to keep the connection alive
+    const pingInterval = setInterval(() => {
+      if (notificationSocket.readyState === WebSocket.OPEN) {
+        notificationSocket.send(JSON.stringify({ type: "ping" }));
+      }
+      if (leadNotificationSocket.readyState === WebSocket.OPEN) {
+        leadNotificationSocket.send(JSON.stringify({ type: "ping" }));
+      }
+    }, 30000); // Ping every 30 seconds
+
+    // Handle messages from notification WebSocket
     notificationSocket.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
@@ -36,6 +48,7 @@ const TopNav = () => {
       }
     };
 
+    // Handle messages from lead notification WebSocket
     leadNotificationSocket.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
@@ -46,14 +59,36 @@ const TopNav = () => {
       }
     };
 
+    // Error handling
     notificationSocket.onerror = (error) => console.error("Notification WS error:", error);
     leadNotificationSocket.onerror = (error) => console.error("Lead WS error:", error);
 
+    // Reconnect if WebSocket is closed
+    notificationSocket.onclose = (event) => {
+      console.log("Notification WebSocket closed", event);
+      setTimeout(setupWebSocket, 5000); // Reconnect after 5 seconds
+    };
+
+    leadNotificationSocket.onclose = (event) => {
+      console.log("Lead WebSocket closed", event);
+      setTimeout(setupWebSocket, 5000); // Reconnect after 5 seconds
+    };
+
+    // Cleanup WebSockets when the component is unmounted
     return () => {
+      clearInterval(pingInterval); // Clear the ping interval
       notificationSocket.close();
       leadNotificationSocket.close();
     };
-  }, []);
+  };
+
+  useEffect(() => {
+    // Setup WebSocket connection on mount
+    const cleanupWebSockets = setupWebSocket();
+
+    // Cleanup WebSocket connection on unmount
+    return cleanupWebSockets;
+  }, []); // Empty dependency array to ensure it runs only on mount/unmount
 
   useEffect(() => {
     const fetchReminders = async () => {
@@ -125,7 +160,7 @@ const TopNav = () => {
     <>
       <div className={styles.topnav}>
         <div className={styles.searchContainer}>
-        <input
+          <input
             type="text"
             value={query}
             onChange={handleInputChange}
