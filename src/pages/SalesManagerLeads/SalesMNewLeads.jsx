@@ -4,6 +4,7 @@ import axios from "axios";
 import styles from "./SalesMNewLeads.module.css";
 import StaffLayout from "../../components/Layouts/SalesMLayout"; // Correct Layout Import
 import { NotebookPen } from "lucide-react";
+import FancySpinner from "../../components/Loader/Loader";
 
 const LeadsList = () => {
   const [leads, setLeads] = useState([]);
@@ -14,6 +15,7 @@ const LeadsList = () => {
   const [showModal, setShowModal] = useState(false); // Modal visibility
   const navigate = useNavigate(); // ✅ Initialize navigate hook
   const location = useLocation(); // ✅ Get current route info
+  const [loading, setLoading] = useState(true);
 
   // ✅ Define Tab Paths for Navigation
   const tabPaths = {
@@ -49,22 +51,25 @@ const LeadsList = () => {
 
   // ✅ Fetch Leads from Backend
   const fetchLeads = async () => {
-    const token = localStorage.getItem("access_token"); // Get JWT Token
+    const token = localStorage.getItem("access_token");
     if (!token) {
       setError("Authorization token is missing. Please login.");
+      setLoading(false); // Ensure loading ends here too
       return;
     }
-
+  
     try {
+      setLoading(true);
       const response = await axios.get(
         "https://devlokcrmbackend.up.railway.app/leads/get_new_leads/",
         {
           headers: {
-            Authorization: `Bearer ${token}`, // ✅ Pass Token in Header
+            Authorization: `Bearer ${token}`,
           },
         }
       );
       setLeads(response.data);
+      setError(""); // Clear any previous error
     } catch (error) {
       console.error("Error fetching leads:", error);
       if (error.response && error.response.status === 401) {
@@ -72,8 +77,11 @@ const LeadsList = () => {
       } else {
         setError("Failed to fetch leads. Try again later.");
       }
+    } finally {
+      setLoading(false); // ✅ This will always run after try/catch
     }
   };
+  
 
   // ✅ Fetch Leads on Component Mount
   useEffect(() => {
@@ -185,11 +193,15 @@ const LeadsList = () => {
         </div>
 
         {/* ✅ Error or No Data Message */}
-        {error ? (
-          <p className={styles.error}>{error}</p>
-        ) : leads.length === 0 ? (
-          <p className={styles.noData}>No leads available.</p>
-        ) : (
+        {loading ? (
+            <div className={styles.loaderContainer}>
+              <FancySpinner />
+            </div>
+          ) : error ? (
+            <p className={styles.error}>{error}</p>
+          ) : leads.length === 0 ? (
+            <p className={styles.noData}>No leads available.</p>
+          ) : (
           <>
             {/* ✅ Leads with Pagination */}
             <div className={styles.leadContainer}>
