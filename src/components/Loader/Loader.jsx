@@ -5,7 +5,7 @@ const FancySpinner = () => {
   return (
     <div className="spinnerWrapper">
       <div className="spinner"></div>
-      <p className="spinnerText">Loading leads...</p>
+      <p className="spinnerText">Loading...</p>
     </div>
   );
 };

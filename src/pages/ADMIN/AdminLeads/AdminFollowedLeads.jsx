@@ -4,6 +4,7 @@ import axios from "axios";
 import styles from "./AdminLeads.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { NotebookPen } from "lucide-react";
+import FancySpinner from "../../../components/Loader/Loader";
 
 const AdminFollowedLeads = () => {
   const [leads, setLeads] = useState([]);
@@ -59,6 +60,7 @@ const AdminFollowedLeads = () => {
 
   const fetchLeads = async () => {
     const token = localStorage.getItem("access_token");
+    setLoading(true);  // Set loading to true before fetching
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/admin_followed_lead_list/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -67,11 +69,14 @@ const AdminFollowedLeads = () => {
     } catch (err) {
       console.error(err);
       setError("Failed to fetch followed leads.");
+    } finally {
+      setLoading(false);  // Set loading to false after fetching
     }
   };
 
   const fetchSalesManagers = async () => {
     const token = localStorage.getItem("access_token");
+    setLoading(true);  // Set loading to true before fetching
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/auth/list_of_salesmangers/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -80,6 +85,8 @@ const AdminFollowedLeads = () => {
     } catch (err) {
       console.error(err);
       setError("Failed to fetch sales managers.");
+    } finally {
+      setLoading(false);  // Set loading to false after fetching
     }
   };
 
@@ -169,8 +176,18 @@ const AdminFollowedLeads = () => {
             </button>
           ))}
         </div>
+       
 
         {error && <p className={styles.error}>{error}</p>}
+        {loading ? (
+          <div className={styles.loaderWrapper}>
+            <FancySpinner />
+          </div>
+        ) : leads.length === 0 ? (
+          <div className={styles.noLeadsMessage}>
+            <p>No leads available now.</p>
+          </div>
+        ) : (
 
         <div className={styles.leadContainer}>
           {currentLeads.map((lead) => (
@@ -219,6 +236,7 @@ const AdminFollowedLeads = () => {
             </div>
           ))}
         </div>
+        )}
 
         {totalPages > 1 && (
           <div className={styles.paginationContainer}>

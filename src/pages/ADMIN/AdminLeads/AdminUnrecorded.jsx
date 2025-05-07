@@ -5,7 +5,7 @@ import styles from "./AdminLeads.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { Trash2 } from "lucide-react"; // or `Trash`
 import { NotebookPen } from "lucide-react";
-
+import FancySpinner from "../../../components/Loader/Loader";
 const AdminUnrecordedLeads = () => {
   const [leads, setLeads] = useState([]);
   const [salesManagers, setSalesManagers] = useState([]);
@@ -60,6 +60,7 @@ const AdminUnrecordedLeads = () => {
 
   const fetchLeads = async () => {
     const token = localStorage.getItem("access_token");
+    setLoading(true); // Set loading to true before fetching
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/unrecorded_leads_admin/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -68,11 +69,14 @@ const AdminUnrecordedLeads = () => {
     } catch (err) {
       console.error(err);
       setError("Failed to fetch unrecorded leads.");
+    } finally {
+      setLoading(false); // Set loading to false after fetching
     }
   };
 
   const fetchSalesManagers = async () => {
     const token = localStorage.getItem("access_token");
+    setLoading(true); // Set loading to true before fetching
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/auth/list_of_salesmangers/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -81,8 +85,11 @@ const AdminUnrecordedLeads = () => {
     } catch (err) {
       console.error(err);
       setError("Failed to fetch sales managers.");
+    } finally {
+      setLoading(false); // Set loading to false after fetching
     }
   };
+
 
   const openAssignModal = (leadId) => {
     setSelectedLeadId(leadId);
@@ -186,7 +193,18 @@ const AdminUnrecordedLeads = () => {
           ))}
         </div>
 
+        
+
         {error && <p className={styles.error}>{error}</p>}
+        {loading ? (
+  <div className={styles.loaderWrapper}>
+    <FancySpinner />
+  </div>
+) : leads.length === 0 ? (
+  <div className={styles.noLeadsMessage}>
+    <p>No leads available now.</p>
+  </div>
+) : (
 
         <div className={styles.leadContainer}>
           {currentLeads.map((lead) => (
@@ -245,6 +263,8 @@ const AdminUnrecordedLeads = () => {
             </div>
           ))}
         </div>
+        )}
+
 
         {totalPages > 1 && (
           <div className={styles.paginationContainer}>
