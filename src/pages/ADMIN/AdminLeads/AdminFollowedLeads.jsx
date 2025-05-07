@@ -176,67 +176,58 @@ const AdminFollowedLeads = () => {
             </button>
           ))}
         </div>
-       
-
-        {error && <p className={styles.error}>{error}</p>}
-        {loading ? (
+        {loading && (
           <div className={styles.loaderWrapper}>
             <FancySpinner />
           </div>
-        ) : leads.length === 0 ? (
-          <div className={styles.noLeadsMessage}>
-            <p>No leads available now.</p>
-          </div>
-        ) : (
+        )}
+
+        {error && <p className={styles.error}>{error}</p>}
 
         <div className={styles.leadContainer}>
-          {currentLeads.map((lead) => (
-            <div key={lead.id} className={styles.leadCard}>
-              <div className={styles.leadInfo}>
-                <div className={styles.infoBlock}>
-                  <p><strong>{lead.name}</strong></p>
-                  <p><strong>{lead.phonenumber}</strong></p>
-                  <p className={styles.multiLineText}><strong>{lead.email}</strong></p>
-                </div>
-                <div className={styles.infoBlock}>
-                  <p><strong>{lead.place}, {lead.district}</strong></p>
-                  <p className={styles.multiLineText}><strong>{lead.address}</strong></p>
-                </div>
-                <div className={styles.infoBlock}>
-                  <p><strong>Purpose: {lead.purpose}</strong></p>
-                  <p><strong>Property Type: {lead.mode_of_purpose}</strong></p>
-                  <p><strong>{formatDate(lead.timestamp)}</strong> {lead.message && (
-                                    
-                                    <span
-                                        className={styles.messageLink}
-                                        onClick={() => handleViewNotes(lead.message)}
-                                        role="button"
-                                        tabIndex={0}
-                                      >
-                                        <NotebookPen size={18} /> Notes
-                                      </span>
-                  
-                                  
-                                )}</p>
-                  
-
-                </div>
-                
-                
-                <div className={styles.infoBlock}>
-                  <p><strong>Follower: {lead.follower || "Not Assigned"}</strong></p>
-                  <button
-                    className={styles.followUpBtn}
-                    onClick={() => openAssignModal(lead.id)}
-                  >
-                    Change Follower
-                  </button>
+          {!loading && currentLeads.length === 0 ? (
+            <p className={styles.noLeadsMessage}>No lead available for now</p>
+          ) : (
+            currentLeads.map((lead) => (
+              <div key={lead.id} className={styles.leadCard}>
+                <div className={styles.leadInfo}>
+                  <div className={styles.infoBlock}>
+                    <p><strong>{lead.name}</strong></p>
+                    <p><strong>{lead.phonenumber}</strong></p>
+                    <p className={styles.multiLineText}><strong>{lead.email}</strong></p>
+                  </div>
+                  <div className={styles.infoBlock}>
+                    <p><strong>{lead.place}, {lead.district}</strong></p>
+                    <p className={styles.multiLineText}><strong>{lead.address}</strong></p>
+                  </div>
+                  <div className={styles.infoBlock}>
+                    <p><strong>Purpose: {lead.purpose}</strong></p>
+                    <p><strong>Property Type: {lead.mode_of_purpose}</strong></p>
+                    <p><strong>{formatDate(lead.timestamp)}</strong> {lead.message && (
+                      <span
+                        className={styles.messageLink}
+                        onClick={() => handleViewNotes(lead.message)}
+                        role="button"
+                        tabIndex={0}
+                      >
+                        <NotebookPen size={18} /> Notes
+                      </span>
+                    )}</p>
+                  </div>
+                  <div className={styles.infoBlock}>
+                    <p><strong>Follower: {lead.follower || "Not Assigned"}</strong></p>
+                    <button
+                      className={styles.followUpBtn}
+                      onClick={() => openAssignModal(lead.id)}
+                    >
+                      Change Follower
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
-        )}
 
         {totalPages > 1 && (
           <div className={styles.paginationContainer}>
