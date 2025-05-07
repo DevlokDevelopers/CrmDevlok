@@ -1,113 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaBell, FaUserCircle } from "react-icons/fa";
+import { useNotifications } from "../NotificationContext/Notification Context";// Import the useNotifications hook
 import axios from "axios";
 import styles from "./TopNav.module.css";
 
-// Global set to track seen messages
-const seenMessages = new Set();
-
 const TopNav = () => {
   const [query, setQuery] = useState("");
-  const [notifications, setNotifications] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("access_token");
 
-  const addNotification = (message) => {
-    if (typeof message !== "string" || seenMessages.has(message)) return;
-    seenMessages.add(message);
-    setNotifications((prev) => [message, ...prev]);
-  };
-
-  // WebSocket setup with automatic reconnection
-  const setupWebSocket = () => {
-    const notificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/notifications/");
-    const leadNotificationSocket = new WebSocket("wss://devlokcrmbackend.up.railway.app/ws/lead-notifications/");
-
-    // Ping to keep the connection alive
-    const pingInterval = setInterval(() => {
-      if (notificationSocket.readyState === WebSocket.OPEN) {
-        notificationSocket.send(JSON.stringify({ type: "ping" }));
-      }
-      if (leadNotificationSocket.readyState === WebSocket.OPEN) {
-        leadNotificationSocket.send(JSON.stringify({ type: "ping" }));
-      }
-    }, 30000); // Ping every 30 seconds
-
-    // Handle messages from notification WebSocket
-    notificationSocket.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        const msg = data.message || data;
-        addNotification(msg);
-      } catch (err) {
-        console.error("Notification parse error:", err);
-      }
-    };
-
-    // Handle messages from lead notification WebSocket
-    leadNotificationSocket.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        const msg = data.message || data.notification || "New lead notification";
-        addNotification(msg);
-      } catch (err) {
-        console.error("Lead notification parse error:", err);
-      }
-    };
-
-    // Error handling
-    notificationSocket.onerror = (error) => console.error("Notification WS error:", error);
-    leadNotificationSocket.onerror = (error) => console.error("Lead WS error:", error);
-
-    // Reconnect if WebSocket is closed
-    notificationSocket.onclose = (event) => {
-      console.log("Notification WebSocket closed", event);
-      setTimeout(setupWebSocket, 5000); // Reconnect after 5 seconds
-    };
-
-    leadNotificationSocket.onclose = (event) => {
-      console.log("Lead WebSocket closed", event);
-      setTimeout(setupWebSocket, 5000); // Reconnect after 5 seconds
-    };
-
-    // Cleanup WebSockets when the component is unmounted
-    return () => {
-      clearInterval(pingInterval); // Clear the ping interval
-      notificationSocket.close();
-      leadNotificationSocket.close();
-    };
-  };
+  // Use the notifications from context
+  const { notifications, addNotification, clearNotifications } = useNotifications(); 
 
   useEffect(() => {
-    // Setup WebSocket connection on mount
-    const cleanupWebSockets = setupWebSocket();
-
-    // Cleanup WebSocket connection on unmount
-    return cleanupWebSockets;
-  }, []); // Empty dependency array to ensure it runs only on mount/unmount
-
-  useEffect(() => {
-    const fetchReminders = async () => {
-      if (!accessToken) return;
-      try {
-        const res = await axios.get("https://devlokcrmbackend.up.railway.app/task/get_event_reminder/", {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
-        const reminderMessages = (res.data.notifications || []).map((n) => n.message);
-        reminderMessages.forEach(addNotification);
-      } catch (error) {
-        console.error("Error fetching reminders:", error);
-      }
-    };
-
-    fetchReminders();
-    const interval = setInterval(fetchReminders, 300000); // every 5 minutes
-    return () => clearInterval(interval);
-  }, [accessToken]);
+    // Notifications are handled by context now, so no need to add WebSockets or reminder fetching here
+  }, [addNotification]); // This effect will run only once when the component is mounted
 
   const handleProfileClick = () => navigate("/admin_profile");
 
@@ -126,7 +37,7 @@ const TopNav = () => {
       navigate("/admin_search_result", { state: { results, query: searchTerm, source } });
     } catch (error) {
       console.error("Search error:", error);
-      alert("Error occurred while searching.");
+      alert(`Error occurred while searching: ${error.message || error}`);
     }
   };
 
@@ -146,7 +57,7 @@ const TopNav = () => {
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
       setSuggestions(res.data.suggestions || []);
-      setShowSuggestions(true);
+      setShowSuggestions(res.data.suggestions && res.data.suggestions.length > 0);
     } catch (err) {
       console.error("Suggestion fetch error:", err);
     }
@@ -177,10 +88,10 @@ const TopNav = () => {
                 <li
                   key={i}
                   onClick={() => {
-                    setQuery(s); // Set query to the selected suggestion
-                    setSuggestions([]); // Clear suggestions
-                    setShowSuggestions(false); // Hide suggestion dropdown
-                    handleSearch(s); // Perform search with selected suggestion
+                    setQuery(s);
+                    setSuggestions([]);
+                    setShowSuggestions(false);
+                    handleSearch(s);
                   }}
                 >
                   {s}
@@ -213,7 +124,7 @@ const TopNav = () => {
               className={styles.closeButton}
               onClick={() => {
                 setShowModal(false);
-                setNotifications([]);
+                clearNotifications(); // Clear notifications when modal is closed
               }}
             >
               Close
@@ -221,7 +132,7 @@ const TopNav = () => {
             <ul className={styles.notificationList}>
               {notifications.length > 0 ? (
                 notifications.map((msg, index) => (
-                  <li key={index}>{typeof msg === "string" ? msg : JSON.stringify(msg)}</li>
+                  <li key={index}>{msg}</li>
                 ))
               ) : (
                 <li>No new notifications</li>

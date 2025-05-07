@@ -66,10 +66,13 @@ import AddGroundEmployee from './pages/ADMIN/Employees/AddGroundLevelEmployee'
 import AdminSearchResults from './pages/ADMIN/AdminSearchResult/AdminSearchResult'
 import AdminProfile from './pages/ADMIN/AdminProfile/AdminProfile'
 import AdminLeadCategoryGraph from './pages/ADMIN/AdminLeads/adminleadcategory'
+import { NotificationProvider } from './components/NotificationContext/Notification Context'
+
 function App() {
 
   return (
     <>
+    <NotificationProvider>
       <BrowserRouter>
       <Routes>
         <Route path='/' element={<GetStart />} />
@@ -142,6 +145,7 @@ function App() {
       </Routes>
 
       </BrowserRouter>
+      </NotificationProvider>
     </>
   )
 }
