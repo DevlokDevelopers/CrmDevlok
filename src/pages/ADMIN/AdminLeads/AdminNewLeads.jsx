@@ -6,20 +6,21 @@ import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { NotebookPen } from "lucide-react";
 import FancySpinner from "../../../components/Loader/Loader";
 
+// ...imports remain unchanged
 const AdminNewLeads = () => {
   const [leads, setLeads] = useState([]);
   const [salesManagers, setSalesManagers] = useState([]);
   const [selectedLeadId, setSelectedLeadId] = useState(null);
   const [selectedSM, setSelectedSM] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [leadLoading, setLeadLoading] = useState(false);  // <-- changed
+  const [salesManagerLoading, setSalesManagerLoading] = useState(false); // <-- new
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedMessage, setSelectedMessage] = useState("");
   const [showMessageModal, setShowMessageModal] = useState(false);
 
   const leadsPerPage = 8;
-
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -60,7 +61,7 @@ const AdminNewLeads = () => {
 
   const fetchLeads = async () => {
     const token = localStorage.getItem("access_token");
-    setLoading(true);
+    setLeadLoading(true); // set leads loading
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/get_new_leads/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -70,13 +71,13 @@ const AdminNewLeads = () => {
       console.error(err);
       setError("Failed to fetch leads.");
     } finally {
-      setLoading(false);
+      setLeadLoading(false);
     }
   };
 
   const fetchSalesManagers = async () => {
     const token = localStorage.getItem("access_token");
-    setLoading(true);
+    setSalesManagerLoading(true); // set SM loading
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/auth/list_of_salesmangers/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -86,7 +87,7 @@ const AdminNewLeads = () => {
       console.error(err);
       setError("Failed to fetch sales managers.");
     } finally {
-      setLoading(false);
+      setSalesManagerLoading(false);
     }
   };
 
@@ -99,7 +100,6 @@ const AdminNewLeads = () => {
     setShowModal(false);
     setSelectedLeadId(null);
     setSelectedSM("");
-    setLoading(false);
   };
 
   const handleViewNotes = (message) => {
@@ -121,7 +121,7 @@ const AdminNewLeads = () => {
       await axios.delete(`https://devlokcrmbackend.up.railway.app/leads/delete_lead/${leadId}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      fetchLeads(); // refresh list after deletion
+      fetchLeads();
     } catch (err) {
       console.error("Failed to delete lead:", err);
       alert("Failed to delete the lead.");
@@ -138,7 +138,6 @@ const AdminNewLeads = () => {
       navigate("/login");
       return;
     }
-    setLoading(true);
     try {
       await axios.patch(
         `https://devlokcrmbackend.up.railway.app/leads/add_follower/${selectedLeadId}/`,
@@ -150,8 +149,6 @@ const AdminNewLeads = () => {
     } catch (err) {
       console.error("Assignment failed:", err);
       setError("Failed to assign follower.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -193,7 +190,7 @@ const AdminNewLeads = () => {
         {error && <p className={styles.error}>{error}</p>}
 
         <div className={styles.leadContainer}>
-          {loading ? (
+          {leadLoading ? (
             <div className={styles.loaderWrapper}>
               <FancySpinner />
             </div>
@@ -276,10 +273,10 @@ const AdminNewLeads = () => {
             </select>
             <button
               className={styles.followUpBtn}
-              disabled={!selectedSM || loading}
+              disabled={!selectedSM || salesManagerLoading}
               onClick={assignFollower}
             >
-              {loading ? "Submitting..." : "Submit"}
+              {salesManagerLoading ? "Submitting..." : "Submit"}
             </button>
           </div>
         </div>
