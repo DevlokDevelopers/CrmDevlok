@@ -3,8 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import styles from "./AdminLeads.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
-import { Trash2 } from "lucide-react";
-import { NotebookPen } from "lucide-react";
+import { Trash2, NotebookPen } from "lucide-react";
 import FancySpinner from "../../../components/Loader/Loader";
 
 const AdminUnrecordedLeads = () => {
@@ -14,32 +13,31 @@ const AdminUnrecordedLeads = () => {
   const [selectedSM, setSelectedSM] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [dataFetched, setDataFetched] = useState(false);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const leadsPerPage = 8;
   const [selectedMessage, setSelectedMessage] = useState("");
   const [showMessageModal, setShowMessageModal] = useState(false);
-  const [dataFetched, setDataFetched] = useState(false);
 
-  const leadsPerPage = 8;
   const navigate = useNavigate();
   const location = useLocation();
 
   const tabPaths = {
-    "Analytics": "/admin_lead_analytics",
-    "New": "/admin_new_leads",
-    "Followed": "/admin_followed_leads",
-    "Unrecorded": "/admin_unrecorded_leads",
+    Analytics: "/admin_lead_analytics",
+    New: "/admin_new_leads",
+    Followed: "/admin_followed_leads",
+    Unrecorded: "/admin_unrecorded_leads",
     "Data Saved": "/admin_datasaved_leads",
-    "Closed": "/admin_closed_leads",
-    "Unsuccessfully": "/admin_unsuccess_lead",
-    "Pending": "/admin_pending_leads",
-    "Category": "/adminleadcategorygraph"
+    Closed: "/admin_closed_leads",
+    Unsuccessfully: "/admin_unsuccess_lead",
+    Pending: "/admin_pending_leads",
+    Category: "/adminleadcategorygraph",
   };
 
   const getActiveTab = () => {
     const currentPath = location.pathname;
-    const matchedTab = Object.keys(tabPaths).find((tab) => tabPaths[tab] === currentPath);
-    return matchedTab || "Unrecorded";
+    return Object.keys(tabPaths).find(tab => tabPaths[tab] === currentPath) || "Unrecorded";
   };
 
   const [activeTab, setActiveTab] = useState(getActiveTab());
@@ -62,6 +60,7 @@ const AdminUnrecordedLeads = () => {
   const fetchLeads = async () => {
     const token = localStorage.getItem("access_token");
     setLoading(true);
+    setDataFetched(false);
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/unrecorded_leads_admin/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -78,7 +77,6 @@ const AdminUnrecordedLeads = () => {
 
   const fetchSalesManagers = async () => {
     const token = localStorage.getItem("access_token");
-    setLoading(true);
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/auth/list_of_salesmangers/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -87,8 +85,6 @@ const AdminUnrecordedLeads = () => {
     } catch (err) {
       console.error(err);
       setError("Failed to fetch sales managers.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -106,14 +102,11 @@ const AdminUnrecordedLeads = () => {
 
   const assignFollower = async () => {
     if (!selectedSM) return;
-    const confirmAssign = window.confirm("Are you sure you want to assign/change the Sales Manager?");
-    if (!confirmAssign) return;
+    if (!window.confirm("Are you sure you want to assign/change the Sales Manager?")) return;
 
     const token = localStorage.getItem("access_token");
-    if (!token) {
-      navigate("/login");
-      return;
-    }
+    if (!token) return navigate("/login");
+
     setLoading(true);
     try {
       await axios.patch(
@@ -141,10 +134,13 @@ const AdminUnrecordedLeads = () => {
     setSelectedMessage("");
   };
 
-  const handleDeleteLead = async (leadId) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this lead?");
-    if (!confirmDelete) return;
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getFullYear()}`;
+  };
 
+  const handleDeleteLead = async (leadId) => {
+    if (!window.confirm("Are you sure you want to delete this lead?")) return;
     const token = localStorage.getItem("access_token");
     try {
       await axios.delete(`https://devlokcrmbackend.up.railway.app/leads/delete_lead/${leadId}/`, {
@@ -157,14 +153,6 @@ const AdminUnrecordedLeads = () => {
     }
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const dd = String(date.getDate()).padStart(2, "0");
-    const mm = String(date.getMonth() + 1).padStart(2, "0");
-    const yyyy = date.getFullYear();
-    return `${dd}/${mm}/${yyyy}`;
-  };
-
   const indexOfLast = currentPage * leadsPerPage;
   const indexOfFirst = indexOfLast - leadsPerPage;
   const currentLeads = leads.slice(indexOfFirst, indexOfLast);
@@ -175,10 +163,7 @@ const AdminUnrecordedLeads = () => {
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.title}>Unrecorded Leads ({leads.length})</h2>
-          <button
-            className={styles.addEventBtn}
-            onClick={() => navigate("/admin_manually_enter_lead")}
-          >
+          <button className={styles.addEventBtn} onClick={() => navigate("/admin_manually_enter_lead")}>
             + Add Lead
           </button>
         </div>
@@ -197,11 +182,11 @@ const AdminUnrecordedLeads = () => {
 
         {error && <p className={styles.error}>{error}</p>}
 
-        {loading ? (
+        {!dataFetched || loading ? (
           <div className={styles.loaderWrapper}>
             <FancySpinner />
           </div>
-        ) : dataFetched && leads.length === 0 ? (
+        ) : leads.length === 0 ? (
           <div className={styles.noLeadsMessage}>
             <p>No leads available now.</p>
           </div>
@@ -223,7 +208,7 @@ const AdminUnrecordedLeads = () => {
                     <p><strong>Purpose: {lead.purpose}</strong></p>
                     <p><strong>Property Type: {lead.mode_of_purpose}</strong></p>
                     <p>
-                      <strong>{formatDate(lead.timestamp)}</strong>
+                      <strong>{formatDate(lead.timestamp)}</strong>{" "}
                       {lead.message && (
                         <span
                           className={styles.messageLink}
@@ -238,16 +223,10 @@ const AdminUnrecordedLeads = () => {
                   </div>
                   <div className={styles.infoBlock}>
                     <p><strong>Follower: {lead.follower || "Not Assigned"}</strong></p>
-                    <button
-                      className={styles.followUpBtn}
-                      onClick={() => openAssignModal(lead.id)}
-                    >
+                    <button className={styles.followUpBtn} onClick={() => openAssignModal(lead.id)}>
                       Change Follower
                     </button>
-                    <button
-                      className={styles.deleteBtn}
-                      onClick={() => handleDeleteLead(lead.id)}
-                    >
+                    <button className={styles.deleteBtn} onClick={() => handleDeleteLead(lead.id)}>
                       <Trash2 size={20} strokeWidth={1.5} />
                     </button>
                   </div>
