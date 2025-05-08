@@ -100,7 +100,7 @@ const SideNav = () => {
 
         <div className={styles.socialMedia}>
           <a
-            href="mailto:devlokpromotions@gmail.com"
+            href="https://mail.google.com/"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.gmailIcon}
