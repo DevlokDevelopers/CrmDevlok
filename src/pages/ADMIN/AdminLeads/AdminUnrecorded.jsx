@@ -3,9 +3,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import styles from "./AdminLeads.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
-import { Trash2 } from "lucide-react"; // or `Trash`
+import { Trash2 } from "lucide-react";
 import { NotebookPen } from "lucide-react";
 import FancySpinner from "../../../components/Loader/Loader";
+
 const AdminUnrecordedLeads = () => {
   const [leads, setLeads] = useState([]);
   const [salesManagers, setSalesManagers] = useState([]);
@@ -15,16 +16,16 @@ const AdminUnrecordedLeads = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const leadsPerPage = 8;
   const [selectedMessage, setSelectedMessage] = useState("");
   const [showMessageModal, setShowMessageModal] = useState(false);
+  const [dataFetched, setDataFetched] = useState(false);
 
-
+  const leadsPerPage = 8;
   const navigate = useNavigate();
   const location = useLocation();
 
   const tabPaths = {
-    "Analytics":"/admin_lead_analytics",
+    "Analytics": "/admin_lead_analytics",
     "New": "/admin_new_leads",
     "Followed": "/admin_followed_leads",
     "Unrecorded": "/admin_unrecorded_leads",
@@ -32,7 +33,7 @@ const AdminUnrecordedLeads = () => {
     "Closed": "/admin_closed_leads",
     "Unsuccessfully": "/admin_unsuccess_lead",
     "Pending": "/admin_pending_leads",
-    "Category":"/adminleadcategorygraph"
+    "Category": "/adminleadcategorygraph"
   };
 
   const getActiveTab = () => {
@@ -60,7 +61,7 @@ const AdminUnrecordedLeads = () => {
 
   const fetchLeads = async () => {
     const token = localStorage.getItem("access_token");
-    setLoading(true); // Set loading to true before fetching
+    setLoading(true);
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/unrecorded_leads_admin/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -70,13 +71,14 @@ const AdminUnrecordedLeads = () => {
       console.error(err);
       setError("Failed to fetch unrecorded leads.");
     } finally {
-      setLoading(false); // Set loading to false after fetching
+      setLoading(false);
+      setDataFetched(true);
     }
   };
 
   const fetchSalesManagers = async () => {
     const token = localStorage.getItem("access_token");
-    setLoading(true); // Set loading to true before fetching
+    setLoading(true);
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/auth/list_of_salesmangers/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -86,10 +88,9 @@ const AdminUnrecordedLeads = () => {
       console.error(err);
       setError("Failed to fetch sales managers.");
     } finally {
-      setLoading(false); // Set loading to false after fetching
+      setLoading(false);
     }
   };
-
 
   const openAssignModal = (leadId) => {
     setSelectedLeadId(leadId);
@@ -129,16 +130,33 @@ const AdminUnrecordedLeads = () => {
       setLoading(false);
     }
   };
+
   const handleViewNotes = (message) => {
     setSelectedMessage(message);
     setShowMessageModal(true);
   };
-  
+
   const closeMessageModal = () => {
     setShowMessageModal(false);
     setSelectedMessage("");
   };
-  
+
+  const handleDeleteLead = async (leadId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this lead?");
+    if (!confirmDelete) return;
+
+    const token = localStorage.getItem("access_token");
+    try {
+      await axios.delete(`https://devlokcrmbackend.up.railway.app/leads/delete_lead/${leadId}/`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      fetchLeads();
+    } catch (err) {
+      console.error("Failed to delete lead:", err);
+      alert("Failed to delete the lead.");
+    }
+  };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const dd = String(date.getDate()).padStart(2, "0");
@@ -146,22 +164,6 @@ const AdminUnrecordedLeads = () => {
     const yyyy = date.getFullYear();
     return `${dd}/${mm}/${yyyy}`;
   };
-  const handleDeleteLead = async (leadId) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this lead?");
-    if (!confirmDelete) return;
-  
-    const token = localStorage.getItem("access_token");
-    try {
-      await axios.delete(`https://devlokcrmbackend.up.railway.app/leads/delete_lead/${leadId}/`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      fetchLeads(); // refresh list after deletion
-    } catch (err) {
-      console.error("Failed to delete lead:", err);
-      alert("Failed to delete the lead.");
-    }
-  };
-  
 
   const indexOfLast = currentPage * leadsPerPage;
   const indexOfFirst = indexOfLast - leadsPerPage;
@@ -174,11 +176,11 @@ const AdminUnrecordedLeads = () => {
         <div className={styles.header}>
           <h2 className={styles.title}>Unrecorded Leads ({leads.length})</h2>
           <button
-                      className={styles.addEventBtn}
-                      onClick={() => navigate("/admin_manually_enter_lead")}
-                    >
-                    + Add Lead
-                    </button>
+            className={styles.addEventBtn}
+            onClick={() => navigate("/admin_manually_enter_lead")}
+          >
+            + Add Lead
+          </button>
         </div>
 
         <div className={styles.tabContainer}>
@@ -193,78 +195,67 @@ const AdminUnrecordedLeads = () => {
           ))}
         </div>
 
-        
-
         {error && <p className={styles.error}>{error}</p>}
+
         {loading ? (
-  <div className={styles.loaderWrapper}>
-    <FancySpinner />
-  </div>
-) : leads.length === 0 ? (
-  <div className={styles.noLeadsMessage}>
-    <p>No leads available now.</p>
-  </div>
-) : (
-
-        <div className={styles.leadContainer}>
-          {currentLeads.map((lead) => (
-            <div key={lead.id} className={styles.leadCard}>
-              <div className={styles.leadInfo}>
-                <div className={styles.infoBlock}>
-                  <p><strong>{lead.name}</strong></p>
-                  <p><strong>{lead.phonenumber}</strong></p>
-                  <p className={styles.multiLineText}><strong>{lead.email}</strong></p>
-                  
-                </div>
-                <div className={styles.infoBlock}>
-                  <p><strong>{lead.place}, {lead.district}</strong></p>
-                  <p className={styles.multiLineText}><strong>{lead.address}</strong></p>
-                </div>
-                <div className={styles.infoBlock}>
-                  <p><strong>Purpose: {lead.purpose}</strong></p>
-                  <p><strong>Property Type: {lead.mode_of_purpose}</strong></p>
-                  <p><strong>{formatDate(lead.timestamp)}</strong>{lead.message && (
-                  
-                  <span
-                      className={styles.messageLink}
-                      onClick={() => handleViewNotes(lead.message)}
-                      role="button"
-                      tabIndex={0}
+          <div className={styles.loaderWrapper}>
+            <FancySpinner />
+          </div>
+        ) : dataFetched && leads.length === 0 ? (
+          <div className={styles.noLeadsMessage}>
+            <p>No leads available now.</p>
+          </div>
+        ) : (
+          <div className={styles.leadContainer}>
+            {currentLeads.map((lead) => (
+              <div key={lead.id} className={styles.leadCard}>
+                <div className={styles.leadInfo}>
+                  <div className={styles.infoBlock}>
+                    <p><strong>{lead.name}</strong></p>
+                    <p><strong>{lead.phonenumber}</strong></p>
+                    <p className={styles.multiLineText}><strong>{lead.email}</strong></p>
+                  </div>
+                  <div className={styles.infoBlock}>
+                    <p><strong>{lead.place}, {lead.district}</strong></p>
+                    <p className={styles.multiLineText}><strong>{lead.address}</strong></p>
+                  </div>
+                  <div className={styles.infoBlock}>
+                    <p><strong>Purpose: {lead.purpose}</strong></p>
+                    <p><strong>Property Type: {lead.mode_of_purpose}</strong></p>
+                    <p>
+                      <strong>{formatDate(lead.timestamp)}</strong>
+                      {lead.message && (
+                        <span
+                          className={styles.messageLink}
+                          onClick={() => handleViewNotes(lead.message)}
+                          role="button"
+                          tabIndex={0}
+                        >
+                          <NotebookPen size={18} /> Notes
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                  <div className={styles.infoBlock}>
+                    <p><strong>Follower: {lead.follower || "Not Assigned"}</strong></p>
+                    <button
+                      className={styles.followUpBtn}
+                      onClick={() => openAssignModal(lead.id)}
                     >
-                      <NotebookPen size={18} /> Notes
-                    </span>
-
-                
-              )}</p>
-                  
-                  
+                      Change Follower
+                    </button>
+                    <button
+                      className={styles.deleteBtn}
+                      onClick={() => handleDeleteLead(lead.id)}
+                    >
+                      <Trash2 size={20} strokeWidth={1.5} />
+                    </button>
+                  </div>
                 </div>
-                
-                
-
-                <div className={styles.infoBlock}>
-                  <p><strong>Follower: {lead.follower || "Not Assigned"}</strong></p>
-                  <button
-                    className={styles.followUpBtn}
-                    onClick={() => openAssignModal(lead.id)}
-                  >
-                    Change Follower
-                  </button>
-                  <button
-                  className={styles.deleteBtn}
-                  onClick={() => handleDeleteLead(lead.id)}
-                >
-                <Trash2 size={20} strokeWidth={1.5} />
-                </button>
-                </div>
-                
-
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
         )}
-
 
         {totalPages > 1 && (
           <div className={styles.paginationContainer}>
@@ -308,18 +299,16 @@ const AdminUnrecordedLeads = () => {
           </div>
         </div>
       )}
-      {showMessageModal && (
-  <div className={styles.modal}>
-    <div className={styles.modalContent}>
-      <button className={styles.closeBtn} onClick={closeMessageModal}>
-        X
-      </button>
-      <h3>Lead Notes</h3>
-      <p>{selectedMessage}</p>
-    </div>
-  </div>
-)}
 
+      {showMessageModal && (
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
+            <button className={styles.closeBtn} onClick={closeMessageModal}>X</button>
+            <h3>Lead Notes</h3>
+            <p>{selectedMessage}</p>
+          </div>
+        </div>
+      )}
     </AdminLayout>
   );
 };
