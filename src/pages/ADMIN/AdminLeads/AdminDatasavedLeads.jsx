@@ -190,12 +190,12 @@ const AdminDataSavedLeads = () => {
         {error && <p className={styles.error}>{error}</p>}
 
         {loading ? (
-          <FancySpinner />  // Show spinner while loading
-        ) : (
-          <>
-            {leads.length === 0 ? (
-              <p>No leads available.</p>  // Show message if no leads
-            ) : (
+  <FancySpinner />  // Show spinner while loading
+) : (
+  <>
+    {leads.length === 0 ? (
+      <p>No leads available.</p>  // Show message if no leads
+    ) : (
               <div className={styles.leadContainer}>
                 {currentLeads.map((lead) => (
                   <div key={lead.id} className={styles.leadCard}>
