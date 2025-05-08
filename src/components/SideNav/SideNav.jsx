@@ -99,10 +99,32 @@ const SideNav = () => {
         </nav>
 
         <div className={styles.socialMedia}>
-          <a href="https://mail.google.com/" target="_blank" rel="noopener noreferrer" className={styles.gmailIcon}><SiGmail /></a>
-          <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" className={styles.facebookIcon}><FaFacebook /></a>
-          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" className={styles.instagramIcon}><FaInstagram /></a>
+          <a
+            href="mailto:devlokpromotions@gmail.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.gmailIcon}
+          >
+            <SiGmail />
+          </a>
+          <a
+            href="https://www.facebook.com/profile.php?id=100089846692537"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.facebookIcon}
+          >
+            <FaFacebook />
+          </a>
+          <a
+            href="https://www.instagram.com/devlokdevelopers/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.instagramIcon}
+          >
+            <FaInstagram />
+          </a>
         </div>
+
 
         <div className={styles.sidenavFooter}>
           <button className={styles.logoutBtn} onClick={handleLogout}>
