@@ -193,7 +193,7 @@ const AdminDataSavedLeads = () => {
           <FancySpinner />  // Show spinner while loading
         ) : (
           <>
-            {currentLeads.length === 0 ? (
+            {leads.length === 0 ? (
               <p>No leads available.</p>  // Show message if no leads
             ) : (
               <div className={styles.leadContainer}>
@@ -245,6 +245,7 @@ const AdminDataSavedLeads = () => {
             )}
           </>
         )}
+
 
         {totalPages > 1 && (
           <div className={styles.paginationContainer}>
