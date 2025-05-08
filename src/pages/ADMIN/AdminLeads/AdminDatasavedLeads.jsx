@@ -4,7 +4,7 @@ import axios from "axios";
 import styles from "./AdminLeads.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { NotebookPen } from "lucide-react";
-import FancySpinner from "../../../components/Loader/Loader";  // Assuming your FancySpinner is in this path
+import FancySpinner from "../../../components/Loader/Loader"; // Assuming your FancySpinner is in this path
 
 const AdminDataSavedLeads = () => {
   const [leads, setLeads] = useState([]);
@@ -23,7 +23,7 @@ const AdminDataSavedLeads = () => {
   const location = useLocation();
 
   const tabPaths = {
-    "Analytics":"/admin_lead_analytics",
+    "Analytics": "/admin_lead_analytics",
     "New": "/admin_new_leads",
     "Followed": "/admin_followed_leads",
     "Unrecorded": "/admin_unrecorded_leads",
@@ -31,7 +31,7 @@ const AdminDataSavedLeads = () => {
     "Closed": "/admin_closed_leads",
     "Unsuccessfully": "/admin_unsuccess_lead",
     "Pending": "/admin_pending_leads",
-    "Category":"/adminleadcategorygraph"
+    "Category": "/adminleadcategorygraph"
   };
 
   const getActiveTab = () => {
@@ -59,7 +59,7 @@ const AdminDataSavedLeads = () => {
 
   const fetchLeads = async () => {
     const token = localStorage.getItem("access_token");
-    setLoading(true);  // Start loading spinner
+    setLoading(true); // Start loading spinner
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/get_datasaved_leads/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -69,13 +69,13 @@ const AdminDataSavedLeads = () => {
       console.error(err);
       setError("Failed to fetch leads.");
     } finally {
-      setLoading(false);  // Stop loading spinner
+      setLoading(false); // Stop loading spinner
     }
   };
 
   const fetchSalesManagers = async () => {
     const token = localStorage.getItem("access_token");
-    setLoading(true);  // Start loading spinner
+    setLoading(true); // Start loading spinner
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/auth/list_of_salesmangers/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -85,7 +85,7 @@ const AdminDataSavedLeads = () => {
       console.error(err);
       setError("Failed to fetch sales managers.");
     } finally {
-      setLoading(false);  // Stop loading spinner
+      setLoading(false); // Stop loading spinner
     }
   };
 
@@ -190,12 +190,12 @@ const AdminDataSavedLeads = () => {
         {error && <p className={styles.error}>{error}</p>}
 
         {loading ? (
-  <FancySpinner />  // Show spinner while loading
-) : (
-  <>
-    {leads.length === 0 ? (
-      <p>No leads available.</p>  // Show message if no leads
-    ) : (
+          <FancySpinner /> // Show spinner while loading
+        ) : (
+          <>
+            {leads.length === 0 ? (
+              <p>No leads available.</p> // Show message if no leads are available
+            ) : (
               <div className={styles.leadContainer}>
                 {currentLeads.map((lead) => (
                   <div key={lead.id} className={styles.leadCard}>
@@ -213,9 +213,7 @@ const AdminDataSavedLeads = () => {
                         <p><strong>Purpose: {lead.purpose}</strong></p>
                         <p><strong>Property Type: {lead.mode_of_purpose}</strong></p>
                         {lead.lead_category?.length > 0 && (
-                          <p><strong>Category:</strong> {
-                            lead.lead_category.map((cat) => cat.category).join(", ")
-                          }</p>
+                          <p><strong>Category:</strong> {lead.lead_category.map((cat) => cat.category).join(", ")}</p>
                         )}
                         <p><strong>{formatDate(lead.timestamp)} </strong>{lead.message && (
                           <span
@@ -245,7 +243,6 @@ const AdminDataSavedLeads = () => {
             )}
           </>
         )}
-
 
         {totalPages > 1 && (
           <div className={styles.paginationContainer}>
