@@ -4,6 +4,7 @@ import axios from "axios";
 import styles from "./AdminLeads.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { NotebookPen } from "lucide-react";
+import FancySpinner from "../../../components/Loader/Loader";  // Assuming your FancySpinner is in this path
 
 const AdminDataSavedLeads = () => {
   const [leads, setLeads] = useState([]);
@@ -17,7 +18,6 @@ const AdminDataSavedLeads = () => {
   const leadsPerPage = 8;
   const [selectedMessage, setSelectedMessage] = useState("");
   const [showMessageModal, setShowMessageModal] = useState(false);
-
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -59,6 +59,7 @@ const AdminDataSavedLeads = () => {
 
   const fetchLeads = async () => {
     const token = localStorage.getItem("access_token");
+    setLoading(true);  // Start loading spinner
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/get_datasaved_leads/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -67,11 +68,14 @@ const AdminDataSavedLeads = () => {
     } catch (err) {
       console.error(err);
       setError("Failed to fetch leads.");
+    } finally {
+      setLoading(false);  // Stop loading spinner
     }
   };
 
   const fetchSalesManagers = async () => {
     const token = localStorage.getItem("access_token");
+    setLoading(true);  // Start loading spinner
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/auth/list_of_salesmangers/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -80,6 +84,8 @@ const AdminDataSavedLeads = () => {
     } catch (err) {
       console.error(err);
       setError("Failed to fetch sales managers.");
+    } finally {
+      setLoading(false);  // Stop loading spinner
     }
   };
 
@@ -94,16 +100,6 @@ const AdminDataSavedLeads = () => {
     setSelectedSM("");
     setLoading(false);
   };
-  const handleViewNotes = (message) => {
-    setSelectedMessage(message);
-    setShowMessageModal(true);
-  };
-  
-  const closeMessageModal = () => {
-    setShowMessageModal(false);
-    setSelectedMessage("");
-  };
-  
 
   const assignFollower = async () => {
     if (!selectedSM) return;
@@ -127,6 +123,7 @@ const AdminDataSavedLeads = () => {
       setLoading(false);
     }
   };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const dd = String(date.getDate()).padStart(2, "0");
@@ -171,11 +168,11 @@ const AdminDataSavedLeads = () => {
         <div className={styles.header}>
           <h2 className={styles.title}>Data Saved Leads ({leads.length})</h2>
           <button
-                      className={styles.addEventBtn}
-                      onClick={() => navigate("/admin_manually_enter_lead")}
-                    >
-                    + Add Lead
-                    </button>
+            className={styles.addEventBtn}
+            onClick={() => navigate("/admin_manually_enter_lead")}
+          >
+            + Add Lead
+          </button>
         </div>
 
         <div className={styles.tabContainer}>
@@ -192,59 +189,62 @@ const AdminDataSavedLeads = () => {
 
         {error && <p className={styles.error}>{error}</p>}
 
-        <div className={styles.leadContainer}>
-          {currentLeads.map((lead) => (
-            <div key={lead.id} className={styles.leadCard}>
-              <div className={styles.leadInfo}>
-                <div className={styles.infoBlock}>
-                  <p><strong>{lead.name}</strong></p>
-                  <p><strong>{lead.phonenumber}</strong></p>
-                  <p className={styles.multiLineText}><strong>{lead.email}</strong></p>
-                </div>
-                <div className={styles.infoBlock}>
-                  <p><strong>{lead.place}, {lead.district}</strong></p>
-                  <p className={styles.multiLineText}><strong>{lead.address}</strong></p>
-                </div>
-                <div className={styles.infoBlock}>
-                  <p><strong>Purpose: {lead.purpose}</strong></p>
-                  <p><strong>Property Type: {lead.mode_of_purpose}</strong></p>
-                  {lead.lead_category?.length > 0 &&
+        {loading ? (
+          <FancySpinner />  // Show spinner while loading
+        ) : (
+          <>
+            {currentLeads.length === 0 ? (
+              <p>No leads available.</p>  // Show message if no leads
+            ) : (
+              <div className={styles.leadContainer}>
+                {currentLeads.map((lead) => (
+                  <div key={lead.id} className={styles.leadCard}>
+                    <div className={styles.leadInfo}>
+                      <div className={styles.infoBlock}>
+                        <p><strong>{lead.name}</strong></p>
+                        <p><strong>{lead.phonenumber}</strong></p>
+                        <p className={styles.multiLineText}><strong>{lead.email}</strong></p>
+                      </div>
+                      <div className={styles.infoBlock}>
+                        <p><strong>{lead.place}, {lead.district}</strong></p>
+                        <p className={styles.multiLineText}><strong>{lead.address}</strong></p>
+                      </div>
+                      <div className={styles.infoBlock}>
+                        <p><strong>Purpose: {lead.purpose}</strong></p>
+                        <p><strong>Property Type: {lead.mode_of_purpose}</strong></p>
+                        {lead.lead_category?.length > 0 && (
                           <p><strong>Category:</strong> {
                             lead.lead_category.map((cat) => cat.category).join(", ")
                           }</p>
-                      }
-                  <p><strong>{formatDate(lead.timestamp)} </strong>{lead.message && (
-                                  
-                                  <span
-                                      className={styles.messageLink}
-                                      onClick={() => handleViewNotes(lead.message)}
-                                      role="button"
-                                      tabIndex={0}
-                                    >
-                                      <NotebookPen size={18} /> Notes
-                                    </span>
-                
-                                
-                              )}</p>
-                </div>
-                
+                        )}
+                        <p><strong>{formatDate(lead.timestamp)} </strong>{lead.message && (
+                          <span
+                            className={styles.messageLink}
+                            onClick={() => handleViewNotes(lead.message)}
+                            role="button"
+                            tabIndex={0}
+                          >
+                            <NotebookPen size={18} /> Notes
+                          </span>
+                        )}</p>
+                      </div>
 
-                
-                <div className={styles.infoBlock}>
-                  <p><strong>Follower: {lead.follower || "Not Assigned"}</strong></p>
-                  <button className={styles.followUpBtn} onClick={() => openAssignModal(lead.id)}>
-                    Change Follower
-                  </button>
-                  <button className={styles.ViewDataBtn} onClick={() => handleViewData(lead)}>
-                    View Data
-                  </button>
-                </div>
-                  
-                </div>
-                
-            </div>
-          ))}
-        </div>
+                      <div className={styles.infoBlock}>
+                        <p><strong>Follower: {lead.follower || "Not Assigned"}</strong></p>
+                        <button className={styles.followUpBtn} onClick={() => openAssignModal(lead.id)}>
+                          Change Follower
+                        </button>
+                        <button className={styles.ViewDataBtn} onClick={() => handleViewData(lead)}>
+                          View Data
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
 
         {totalPages > 1 && (
           <div className={styles.paginationContainer}>
@@ -299,7 +299,6 @@ const AdminDataSavedLeads = () => {
           </div>
         </div>
       )}
-
     </AdminLayout>
   );
 };
