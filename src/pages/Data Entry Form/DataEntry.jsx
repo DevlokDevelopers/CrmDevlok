@@ -8,7 +8,7 @@ const DataEntryForm = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const leadId = location.state?.leadId || null;
-
+  const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
@@ -63,36 +63,41 @@ const DataEntryForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!leadId) {
-      console.error("Cannot submit. Lead ID is missing.");
-      return;
-    }
+  e.preventDefault();
+  if (!leadId) {
+    console.error("Cannot submit. Lead ID is missing.");
+    return;
+  }
 
-    try {
-      const formDataToSend = new FormData();
-      Object.keys(formData).forEach((key) => {
-        if (key === "images") {
-          formData.images.forEach((image) => formDataToSend.append("photos", image));
-        } else {
-          formDataToSend.append(key, formData[key]);
-        }
-      });
+  try {
+    setLoading(true); // Set loading to true before making the request
 
-      await axios.post(`https://devlokcrmbackend.up.railway.app/databank/datacollection/${leadId}/`, formDataToSend, {
-        headers: { Authorization: `Bearer ${accessToken}` }
-      });
+    const formDataToSend = new FormData();
+    Object.keys(formData).forEach((key) => {
+      if (key === "images") {
+        formData.images.forEach((image) => formDataToSend.append("photos", image));
+      } else {
+        formDataToSend.append(key, formData[key]);
+      }
+    });
 
-      alert("Data submitted successfully!");
+    await axios.post(`https://devlokcrmbackend.up.railway.app/databank/datacollection/${leadId}/`, formDataToSend, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
 
-      // Update lead stage after successful form submission
-      await updateLeadStage();
-      navigate(-1);
-    } catch (error) {
-      console.error("Error submitting data:", error);
-      setErrorMessage(error.response?.data?.error || "Failed to submit data.");
-    }
-  };
+    alert("Data submitted successfully!");
+
+    // Update lead stage after successful form submission
+    await updateLeadStage();
+    navigate(-1);
+  } catch (error) {
+    console.error("Error submitting data:", error);
+    setErrorMessage(error.response?.data?.error || "Failed to submit data.");
+  } finally {
+    setLoading(false); // Set loading to false after request is complete
+  }
+};
+
 
   const updateLeadStage = async () => {
     try {
@@ -155,7 +160,20 @@ const DataEntryForm = () => {
             <input name="location_link" value={formData.location_link} onChange={handleChange} placeholder="Google Maps Link" className={styles['input-field']} />
             <input name="image_folder" value={formData.image_folder} onChange={handleChange} placeholder="image_folder" className={styles['input-field']} />
             <button type="button" onClick={() => setStep(1)} className={`${styles['button']} ${styles['button-back']}`}>Back</button>
-            <button type="submit" className={`${styles['button']} ${styles['button-submit']}`}>Submit</button>
+            <button
+              type="submit"
+              className={`${styles['button']} ${styles['button-submit']}`}
+              disabled={loading} // Disable the button during loading
+            >
+              {loading ? (
+                <>
+                  Submitting... <span className={styles.spinner}></span>
+                </>
+              ) : (
+                "Submit"
+              )}
+            </button>
+
           </>
         )}
       </form>
