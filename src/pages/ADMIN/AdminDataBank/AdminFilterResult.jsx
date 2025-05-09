@@ -3,15 +3,21 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./AdminFilterResult.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
+import FancySpinner from "../../../components/Loader/Loader";
+
+
 const AdminFilteredResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const queryParams = new URLSearchParams(location.search);
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true); // Start spinner
       try {
         const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/filter/", {
           params: Object.fromEntries(queryParams.entries()),
@@ -20,11 +26,14 @@ const AdminFilteredResults = () => {
       } catch (error) {
         console.error("Error fetching filtered results:", error);
         setError("Failed to fetch filtered results.");
+      } finally {
+        setLoading(false); // Stop spinner
       }
     };
-
+  
     fetchData();
   }, [location.search]);
+  
 
   return (
     <AdminLayout>
@@ -32,11 +41,15 @@ const AdminFilteredResults = () => {
         <h2 className={styles.title}>🔍 Filtered Results</h2>
         <button className={styles.backButton} onClick={() => navigate(-1)}>Back</button>
 
-        {error ? (
-          <p className={styles.error}>{error}</p>
-        ) : data.length === 0 ? (
-          <p className={styles.noData}>No matching results found.</p>
-        ) : (
+        {loading ? (
+  <div className={styles.loaderWrapper}>
+    <FancySpinner />
+  </div>
+) : error ? (
+  <p className={styles.error}>{error}</p>
+) : data.length === 0 ? (
+  <p className={styles.noData}>No matching results found.</p>
+) : (
           <div className={styles.resultsContainer}>
             {data.map((item) => (
               <div key={item.id} className={styles.resultCard}>
