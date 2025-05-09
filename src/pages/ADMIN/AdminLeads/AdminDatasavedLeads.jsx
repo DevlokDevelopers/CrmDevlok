@@ -4,7 +4,7 @@ import axios from "axios";
 import styles from "./AdminLeads.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { NotebookPen } from "lucide-react";
-import FancySpinner from "../../../components/Loader/Loader"; // Assuming your FancySpinner is in this path
+import FancySpinner from "../../../components/Loader/Loader";
 
 const AdminDataSavedLeads = () => {
   const [leads, setLeads] = useState([]);
@@ -14,6 +14,8 @@ const AdminDataSavedLeads = () => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [dataFetched, setDataFetched] = useState(false);
+  const [viewingLeadId, setViewingLeadId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const leadsPerPage = 8;
   const [selectedMessage, setSelectedMessage] = useState("");
@@ -23,20 +25,22 @@ const AdminDataSavedLeads = () => {
   const location = useLocation();
 
   const tabPaths = {
-    "Analytics": "/admin_lead_analytics",
-    "New": "/admin_new_leads",
-    "Followed": "/admin_followed_leads",
-    "Unrecorded": "/admin_unrecorded_leads",
+    Analytics: "/admin_lead_analytics",
+    New: "/admin_new_leads",
+    Followed: "/admin_followed_leads",
+    Unrecorded: "/admin_unrecorded_leads",
     "Data Saved": "/admin_datasaved_leads",
-    "Closed": "/admin_closed_leads",
-    "Unsuccessfully": "/admin_unsuccess_lead",
-    "Pending": "/admin_pending_leads",
-    "Category": "/adminleadcategorygraph"
+    Closed: "/admin_closed_leads",
+    Unsuccessfully: "/admin_unsuccess_lead",
+    Pending: "/admin_pending_leads",
+    Category: "/adminleadcategorygraph",
   };
 
   const getActiveTab = () => {
     const currentPath = location.pathname;
-    const matchedTab = Object.keys(tabPaths).find((tab) => tabPaths[tab] === currentPath);
+    const matchedTab = Object.keys(tabPaths).find(
+      (tab) => tabPaths[tab] === currentPath
+    );
     return matchedTab || "Data Saved";
   };
 
@@ -59,33 +63,36 @@ const AdminDataSavedLeads = () => {
 
   const fetchLeads = async () => {
     const token = localStorage.getItem("access_token");
-    setLoading(true); // Start loading spinner
+    setLoading(true);
     try {
-      const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/get_datasaved_leads/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.get(
+        "https://devlokcrmbackend.up.railway.app/leads/get_datasaved_leads/",
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       setLeads(res.data);
     } catch (err) {
       console.error(err);
       setError("Failed to fetch leads.");
     } finally {
-      setLoading(false); // Stop loading spinner
+      setLoading(false);
+      setDataFetched(true);
     }
   };
 
   const fetchSalesManagers = async () => {
     const token = localStorage.getItem("access_token");
-    setLoading(true); // Start loading spinner
+    setLoading(true);
     try {
-      const res = await axios.get("https://devlokcrmbackend.up.railway.app/auth/list_of_salesmangers/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.get(
+        "https://devlokcrmbackend.up.railway.app/auth/list_of_salesmangers/",
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       setSalesManagers(res.data);
     } catch (err) {
       console.error(err);
       setError("Failed to fetch sales managers.");
     } finally {
-      setLoading(false); // Stop loading spinner
+      setLoading(false);
     }
   };
 
@@ -103,8 +110,7 @@ const AdminDataSavedLeads = () => {
 
   const assignFollower = async () => {
     if (!selectedSM) return;
-    const confirmAssign = window.confirm("Are you sure you want to change the Sales Manager?");
-    if (!confirmAssign) return;
+    if (!window.confirm("Are you sure you want to change the Sales Manager?")) return;
 
     const token = localStorage.getItem("access_token");
     setLoading(true);
@@ -139,10 +145,13 @@ const AdminDataSavedLeads = () => {
       return;
     }
 
+    setViewingLeadId(lead.id);
+
     axios
-      .get(`https://devlokcrmbackend.up.railway.app/databank/lead_into_db_admin/${lead.id}/`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      })
+      .get(
+        `https://devlokcrmbackend.up.railway.app/databank/lead_into_db_admin/${lead.id}/`,
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      )
       .then((response) => {
         if (Array.isArray(response.data) && response.data.length > 0) {
           const databankId = response.data[0].id;
@@ -154,7 +163,20 @@ const AdminDataSavedLeads = () => {
       .catch((error) => {
         console.error("Error fetching databank from lead:", error);
         alert("Failed to fetch databank details.");
+      })
+      .finally(() => {
+        setViewingLeadId(null);
       });
+  };
+
+  const handleViewNotes = (message) => {
+    setSelectedMessage(message);
+    setShowMessageModal(true);
+  };
+
+  const closeMessageModal = () => {
+    setShowMessageModal(false);
+    setSelectedMessage("");
   };
 
   const indexOfLast = currentPage * leadsPerPage;
@@ -190,11 +212,11 @@ const AdminDataSavedLeads = () => {
         {error && <p className={styles.error}>{error}</p>}
 
         {loading ? (
-          <FancySpinner /> // Show spinner while loading
+          <FancySpinner />
         ) : (
           <>
-            {leads.length === 0 ? (
-              <p>No leads available.</p> // Show message if no leads are available
+            {dataFetched && leads.length === 0 ? (
+              <p>No leads available.</p>
             ) : (
               <div className={styles.leadContainer}>
                 {currentLeads.map((lead) => (
@@ -215,25 +237,31 @@ const AdminDataSavedLeads = () => {
                         {lead.lead_category?.length > 0 && (
                           <p><strong>Category:</strong> {lead.lead_category.map((cat) => cat.category).join(", ")}</p>
                         )}
-                        <p><strong>{formatDate(lead.timestamp)} </strong>{lead.message && (
-                          <span
-                            className={styles.messageLink}
-                            onClick={() => handleViewNotes(lead.message)}
-                            role="button"
-                            tabIndex={0}
-                          >
-                            <NotebookPen size={18} /> Notes
-                          </span>
-                        )}</p>
+                        <p>
+                          <strong>{formatDate(lead.timestamp)} </strong>
+                          {lead.message && (
+                            <span
+                              className={styles.messageLink}
+                              onClick={() => handleViewNotes(lead.message)}
+                              role="button"
+                              tabIndex={0}
+                            >
+                              <NotebookPen size={18} /> Notes
+                            </span>
+                          )}
+                        </p>
                       </div>
-
                       <div className={styles.infoBlock}>
                         <p><strong>Follower: {lead.follower || "Not Assigned"}</strong></p>
                         <button className={styles.followUpBtn} onClick={() => openAssignModal(lead.id)}>
                           Change Follower
                         </button>
-                        <button className={styles.ViewDataBtn} onClick={() => handleViewData(lead)}>
-                          View Data
+                        <button
+                          className={styles.ViewDataBtn}
+                          onClick={() => handleViewData(lead)}
+                          disabled={viewingLeadId === lead.id}
+                        >
+                          {viewingLeadId === lead.id ? "Loading..." : "View Data"}
                         </button>
                       </div>
                     </div>
@@ -286,6 +314,7 @@ const AdminDataSavedLeads = () => {
           </div>
         </div>
       )}
+
       {showMessageModal && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
