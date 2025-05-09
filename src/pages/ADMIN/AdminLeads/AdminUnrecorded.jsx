@@ -19,6 +19,8 @@ const AdminUnrecordedLeads = () => {
   const leadsPerPage = 8;
   const [selectedMessage, setSelectedMessage] = useState("");
   const [showMessageModal, setShowMessageModal] = useState(false);
+  const [deletingLeadId, setDeletingLeadId] = useState(null);
+
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -142,6 +144,8 @@ const AdminUnrecordedLeads = () => {
   const handleDeleteLead = async (leadId) => {
     if (!window.confirm("Are you sure you want to delete this lead?")) return;
     const token = localStorage.getItem("access_token");
+  
+    setDeletingLeadId(leadId);
     try {
       await axios.delete(`https://devlokcrmbackend.up.railway.app/leads/delete_lead/${leadId}/`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -150,8 +154,11 @@ const AdminUnrecordedLeads = () => {
     } catch (err) {
       console.error("Failed to delete lead:", err);
       alert("Failed to delete the lead.");
+    } finally {
+      setDeletingLeadId(null);
     }
   };
+  
 
   const indexOfLast = currentPage * leadsPerPage;
   const indexOfFirst = indexOfLast - leadsPerPage;
@@ -226,9 +233,13 @@ const AdminUnrecordedLeads = () => {
                     <button className={styles.followUpBtn} onClick={() => openAssignModal(lead.id)}>
                       Change Follower
                     </button>
-                    <button className={styles.deleteBtn} onClick={() => handleDeleteLead(lead.id)}>
-                      <Trash2 size={20} strokeWidth={1.5} />
-                    </button>
+                    <button
+                    className={styles.deleteBtn}
+                    onClick={() => handleDeleteLead(lead.id)}
+                    disabled={deletingLeadId === lead.id}
+                  >
+                    {deletingLeadId === lead.id ? "Deleting..." : <Trash2 size={20} strokeWidth={1.5} />}
+                  </button>
                   </div>
                 </div>
               </div>
