@@ -4,7 +4,7 @@ import axios from "axios";
 import styles from "./AdminLeads.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { NotebookPen } from "lucide-react";
-
+import FancySpinner from "../../../components/Loader/Loader";
 const AdminUnsuccessLeads = () => {
   const [leads, setLeads] = useState([]);
   const [error, setError] = useState("");
@@ -15,6 +15,8 @@ const AdminUnsuccessLeads = () => {
   const location = useLocation();
   const [selectedMessage, setSelectedMessage] = useState("");
   const [showMessageModal, setShowMessageModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+
 
 
   const tabPaths = {
@@ -58,6 +60,7 @@ const AdminUnsuccessLeads = () => {
       return;
     }
     try {
+      setLoading(true); // show loader
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/get_unsuccessful_leads/", {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -65,8 +68,11 @@ const AdminUnsuccessLeads = () => {
     } catch (err) {
       console.error(err);
       setError("Failed to fetch leads.");
+    } finally {
+      setLoading(false); // hide loader
     }
   };
+  
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const dd = String(date.getDate()).padStart(2, "0");
@@ -120,55 +126,56 @@ const AdminUnsuccessLeads = () => {
         {error && <p className={styles.error}>{error}</p>}
 
         <div className={styles.leadContainer}>
-          {currentLeads.map((lead) => (
-            <div key={lead.id} className={styles.leadCard}>
-              <div className={styles.leadInfo}>
-                <div className={styles.infoBlock}>
-                  <p><strong>{lead.name}</strong></p>
-                  <p><strong>{lead.phonenumber}</strong></p>
-                  <p className={styles.multiLineText}><strong>{lead.email}</strong></p>
-                  
-                </div>
-                <div className={styles.infoBlock}>
-                  <p><strong>{lead.place}, {lead.district}</strong></p>
-                  <p className={styles.multiLineText}><strong>{lead.address}</strong></p>
-                </div>
-                <div className={styles.infoBlock}>
-                  <p><strong>Purpose: {lead.purpose}</strong></p>
-                  <p><strong>Property Type: {lead.mode_of_purpose}</strong></p>
-                  <p><strong>Lead received :{formatDate(lead.timestamp)}</strong></p>
-                  <p><strong>Lead Closed : {formatDate(lead.closed_date)}</strong></p>
-                </div>
-                
-                
-                <div className={styles.infoBlock}>
-                  <p><strong>Follower: {lead.follower || "Not Assigned"}</strong></p>
-                  <p><strong>Type of Close: {lead.stage}</strong></p>
-                  {lead.lead_category?.length > 0 &&
-                          <p><strong>Category:</strong> {
-                            lead.lead_category.map((cat) => cat.category).join(", ")
-                          }</p>
-                      }
-                  <p>{lead.message && (
-                                                                      
-                                                                      <span
-                                                                          className={styles.messageLink}
-                                                                          onClick={() => handleViewNotes(lead.message)}
-                                                                          role="button"
-                                                                          tabIndex={0}
-                                                                        >
-                                                                          <NotebookPen size={18} /> Notes
-                                                                        </span>
-                                                    
-                                                                    
-                                                                  )}</p>
-                </div>
-                
-
-              </div>
+          {loading ? (
+            <div className={styles.loaderWrapper}>
+              <FancySpinner />
             </div>
-          ))}
+          ) : leads.length === 0 ? (
+            <p className={styles.noData}>No leads available.</p>
+          ) : (
+            currentLeads.map((lead) => (
+              <div key={lead.id} className={styles.leadCard}>
+                <div className={styles.leadInfo}>
+                  <div className={styles.infoBlock}>
+                    <p><strong>{lead.name}</strong></p>
+                    <p><strong>{lead.phonenumber}</strong></p>
+                    <p className={styles.multiLineText}><strong>{lead.email}</strong></p>
+                  </div>
+                  <div className={styles.infoBlock}>
+                    <p><strong>{lead.place}, {lead.district}</strong></p>
+                    <p className={styles.multiLineText}><strong>{lead.address}</strong></p>
+                  </div>
+                  <div className={styles.infoBlock}>
+                    <p><strong>Purpose: {lead.purpose}</strong></p>
+                    <p><strong>Property Type: {lead.mode_of_purpose}</strong></p>
+                    <p><strong>Lead received: {formatDate(lead.timestamp)}</strong></p>
+                    <p><strong>Lead Closed: {formatDate(lead.closed_date)}</strong></p>
+                  </div>
+                  <div className={styles.infoBlock}>
+                    <p><strong>Follower: {lead.follower || "Not Assigned"}</strong></p>
+                    <p><strong>Type of Close: {lead.stage}</strong></p>
+                    {lead.lead_category?.length > 0 && (
+                      <p><strong>Category:</strong> {
+                        lead.lead_category.map((cat) => cat.category).join(", ")
+                      }</p>
+                    )}
+                    <p>{lead.message && (
+                      <span
+                        className={styles.messageLink}
+                        onClick={() => handleViewNotes(lead.message)}
+                        role="button"
+                        tabIndex={0}
+                      >
+                        <NotebookPen size={18} /> Notes
+                      </span>
+                    )}</p>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
         </div>
+
 
         {totalPages > 1 && (
           <div className={styles.paginationContainer}>
