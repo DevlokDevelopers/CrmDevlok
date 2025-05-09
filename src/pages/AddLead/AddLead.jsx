@@ -20,6 +20,8 @@ const AddLead = () => {
     stage: "Not Opened", // Default stage
     status: "Pending", // Default status
   });
+  const [isSaving, setIsSaving] = useState(false);
+
 
   const keralaDistricts = [
     "Thiruvananthapuram", "Kollam", "Pathanamthitta", "Alappuzha", "Kottayam",
@@ -41,25 +43,36 @@ const AddLead = () => {
   };
 
   const handleSave = async () => {
-    if (!window.confirm("Are you sure you want to add this lead?")) return;
+  if (!window.confirm("Are you sure you want to add this lead?")) return;
 
-    const payload = {
-      ...leadData,
-      mode_of_purpose: leadData.mode_of_purpose === "Others" ? leadData.otherPropertyType : leadData.mode_of_purpose, // Fix for "mode_of_purpose"
-    };
+  const payload = {
+    ...leadData,
+    mode_of_purpose:
+      leadData.mode_of_purpose === "Others"
+        ? leadData.otherPropertyType
+        : leadData.mode_of_purpose,
+  };
 
-    try {
-      await axios.post("https://devlokcrmbackend.up.railway.app/leads/enter_leads/", payload, {
+  try {
+    setIsSaving(true); // Start loading
+    await axios.post(
+      "https://devlokcrmbackend.up.railway.app/leads/enter_leads/",
+      payload,
+      {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
-      });
-      alert("Lead successfully added");
-      navigate("/salesmanager_followed_leads");
-    } catch (error) {
-      console.error("Error creating lead:", error.response?.data || error.message);
-    }
-  };
+      }
+    );
+    alert("Lead successfully added");
+    navigate("/salesmanager_followed_leads");
+  } catch (error) {
+    console.error("Error creating lead:", error.response?.data || error.message);
+  } finally {
+    setIsSaving(false); // End loading
+  }
+};
+
 
   return (
     <StaffLayout>
@@ -132,9 +145,15 @@ const AddLead = () => {
           </div>
 
           {/* Save button disabled if form is incomplete */}
-          <button type="button" className={styles.saveButton} onClick={handleSave} disabled={!isFormValid()}>
-            Save Lead
+          <button
+            type="button"
+            className={styles.saveButton}
+            onClick={handleSave}
+            disabled={!isFormValid() || isSaving}
+          >
+            {isSaving ? "Saving lead..." : "Save Lead"}
           </button>
+
         </form>
       </div>
       <div className={styles.backLinkContainer}>
