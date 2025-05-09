@@ -232,14 +232,11 @@ const AdminDatabank = () => {
         {/* Filter Modal */}
         {filterModalOpen && (
           <FilterModal
-            isOpen={filterModalOpen}
-            onClose={() => setFilterModalOpen(false)}
-            onApply={(queryString) => {
-              setFilterModalOpen(false);
-              onApply={handleApplyFilters}
-              // Optionally filter via backend here
-            }}
-          />
+          isOpen={filterModalOpen}
+          onClose={() => setFilterModalOpen(false)}
+          onApply={handleApplyFilters}
+        />
+        
         )}
 
         {/* Chart only when "Analytics" tab is selected */}
