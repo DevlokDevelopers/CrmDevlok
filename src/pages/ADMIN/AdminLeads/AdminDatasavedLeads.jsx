@@ -258,12 +258,17 @@ const AdminDataSavedLeads = () => {
                           Change Follower
                         </button>
                         <button
-                          className={styles.ViewDataBtn}
-                          onClick={() => handleViewData(lead)}
-                          disabled={viewingLeadId === lead.id}
-                        >
-                          {viewingLeadId === lead.id ? "Loading..." : "View Data"}
-                        </button>
+                        className={styles.ViewDataBtn}
+                        onClick={() => handleViewData(lead)}
+                        disabled={viewingLeadId === lead.id}
+                      >
+                        {viewingLeadId === lead.id ? (
+                          <FancySpinner size={20} /> // Show spinner when this lead is being viewed
+                        ) : (
+                          "View Data"
+                        )}
+                      </button>
+
                       </div>
                     </div>
                   </div>
