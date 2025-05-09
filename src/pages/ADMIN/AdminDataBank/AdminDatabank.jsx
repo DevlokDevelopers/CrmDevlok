@@ -117,36 +117,78 @@ const AdminDatabank = () => {
       {
         label: "Leads",
         data: analyticsData.map((item) => item.value),
-        backgroundColor: ["#4e79a7", "#f28e2b", "#e15759", "#76b7b2"],
-        borderRadius: 10,
-        barThickness: 40,
+        backgroundColor: ["#FF6F61", "#6B8E23", "#4E79A7", "#F28E2B"], // New vibrant colors
+        borderColor: "#ffffff", // White border for each bar
+        borderWidth: 2, // Border width for each bar
+        hoverBackgroundColor: "#FF1493", // Hover color
+        hoverBorderColor: "#FF6347", // Border color on hover
+        barThickness: 60, // Increase the thickness of the bars
+        borderRadius: 12, // Rounded corners for bars
       },
     ],
   };
-
+  
   const chartOptions = {
     responsive: true,
     plugins: {
       legend: {
-        display: false,
+        display: true,
+        position: "top",
+        labels: {
+          font: {
+            family: "Arial, sans-serif", // Custom font
+            size: 14, // Font size
+            weight: "bold", // Font weight
+          },
+          color: "#444", // Legend text color
+        },
       },
       tooltip: {
         backgroundColor: "#222",
         titleColor: "#fff",
         bodyColor: "#eee",
+        borderColor: "#444",
+        borderWidth: 2,
+        padding: 10,
+        caretSize: 8, // Small arrow at the tooltip
       },
     },
     scales: {
       x: {
-        ticks: { color: "#333" },
-        grid: { display: false },
+        ticks: {
+          color: "#333", // Darker tick color for better contrast
+          font: {
+            family: "Arial, sans-serif",
+            size: 14,
+            weight: "bold",
+          },
+        },
+        grid: {
+          color: "#eaeaea", // Light grid lines
+          lineWidth: 1, // Thinner grid lines
+        },
       },
       y: {
-        ticks: { color: "#333" },
-        grid: { color: "#eee" },
+        ticks: {
+          color: "#333",
+          font: {
+            family: "Arial, sans-serif",
+            size: 14,
+            weight: "bold",
+          },
+        },
+        grid: {
+          color: "#eaeaea",
+          lineWidth: 1,
+        },
       },
     },
+    animation: {
+      duration: 1500, // Smooth animation duration
+      easing: "easeOutBounce", // Bounce effect when rendering
+    },
   };
+  
 
   return (
     <AdminLayout>
@@ -196,85 +238,93 @@ const AdminDatabank = () => {
         )}
 
         {/* Chart only when "Analytics" tab is selected */}
-        {activeTab === "Analytics" && (
-          <div className={styles.analyticsWrapper}>
-            <p className="total-data">Total Collections: {totalDataCount}</p>
-            <div style={{ width: "100%", maxWidth: "720px", margin: "0 auto" }}>
-              {loading ? (
-                <div className={styles.loaderWrapper}>
-                  <FancySpinner />
+        {/* Chart only when "Analytics" tab is selected */}
+{activeTab === "Analytics" && (
+  <div className={styles.analyticsWrapper}>
+    <p className="total-data">Total Collections: {totalDataCount}</p>
+    <div style={{ width: "100%", maxWidth: "720px", margin: "0 auto" }}>
+      {loading ? (
+        <div className={styles.loaderWrapper}>
+          <FancySpinner />
+        </div>
+      ) : analyticsData.length === 0 ? (
+        <p>No data available</p>
+      ) : (
+        <Bar data={chartData} options={chartOptions} />
+      )}
+    </div>
+  </div>
+)}
+
+{/* Listings / Data */}
+{activeTab !== "Analytics" ? (
+  <div className={styles.leadContainer}>
+    {currentItems.length === 0 ? (
+      <p>No data available</p>
+    ) : (
+      currentItems.map((item) => (
+        <div key={item.id} className={styles.leadCard}>
+          <div className={styles.leadInfo}>
+            <div className={styles.infoBlock}>
+              <p>
+                <strong>{item.name}</strong>
+              </p>
+              <p>
+                <strong>{item.phonenumber}</strong>
+              </p>
+              {item.is_in_project && (
+                <div className={styles.infoBlock}>
+                  <p className={styles.inProjectTag}>
+                    Involved in Project:{" "}
+                    <strong>{item.project_name}</strong>
+                  </p>
                 </div>
-              ) : (
-                <Bar data={chartData} options={chartOptions} />
               )}
             </div>
+            <div className={styles.infoBlock}>
+              <p>
+                <strong>
+                  {item.district}, {item.place}
+                </strong>
+              </p>
+              <p>
+                <strong>{item.address}</strong>
+              </p>
+            </div>
+            <div className={styles.infoBlock}>
+              <p>
+                <strong>Purpose: {item.purpose}</strong>
+              </p>
+              <p>
+                <strong>
+                  Property Type: {item.mode_of_property}
+                </strong>
+              </p>
+              <p>
+                <strong>Lead Category: {item.lead_category}</strong>
+              </p>
+            </div>
+            <div className={styles.buttonContainer}>
+              <button
+                className={styles.detailsBtn}
+                onClick={() => handleDetails(item.id)}
+              >
+                Details
+              </button>
+              <button
+                className={styles.addimageBtn}
+                onClick={() => handleMatchData(item.id)}
+              >
+                Check Match
+              </button>
+            </div>
           </div>
-        )}
+        </div>
+      ))
+    )}
+  </div>
+) : null}
 
-        {/* Listings / Data */}
-        { activeTab !== "Analytics" ? (
-          <div className={styles.leadContainer}>
-            {currentItems.map((item) => (
-              <div key={item.id} className={styles.leadCard}>
-                <div className={styles.leadInfo}>
-                  <div className={styles.infoBlock}>
-                    <p>
-                      <strong>{item.name}</strong>
-                    </p>
-                    <p>
-                      <strong>{item.phonenumber}</strong>
-                    </p>
-                    {item.is_in_project && (
-                      <div className={styles.infoBlock}>
-                        <p className={styles.inProjectTag}>
-                          Involved in Project:{" "}
-                          <strong>{item.project_name}</strong>
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                  <div className={styles.infoBlock}>
-                    <p>
-                      <strong>
-                        {item.district}, {item.place}
-                      </strong>
-                    </p>
-                    <p>
-                      <strong>{item.address}</strong>
-                    </p>
-                  </div>
-                  <div className={styles.infoBlock}>
-                    <p>
-                      <strong>Purpose: {item.purpose}</strong>
-                    </p>
-                    <p>
-                      <strong>
-                        Property Type: {item.mode_of_property}
-                      </strong>
-                    </p>
-                    <p>
-                      <strong>Lead Category: {item.lead_category}</strong>
-                    </p>
-                  </div>
-                  <div className={styles.buttonContainer}>
-                    <button
-                      className={styles.detailsBtn}
-                      onClick={() => handleDetails(item.id)}
-                    >
-                      Details
-                    </button>
-                    <button
-                      className={styles.addimageBtn}
-                      onClick={() => handleMatchData(item.id)}
-                    >
-                      Check Match
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : null}
 
         {/* Pagination */}
         {activeTab !== "Analytics" && totalPages > 1 && (
