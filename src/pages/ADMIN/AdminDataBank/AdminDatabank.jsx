@@ -198,7 +198,6 @@ const AdminDatabank = () => {
         {/* Chart only when "Analytics" tab is selected */}
         {activeTab === "Analytics" && (
           <div className={styles.analyticsWrapper}>
-            <h3 className="graph-title">Admin Databank Analytics</h3>
             <p className="total-data">Total Collections: {totalDataCount}</p>
             <div style={{ width: "100%", maxWidth: "720px", margin: "0 auto" }}>
               {loading ? (
@@ -213,11 +212,7 @@ const AdminDatabank = () => {
         )}
 
         {/* Listings / Data */}
-        {loading ? (
-          <div className={styles.loaderWrapper}>
-            <FancySpinner />
-          </div>
-        ) : error ? (
+        { error ? (
           <p className={styles.error}>{error}</p>
         ) : filteredData.length === 0 ? (
           <p className={styles.noData}>No data available.</p>
