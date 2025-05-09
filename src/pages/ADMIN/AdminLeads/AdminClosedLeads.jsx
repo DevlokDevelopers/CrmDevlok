@@ -100,9 +100,6 @@ const AdminClosedLeads = () => {
   const indexOfFirst = indexOfLast - leadsPerPage;
   const currentLeads = leads.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(leads.length / leadsPerPage);
-  if (loading) {
-    return <FancySpinner />;
-  }
   
 
   return (
@@ -133,53 +130,49 @@ const AdminClosedLeads = () => {
         {error && <p className={styles.error}>{error}</p>}
 
         <div className={styles.leadContainer}>
-          {currentLeads.map((lead) => (
-            <div key={lead.id} className={styles.leadCard}>
-              <div className={styles.leadInfo}>
-                <div className={styles.infoBlock}>
-                  <p><strong>{lead.name}</strong></p>
-                  <p><strong>{lead.phonenumber}</strong></p>
-                  <p className={styles.multiLineText}><strong>{lead.email}</strong></p>
-                  
+          {loading ? (
+            <FancySpinner />
+          ) : currentLeads.length === 0 ? (
+            <p className={styles.noData}>No leads available.</p>
+          ) : (
+            currentLeads.map((lead) => (
+              <div key={lead.id} className={styles.leadCard}>
+                <div className={styles.leadInfo}>
+                  <div className={styles.infoBlock}>
+                    <p><strong>{lead.name}</strong></p>
+                    <p><strong>{lead.phonenumber}</strong></p>
+                    <p className={styles.multiLineText}><strong>{lead.email}</strong></p>
+                  </div>
+                  <div className={styles.infoBlock}>
+                    <p><strong>{lead.place}, {lead.district}</strong></p>
+                    <p className={styles.multiLineText}><strong>{lead.address}</strong></p>
+                  </div>
+                  <div className={styles.infoBlock}>
+                    <p><strong>Purpose: {lead.purpose}</strong></p>
+                    <p><strong>Property Type: {lead.mode_of_purpose}</strong></p>
+                    <p><strong>Lead received :{formatDate(lead.timestamp)}</strong></p>
+                    <p><strong>Lead Closed : {formatDate(lead.closed_date)}</strong></p>
+                  </div>
+                  <div className={styles.infoBlock}>
+                    <p><strong>Follower: {lead.follower || "Not Assigned"}</strong></p>
+                    {lead.lead_category?.length > 0 && (
+                      <p><strong>Category:</strong> {lead.lead_category.map(cat => cat.category).join(", ")}</p>
+                    )}
+                    <p>{lead.message && (
+                      <span
+                        className={styles.messageLink}
+                        onClick={() => handleViewNotes(lead.message)}
+                        role="button"
+                        tabIndex={0}
+                      >
+                        <NotebookPen size={18} /> Notes
+                      </span>
+                    )}</p>
+                  </div>
                 </div>
-                <div className={styles.infoBlock}>
-                  <p><strong>{lead.place}, {lead.district}</strong></p>
-                  <p className={styles.multiLineText}><strong>{lead.address}</strong></p>
-                </div>
-                <div className={styles.infoBlock}>
-                  <p><strong>Purpose: {lead.purpose}</strong></p>
-                  <p><strong>Property Type: {lead.mode_of_purpose}</strong></p>
-                  <p><strong>Lead received :{formatDate(lead.timestamp)}</strong></p>
-                  <p><strong>Lead Closed : {formatDate(lead.closed_date)}</strong></p>
-                </div>
-               
-                
-                <div className={styles.infoBlock}>
-                  <p><strong>Follower: {lead.follower || "Not Assigned"}</strong></p>
-                  {lead.lead_category?.length > 0 &&
-                          <p><strong>Category:</strong> {
-                            lead.lead_category.map((cat) => cat.category).join(", ")
-                          }</p>
-                      }
-                  <p>{lead.message && (
-                                                    
-                                                    <span
-                                                        className={styles.messageLink}
-                                                        onClick={() => handleViewNotes(lead.message)}
-                                                        role="button"
-                                                        tabIndex={0}
-                                                      >
-                                                        <NotebookPen size={18} /> Notes
-                                                      </span>
-                                  
-                                                  
-                                                )}</p>
-                </div>
-                
-
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
 
         {totalPages > 1 && (
