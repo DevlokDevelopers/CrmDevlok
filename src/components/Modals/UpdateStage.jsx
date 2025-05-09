@@ -4,6 +4,7 @@ import styles from "./UpdateStage.module.css";
 
 const UpdateStageModal = ({ isOpen, onClose, leadId, accessToken }) => {
   const [selectedStage, setSelectedStage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const stages = ["Closed Successfully", "Closed by Someone", "Dropped Lead"];
 
@@ -22,16 +23,18 @@ const UpdateStageModal = ({ isOpen, onClose, leadId, accessToken }) => {
     if (!confirmClose) return;
 
     try {
+      setIsLoading(true); // Start loading
       await axios.put(
         `https://devlokcrmbackend.up.railway.app/leads/update_stage/${leadId}/`,
         { stage: selectedStage },
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
-
       alert("Stage updated successfully!");
       onClose();
     } catch (error) {
       alert("Failed to update stage.");
+    } finally {
+      setIsLoading(false); // Stop loading
     }
   };
 
@@ -48,6 +51,7 @@ const UpdateStageModal = ({ isOpen, onClose, leadId, accessToken }) => {
           value={selectedStage}
           onChange={(e) => setSelectedStage(e.target.value)}
           className={styles.dropdown}
+          disabled={isLoading}
         >
           <option value="">Select Stage</option>
           {stages.map((stage) => (
@@ -56,11 +60,22 @@ const UpdateStageModal = ({ isOpen, onClose, leadId, accessToken }) => {
             </option>
           ))}
         </select>
+
+        {isLoading && <div className={styles.spinner}></div>}
+
         <div className={styles.buttonGroup}>
-          <button onClick={handleSubmit} className={styles.submitButton}>
-            Update
+          <button
+            onClick={handleSubmit}
+            className={styles.submitButton}
+            disabled={isLoading}
+          >
+            {isLoading ? "Updating..." : "Update"}
           </button>
-          <button onClick={onClose} className={styles.cancelButton}>
+          <button
+            onClick={onClose}
+            className={styles.cancelButton}
+            disabled={isLoading}
+          >
             Cancel
           </button>
         </div>
