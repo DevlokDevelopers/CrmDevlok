@@ -13,6 +13,8 @@ const AdminProjectDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState("");
   const [loadingViewDataId, setLoadingViewDataId] = useState(null);
+  const [removingLeadId, setRemovingLeadId] = useState(null);
+
 
 
   const [editModal, setEditModal] = useState(false);
@@ -127,9 +129,10 @@ const AdminProjectDetails = () => {
   const handleRemoveDatabank = async (dataBankId) => {
     const confirmed = window.confirm("Are you sure you want to remove this databank from the project?");
     if (!confirmed) return;
-
+  
     const token = localStorage.getItem("access_token");
-
+    setRemovingLeadId(dataBankId);
+  
     try {
       await axios.delete(
         `https://devlokcrmbackend.up.railway.app/project/remove_data_banks/${id}/`,
@@ -138,14 +141,17 @@ const AdminProjectDetails = () => {
           data: { data_bank_ids: [dataBankId] },
         }
       );
-
+  
       alert("Databank removed successfully.");
       window.location.reload();
     } catch (err) {
       console.error("Failed to remove databank:", err);
       alert("Failed to remove databank from project.");
+    } finally {
+      setRemovingLeadId(null);
     }
   };
+  
 
   const handleRemoveProject = async () => {
     alert("This will also delete the project progress.");
@@ -245,18 +251,18 @@ const AdminProjectDetails = () => {
                     </div>
                     <div className={styles.actionButtons}>
                     <button
-  className={styles.viewDataBtn}
-  onClick={() => handleViewData(lead)}
-  disabled={loadingViewDataId === lead.id}
->
-  {loadingViewDataId === lead.id ? (
-    <>
-      Loading<span className={styles.spinner} />
-    </>
-  ) : (
-    "View Data"
-  )}
-</button>
+                      className={styles.viewDataBtn}
+                      onClick={() => handleViewData(lead)}
+                      disabled={loadingViewDataId === lead.id}
+                    >
+                      {loadingViewDataId === lead.id ? (
+                        <>
+                          Loading<span className={styles.spinner} />
+                        </>
+                      ) : (
+                        "View Data"
+                      )}
+                    </button>
 
                       {lead.message && (
                         <button className={styles.viewNotesBtn} onClick={() => handleViewNotes(lead.message)}>
@@ -266,9 +272,17 @@ const AdminProjectDetails = () => {
                       <button
                         className={styles.removeBtn}
                         onClick={() => handleRemoveDatabank(lead.id)}
+                        disabled={removingLeadId === lead.id}
                       >
-                        Remove from Project
+                        {removingLeadId === lead.id ? (
+                          <>
+                            Removing<span className={styles.spinner} />
+                          </>
+                        ) : (
+                          "Remove from Project"
+                        )}
                       </button>
+
                     </div>
                   </div>
                 </div>
