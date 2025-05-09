@@ -76,7 +76,7 @@ const SideNav = () => {
             "/admin_lead_analytics",
             "/admin_manually_enter_lead",
           ]} />
-          <NavItem icon={<img src={dataIcon} alt="Datas" />} label="Datas" to="/admin_data_graph"
+          <NavItem icon={<img src={dataIcon} alt="Datas" />} label="Datas" to="/admin_databank"
           activePaths={[
             "/admin_sell_databank",
             "/admin_forrent_databank",
