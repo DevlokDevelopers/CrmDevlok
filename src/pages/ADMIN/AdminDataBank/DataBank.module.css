@@ -291,6 +291,13 @@
     height: 20px;
     object-fit: contain;
   }
+  .graphContainer {
+    background-color: #fff;  /* White background */
+    padding: 20px;  /* Add some padding around the chart */
+    border-radius: 10px;  /* Optional: rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);  /* Optional: soft shadow around the container */
+    margin: 20px 0;  /* Add space around the container */
+  }
   
   
   

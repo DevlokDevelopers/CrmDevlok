@@ -242,7 +242,7 @@ const AdminDatabank = () => {
 {activeTab === "Analytics" && (
   <div className={styles.analyticsWrapper}>
     <p className="total-data">Total Collections: {totalDataCount}</p>
-    <div style={{ width: "100%", maxWidth: "720px", margin: "0 auto" }}>
+    <div className={styles.graphContainer}>
       {loading ? (
         <div className={styles.loaderWrapper}>
           <FancySpinner />
