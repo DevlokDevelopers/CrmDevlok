@@ -383,6 +383,9 @@
     .title{
       margin-left: 20px;
     }
+    .graphContainer{
+      height: 200px;
+    }
   }
   
   @media (max-width: 480px) {
