@@ -68,7 +68,7 @@ const AdminSellList = () => {
   }, []);
 
   useEffect(() => {
-    const intervalId = setInterval(fetchData, 10000);
+    const intervalId = setInterval(fetchData, 1000000);
     return () => clearInterval(intervalId);
   }, []);
 
