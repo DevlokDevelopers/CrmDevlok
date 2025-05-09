@@ -18,55 +18,58 @@ const AdminDatabank = () => {
   const itemsPerPage = 8;
   const [loading, setLoading] = useState(false);
 
-  // State to track the active tab (purpose)
   const [activeTab, setActiveTab] = useState("Buy");
+
+  // Map frontend tab labels to backend purpose values
+  const purposeMap = {
+    Buy: "For Buying a Property",
+    Sell: "For Selling a Property",
+    "For Rent": "For Rental or Lease",
+    "Rental Seeker": "Looking to Rent or Lease Property",
+  };
 
   useEffect(() => {
     fetchData();
-  }, []); // Initial data fetch on component mount
+  }, []);
 
-  // Fetch all data from the API
+  useEffect(() => {
+    const actualPurpose = purposeMap[activeTab];
+    filterDataByPurpose(actualPurpose);
+  }, [data, activeTab]);
+
   const fetchData = async () => {
     const token = localStorage.getItem("access_token");
-    if (!token) {
-      return;
-    }
-    setLoading(true); // Start spinner
+    if (!token) return;
+
+    setLoading(true);
     try {
-      const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/databank_list/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        "https://devlokcrmbackend.up.railway.app/databank/databank_list/",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setData(response.data);
-      setFilteredData(response.data);  // Initially, all data is available
     } catch (error) {
       console.error("Error fetching data:", error);
       setError("Failed to fetch data. Try again later.");
     } finally {
-      setLoading(false); // Stop spinner
+      setLoading(false);
     }
   };
 
-  // Function to filter data by purpose
   const filterDataByPurpose = (purpose) => {
-    const filtered = data.filter(item => item.purpose === purpose);
-    setFilteredData(filtered);  // Update the filtered data
+    const filtered = data.filter((item) => item.purpose === purpose);
+    setFilteredData(filtered);
+    setCurrentPage(1);
   };
 
-  // Handle tab change
   const handleTabChange = (tabName) => {
     setActiveTab(tabName);
-    // Only filter data if filteredData for the current tab is empty, otherwise use existing data
-    const existingFilteredData = data.filter(item => item.purpose === tabName);
-    if (existingFilteredData.length > 0) {
-      setFilteredData(existingFilteredData);
-    } else {
-      filterDataByPurpose(tabName);
-    }
   };
 
-  // Handle pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
@@ -77,8 +80,13 @@ const AdminDatabank = () => {
       <div className={styles.container}>
         {/* Header */}
         <div className={styles.headerContainer}>
-          <h2 className={styles.title}>{activeTab} Listings ({filteredData.length})</h2>
-          <button className={styles.filterBtn} onClick={() => setFilterModalOpen(true)}>
+          <h2 className={styles.title}>
+            {activeTab} Listings ({filteredData.length})
+          </h2>
+          <button
+            className={styles.filterBtn}
+            onClick={() => setFilterModalOpen(true)}
+          >
             <img src={filterIcon} alt="Filter Icon" className={styles.icon} />
           </button>
         </div>
@@ -88,7 +96,9 @@ const AdminDatabank = () => {
           {["Buy", "Sell", "For Rent", "Rental Seeker"].map((tab) => (
             <button
               key={tab}
-              className={`${styles.tab} ${activeTab === tab ? styles.activeTab : ""}`}
+              className={`${styles.tab} ${
+                activeTab === tab ? styles.activeTab : ""
+              }`}
               onClick={() => handleTabChange(tab)}
             >
               {tab}
@@ -103,7 +113,7 @@ const AdminDatabank = () => {
             onClose={() => setFilterModalOpen(false)}
             onApply={(queryString) => {
               setFilterModalOpen(false);
-              // Handle filter apply logic
+              // Handle filter logic if needed
             }}
           />
         )}
@@ -123,27 +133,49 @@ const AdminDatabank = () => {
               <div key={item.id} className={styles.leadCard}>
                 <div className={styles.leadInfo}>
                   <div className={styles.infoBlock}>
-                    <p><strong>{item.name}</strong></p>
-                    <p><strong>{item.phonenumber}</strong></p>
+                    <p>
+                      <strong>{item.name}</strong>
+                    </p>
+                    <p>
+                      <strong>{item.phonenumber}</strong>
+                    </p>
                     {item.is_in_project && (
-                    <div className={styles.infoBlock}>
-                      <p className={styles.inProjectTag}>
-                        Involved in Project: <strong>{item.project_name}</strong>
-                      </p>
-                    </div>
-                  )}
+                      <div className={styles.infoBlock}>
+                        <p className={styles.inProjectTag}>
+                          Involved in Project:{" "}
+                          <strong>{item.project_name}</strong>
+                        </p>
+                      </div>
+                    )}
                   </div>
                   <div className={styles.infoBlock}>
-                    <p><strong>{item.district}, {item.place}</strong></p>
-                    <p><strong>{item.address}</strong></p>
+                    <p>
+                      <strong>
+                        {item.district}, {item.place}
+                      </strong>
+                    </p>
+                    <p>
+                      <strong>{item.address}</strong>
+                    </p>
                   </div>
                   <div className={styles.infoBlock}>
-                    <p><strong>Purpose: {item.purpose}</strong></p>
-                    <p><strong>Property Type: {item.mode_of_property}</strong></p>
-                    <p><strong>Lead Category: {item.lead_category}</strong></p>
+                    <p>
+                      <strong>Purpose: {item.purpose}</strong>
+                    </p>
+                    <p>
+                      <strong>Property Type: {item.mode_of_property}</strong>
+                    </p>
+                    <p>
+                      <strong>Lead Category: {item.lead_category}</strong>
+                    </p>
                   </div>
                   <div className={styles.buttonContainer}>
-                    <button className={styles.detailsBtn} onClick={() => setSelectedDatabankId(item.id)}>Details</button>
+                    <button
+                      className={styles.detailsBtn}
+                      onClick={() => setSelectedDatabankId(item.id)}
+                    >
+                      Details
+                    </button>
                     <button className={styles.addimageBtn}>Check Match</button>
                   </div>
                 </div>
@@ -159,7 +191,9 @@ const AdminDatabank = () => {
               <button
                 key={index + 1}
                 onClick={() => setCurrentPage(index + 1)}
-                className={`${styles.paginationBtn} ${currentPage === index + 1 ? styles.activePage : ""}`}
+                className={`${styles.paginationBtn} ${
+                  currentPage === index + 1 ? styles.activePage : ""
+                }`}
               >
                 {index + 1}
               </button>
