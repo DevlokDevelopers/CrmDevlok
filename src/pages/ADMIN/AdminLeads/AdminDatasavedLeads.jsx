@@ -75,9 +75,10 @@ const AdminDataSavedLeads = () => {
       setError("Failed to fetch leads.");
     } finally {
       setLoading(false);
-      setDataFetched(true);
+      setDataFetched(true); // ✅ ONLY here, after leads are set
     }
   };
+  
 
   const fetchSalesManagers = async () => {
     const token = localStorage.getItem("access_token");
@@ -215,7 +216,7 @@ const AdminDataSavedLeads = () => {
           <FancySpinner />
         ) : (
           <>
-            {dataFetched && leads.length === 0 ? (
+            {!loading && dataFetched && leads.length === 0 ? (
               <p>No leads available.</p>
             ) : (
               <div className={styles.leadContainer}>
