@@ -9,6 +9,7 @@ const DataEditForm = () => {
   const navigate = useNavigate();
   const databankId = location.state?.databankId || null;
   const accessToken = localStorage.getItem("access_token");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [step, setStep] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
@@ -93,6 +94,7 @@ const DataEditForm = () => {
       console.error("❌ Cannot submit. Databank ID is missing.");
       return;
     }
+    setIsSubmitting(true);
 
     try {
       const formDataToSend = new FormData();
@@ -127,6 +129,9 @@ const DataEditForm = () => {
       console.error("❌ Error submitting data:", error.response?.data || error.message);
       setErrorMessage(error.response?.data?.error || "Failed to submit data.");
     }
+    finally {
+    setIsSubmitting(false); // Stop loader
+  }
   };
 
   return (
@@ -188,7 +193,10 @@ const DataEditForm = () => {
 
 
               <button type="button" onClick={() => setStep(1)} className={`${styles['button']} ${styles['button-back']}`}>Back</button>
-              <button type="submit" className={`${styles['button']} ${styles['button-submit']}`}>Submit</button>
+              <button type="submit" className={`${styles['button']} ${styles['button-submit']}`} disabled={isSubmitting}>
+                {isSubmitting ? "Saving..." : "Submit"}
+              </button>
+
             </>
           )}
         </form>
