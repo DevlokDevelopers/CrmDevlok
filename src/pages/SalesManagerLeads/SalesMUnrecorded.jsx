@@ -4,7 +4,7 @@ import axios from "axios";
 import styles from "./SalesMNewLeads.module.css";
 import StaffLayout from "../../components/Layouts/SalesMLayout"; 
 import { NotebookPen } from "lucide-react";
-
+import FancySpinner from "../../components/Loader/Loader";
 const UnrecordedLeads = () => {
   const [leads, setLeads] = useState([]);
   const [activeTab, setActiveTab] = useState("New");
@@ -15,6 +15,8 @@ const UnrecordedLeads = () => {
   const leadsPerPage = 8;
   const navigate = useNavigate();
   const location = useLocation();
+  const [loading, setLoading] = useState(true); // New state
+
 
   const tabPaths = {
     Analytics: "/salesmanager_lead_analytics",
@@ -39,6 +41,7 @@ const UnrecordedLeads = () => {
     const token = localStorage.getItem("access_token");
     if (!token) {
       setError("Authorization token is missing. Please login.");
+      setLoading(false);
       return;
     }
 
@@ -55,6 +58,9 @@ const UnrecordedLeads = () => {
       console.error("Error fetching leads:", error);
       setError("Failed to fetch leads. Try again later.");
     }
+    finally {
+    setLoading(false); // always stop spinner
+  }
   };
 
   useEffect(() => {
@@ -117,11 +123,13 @@ const UnrecordedLeads = () => {
           ))}
         </div>
 
-        {error ? (
-          <p className={styles.error}>{error}</p>
-        ) : leads.length === 0 ? (
-          <p className={styles.noData}>No leads available.</p>
-        ) : (
+        {loading ? (
+  <div className={styles.loaderWrapper}><FancySpinner /></div>
+) : error ? (
+  <p className={styles.error}>{error}</p>
+) : leads.length === 0 ? (
+  <p className={styles.noData}>No leads available.</p>
+) : (
           <div className={styles.leadContainer}>
             {currentLeads.map((lead) => (
               <div key={lead.id} className={styles.leadCard}>
