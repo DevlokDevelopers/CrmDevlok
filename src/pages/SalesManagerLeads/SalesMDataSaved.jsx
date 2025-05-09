@@ -214,16 +214,14 @@ const DataSavedLeads = () => {
                     
                     <div className={styles.infoBlock}>
                     <button
-                className={styles.followUpBtn}
-                onClick={() => handleViewData(lead)}
-                disabled={buttonLoadingId === lead.id}
-              >
-                {buttonLoadingId === lead.id ? (
-                  <span className={styles.buttonLoader}><FancySpinner size={18} /></span>
-                ) : (
-                  "View Data"
-                )}
-              </button>
+                    className={`${styles.followUpBtn} ${buttonLoadingId === lead.id ? styles.spinner : ""}`}
+                    onClick={() => handleViewData(lead)}
+                    disabled={buttonLoadingId === lead.id}
+                  >
+                    {buttonLoadingId === lead.id ? "Fetching..." : "View Data"}
+                  </button>
+
+
 
                     </div>
 
