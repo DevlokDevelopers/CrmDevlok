@@ -123,17 +123,39 @@
   .followUpBtn:hover {
     background-color: #16a34a;
   }
-  .ViewDataBtn{
-    background-color: #e5e7eb;
-    color: black;
-    padding: 6px 12px;
+  .ViewDataBtn {
+    position: relative; /* Ensure button has a positioning context */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px; /* Adjust the padding to suit your design */
+    background-color: #007bff; /* Button color */
+    color: white;
     border: none;
-    border-radius: 6px;
-    font-size: 14px;
+    border-radius: 4px;
+    font-size: 16px;
     cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s ease;
   }
+  
+  .triangleSpinner {
+    position: absolute; /* Position the spinner absolutely inside the button */
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top-color: white; /* Spinner color */
+    border-radius: 50%;
+    animation: spin 1s linear infinite; /* Add a spin animation */
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
   
   /* Error and No Data */
   .error,
@@ -295,24 +317,6 @@
     max-width: 200px; /* adjust based on your layout */
   }
 
-  /* Triangle Spinner */
-.triangleSpinner {
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 20px solid #3498db; /* Change the color as needed */
-  animation: rotateTriangle 1s infinite linear;
-}
-
-@keyframes rotateTriangle {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 
   
   /* Responsive styles */
