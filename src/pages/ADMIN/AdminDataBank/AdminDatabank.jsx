@@ -32,7 +32,7 @@ const AdminDatabank = () => {
     }
     setLoading(true); // Start spinner
     try {
-      const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/databank/", {
+      const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/databank_list/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
