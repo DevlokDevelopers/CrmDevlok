@@ -66,10 +66,7 @@ const SalesMForrentList = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const intervalId = setInterval(fetchData, 10000);
-    return () => clearInterval(intervalId);
-  }, []);
+  
 
   const handleTabChange = (tabName) => {
     navigate(tabPaths[tabName] || "/salesmanager_buy");
