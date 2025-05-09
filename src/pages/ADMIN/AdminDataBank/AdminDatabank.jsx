@@ -7,10 +7,20 @@ import UploadImageModal from "../../../components/Modals/AddImageModal";
 import FilterModal from "../../../components/Modals/FilterModal";
 import filterIcon from "../../../assets/setting-4.svg";
 import FancySpinner from "../../../components/Loader/Loader";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 const AdminDatabank = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [analyticsData, setAnalyticsData] = useState([]);
+  const [totalDataCount, setTotalDataCount] = useState(0);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
@@ -20,7 +30,7 @@ const AdminDatabank = () => {
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("Buy");
 
-  const navigate = useNavigate(); // For navigation
+  const navigate = useNavigate();
 
   const purposeMap = {
     Buy: "For Buying a Property",
@@ -34,8 +44,10 @@ const AdminDatabank = () => {
   }, []);
 
   useEffect(() => {
-    const actualPurpose = purposeMap[activeTab];
-    filterDataByPurpose(actualPurpose);
+    if (activeTab !== "Analytics") {
+      const actualPurpose = purposeMap[activeTab];
+      filterDataByPurpose(actualPurpose);
+    }
   }, [data, activeTab]);
 
   const fetchData = async () => {
@@ -52,7 +64,20 @@ const AdminDatabank = () => {
           },
         }
       );
-      setData(response.data);
+
+      const databank = response.data.databank;
+      const analytics = response.data.analytics;
+
+      setData(databank);
+
+      setAnalyticsData([
+        { name: "Buy", value: analytics.buy },
+        { name: "Sell", value: analytics.sell },
+        { name: "Rent", value: analytics.for_rental },
+        { name: "Seeker", value: analytics.rental_seeker },
+      ]);
+
+      setTotalDataCount(analytics.total_collections);
     } catch (error) {
       console.error("Error fetching data:", error);
       setError("Failed to fetch data. Try again later.");
@@ -90,7 +115,9 @@ const AdminDatabank = () => {
         {/* Header */}
         <div className={styles.headerContainer}>
           <h2 className={styles.title}>
-            {activeTab} Listings ({filteredData.length})
+            {activeTab === "Analytics"
+              ? "Data Overview"
+              : `${activeTab} Listings (${filteredData.length})`}
           </h2>
           <button
             className={styles.filterBtn}
@@ -102,17 +129,19 @@ const AdminDatabank = () => {
 
         {/* Tabs */}
         <div className={styles.tabContainer}>
-          {["Buy", "Sell", "For Rent", "Rental Seeker"].map((tab) => (
-            <button
-              key={tab}
-              className={`${styles.tab} ${
-                activeTab === tab ? styles.activeTab : ""
-              }`}
-              onClick={() => handleTabChange(tab)}
-            >
-              {tab}
-            </button>
-          ))}
+          {["Analytics", "Buy", "Sell", "For Rent", "Rental Seeker"].map(
+            (tab) => (
+              <button
+                key={tab}
+                className={`${styles.tab} ${
+                  activeTab === tab ? styles.activeTab : ""
+                }`}
+                onClick={() => handleTabChange(tab)}
+              >
+                {tab}
+              </button>
+            )
+          )}
         </div>
 
         {/* Filter Modal */}
@@ -122,13 +151,38 @@ const AdminDatabank = () => {
             onClose={() => setFilterModalOpen(false)}
             onApply={(queryString) => {
               setFilterModalOpen(false);
-              // Handle filter logic if needed
+              // Optionally filter via backend here
             }}
           />
         )}
 
-        {/* Content */}
-        {loading ? (
+        {/* Analytics Chart */}
+        {activeTab === "Analytics" ? (
+          <div className={styles.analyticsWrapper}>
+            <h3 className="graph-title">Admin Databank Analytics</h3>
+            <p className="total-data">
+              Total Collections: {totalDataCount}
+            </p>
+            <div className="chart-wrapper" style={{ width: "100%", height: 320 }}>
+              {loading ? (
+                <p>Loading...</p>
+              ) : (
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={analyticsData}
+                    barSize={50}
+                    margin={{ top: 10, bottom: 10 }}
+                  >
+                    <XAxis dataKey="name" stroke="#333" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="value" fill="#5766f6" radius={[10, 10, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              )}
+            </div>
+          </div>
+        ) : loading ? (
           <div className={styles.loaderWrapper}>
             <FancySpinner />
           </div>
@@ -172,7 +226,9 @@ const AdminDatabank = () => {
                       <strong>Purpose: {item.purpose}</strong>
                     </p>
                     <p>
-                      <strong>Property Type: {item.mode_of_property}</strong>
+                      <strong>
+                        Property Type: {item.mode_of_property}
+                      </strong>
                     </p>
                     <p>
                       <strong>Lead Category: {item.lead_category}</strong>
@@ -199,7 +255,7 @@ const AdminDatabank = () => {
         )}
 
         {/* Pagination */}
-        {totalPages > 1 && (
+        {activeTab !== "Analytics" && totalPages > 1 && (
           <div className={styles.paginationContainer}>
             {Array.from({ length: totalPages }, (_, index) => (
               <button

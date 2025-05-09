@@ -291,6 +291,24 @@
     height: 20px;
     object-fit: contain;
   }
+  .graph-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .total-data {
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  
+  .chart-wrapper {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
   
   /* Responsive Design */
   @media (max-width: 1024px) {
