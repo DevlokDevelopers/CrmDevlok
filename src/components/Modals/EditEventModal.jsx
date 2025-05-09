@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./EditEventModal.module.css";
+import { FaSpinner } from "react-icons/fa"; // Importing a spinner icon
 
 const EditEventModal = ({ isOpen, onClose, eventData, onEventUpdated }) => {
   const [eventName, setEventName] = useState("");
@@ -71,7 +72,13 @@ const EditEventModal = ({ isOpen, onClose, eventData, onEventUpdated }) => {
 
         <div className={styles.buttonContainer}>
           <button onClick={handleSave} disabled={loading}>
-            {loading ? "Saving..." : "Save"}
+            {loading ? (
+              <>
+                <FaSpinner className={styles.spinner} /> Saving...
+              </>
+            ) : (
+              "Save"
+            )}
           </button>
           <button onClick={onClose}>Cancel</button>
         </div>
