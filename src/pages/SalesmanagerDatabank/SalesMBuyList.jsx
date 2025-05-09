@@ -133,43 +133,43 @@ const BuyList = () => {
   <div className={styles.loaderWrapper}><FancySpinner /></div>
 ) : error ? (
   <p className={styles.error}>{error}</p>
-) : leads.length === 0 ? (
-  <p className={styles.noData}>No Data available.</p>
+) : data.length === 0 ? (
+  <p className={styles.noData}>No data available.</p>
 ) : (
-          <div className={styles.leadContainer}>
-            {currentItems.map((item) => (
-              <div key={item.id} className={styles.leadCard}>
-                <div className={styles.leadInfo}>
-                  <div className={styles.infoBlock}>
-                    <p><strong>{item.name}</strong></p>
-                    <p><strong>{item.phonenumber}</strong></p>
-                    {item.is_in_project && (
-                                        <div className={styles.infoBlock}>
-                                          <p className={styles.inProjectTag}>
-                                          <strong>Involved in Project: {item.project_name}</strong>
-                                          </p>
-                                        </div>
-                                      )}
-                  </div>
-                  <div className={styles.infoBlock}>
-                    <p><strong>{item.district}, {item.place}</strong></p>
-                    <p><strong>{item.address}</strong></p>
-                  </div>
-                  <div className={styles.infoBlock}>
-                    <p><strong>Purpose: {item.purpose}</strong></p>
-                    <p><strong>Property Type: {item.mode_of_property}</strong></p>
-                    <p><strong>Lead Category: {item.lead_category}</strong></p>
-                    
-                  </div>
-                  <div className={styles.buttonContainer}>
-                    <button className={styles.detailsBtn} onClick={() => handleDetails(item.id)}>Details</button>
-                    <button className={styles.addimageBtn} onClick={() => handleMatchData(item.id)}>Check Match</button>
-                  </div>
-                </div>
+  <div className={styles.leadContainer}>
+    {currentItems.map((item) => (
+      <div key={item.id} className={styles.leadCard}>
+        <div className={styles.leadInfo}>
+          <div className={styles.infoBlock}>
+            <p><strong>{item.name}</strong></p>
+            <p><strong>{item.phonenumber}</strong></p>
+            {item.is_in_project && (
+              <div className={styles.infoBlock}>
+                <p className={styles.inProjectTag}>
+                  <strong>Involved in Project: {item.project_name}</strong>
+                </p>
               </div>
-            ))}
+            )}
           </div>
-        )}
+          <div className={styles.infoBlock}>
+            <p><strong>{item.district}, {item.place}</strong></p>
+            <p><strong>{item.address}</strong></p>
+          </div>
+          <div className={styles.infoBlock}>
+            <p><strong>Purpose: {item.purpose}</strong></p>
+            <p><strong>Property Type: {item.mode_of_property}</strong></p>
+            <p><strong>Lead Category: {item.lead_category}</strong></p>
+          </div>
+          <div className={styles.buttonContainer}>
+            <button className={styles.detailsBtn} onClick={() => handleDetails(item.id)}>Details</button>
+            <button className={styles.addimageBtn} onClick={() => handleMatchData(item.id)}>Check Match</button>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+)}
+
 
         {/* Pagination */}
         {totalPages > 1 && (
