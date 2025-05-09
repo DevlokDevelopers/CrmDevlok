@@ -4,6 +4,7 @@ import axios from "axios";
 import styles from "./SalesMNewLeads.module.css";
 import StaffLayout from "../../components/Layouts/SalesMLayout"; 
 import { NotebookPen } from "lucide-react";
+import FancySpinner from "../../components/Loader/Loader";
 
 const DataSavedLeads = () => {
   const [leads, setLeads] = useState([]);
@@ -15,6 +16,9 @@ const DataSavedLeads = () => {
   const leadsPerPage = 8;
   const navigate = useNavigate();
   const location = useLocation();
+  const [loading, setLoading] = useState(true); // for page loader
+  const [buttonLoadingId, setButtonLoadingId] = useState(null); // for individual View Data buttons
+
 
   const tabPaths = {
     Analytics: "/salesmanager_lead_analytics", // Disabled Tabs
@@ -35,32 +39,36 @@ const DataSavedLeads = () => {
   }, [location.pathname]);
 
   const fetchLeads = async () => {
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-      setError("Authorization token is missing. Please login.");
-      return;
-    }
+  const token = localStorage.getItem("access_token");
+  if (!token) {
+    setError("Authorization token is missing. Please login.");
+    setLoading(false);
+    return;
+  }
 
-    try {
-      const response = await axios.get(
-        "https://devlokcrmbackend.up.railway.app/leads/datasaved_leads/",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setLeads(response.data);
-      setError(""); 
-    } catch (error) {
-      console.error("Error fetching leads:", error);
-      if (error.response && error.response.status === 401) {
-        setError("Unauthorized access. Please login again.");
-      } else {
-        setError("Failed to fetch leads. Try again later.");
+  try {
+    const response = await axios.get(
+      "https://devlokcrmbackend.up.railway.app/leads/datasaved_leads/",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
+    );
+    setLeads(response.data);
+    setError(""); 
+  } catch (error) {
+    console.error("Error fetching leads:", error);
+    if (error.response?.status === 401) {
+      setError("Unauthorized access. Please login again.");
+    } else {
+      setError("Failed to fetch leads. Try again later.");
     }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => {
     fetchLeads();
@@ -97,7 +105,8 @@ const DataSavedLeads = () => {
   };
 
   const handleViewData = (lead) => {
-    const accessToken = localStorage.getItem("access_token");
+  setButtonLoadingId(lead.id);
+  const accessToken = localStorage.getItem("access_token");
 
   axios
     .get(`https://devlokcrmbackend.up.railway.app/databank/lead_into_db_sales/${lead.id}/`, {
@@ -114,8 +123,12 @@ const DataSavedLeads = () => {
     .catch((error) => {
       console.error("Error fetching databank from lead:", error);
       alert("Failed to fetch databank details.");
+    })
+    .finally(() => {
+      setButtonLoadingId(null);
     });
-  };
+};
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const dd = String(date.getDate()).padStart(2, "0");
@@ -147,11 +160,13 @@ const DataSavedLeads = () => {
           ))}
         </div>
 
-        {error ? (
-          <p className={styles.error}>{error}</p>
-        ) : leads.length === 0 ? (
-          <p className={styles.noData}>No leads available.</p>
-        ) : (
+        {loading ? (
+  <div className={styles.loaderWrapper}><FancySpinner /></div>
+) : error ? (
+  <p className={styles.error}>{error}</p>
+) : leads.length === 0 ? (
+  <p className={styles.noData}>No leads available.</p>
+) : (
           <>
             <div className={styles.leadContainer}>
               {currentLeads.map((lead) => (
@@ -198,9 +213,17 @@ const DataSavedLeads = () => {
                     </div>
                     
                     <div className={styles.infoBlock}>
-                    <button className={styles.followUpBtn} onClick={() => handleViewData(lead)}>
-                      View Data
-                    </button>
+                    <button
+                className={styles.followUpBtn}
+                onClick={() => handleViewData(lead)}
+                disabled={buttonLoadingId === lead.id}
+              >
+                {buttonLoadingId === lead.id ? (
+                  <span className={styles.buttonLoader}><FancySpinner size={18} /></span>
+                ) : (
+                  "View Data"
+                )}
+              </button>
 
                     </div>
 
