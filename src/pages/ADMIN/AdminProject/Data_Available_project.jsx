@@ -4,12 +4,13 @@ import styles from "./DataForProject.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { useNavigate, useParams } from "react-router-dom";
 import FancySpinner from "../../../components/Loader/Loader";
+
 const AdminDataForProject = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState("Buy");
-  const [loadingAdd, setLoadingAdd] = useState(false); // ✅ new loading state
+  const [loadingAdd, setLoadingAdd] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { projectId } = useParams();
@@ -32,22 +33,32 @@ const AdminDataForProject = () => {
     setLoading(true);
 
     try {
-      const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/databank_project_list/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        "https://devlokcrmbackend.up.railway.app/databank/databank_project_list/",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // simulate delay to show spinner clearly (for testing)
+      await new Promise((res) => setTimeout(res, 1000));
+
       setData(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
       setError("Failed to fetch data. Try again later.");
-    }
-    finally {
-      setLoading(false); // Stop spinner
+    } finally {
+      setLoading(false);
     }
   };
 
-  
+  useEffect(() => {
+    fetchData();
+    const intervalId = setInterval(fetchData, 10000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   const handleDetails = (databankId) => {
     navigate("/admin_data_display", { state: { databankId } });
@@ -78,7 +89,7 @@ const AdminDataForProject = () => {
         }
       );
       alert("Databank added to project successfully!");
-      navigate(`/single_admin_project/${projectId}`); // ✅ redirect after success
+      navigate(`/single_admin_project/${projectId}`);
     } catch (error) {
       console.error("Error adding databank to project:", error);
       alert("Failed to add databank to project.");
@@ -117,14 +128,14 @@ const AdminDataForProject = () => {
         </div>
 
         {loading ? (
-        <div className={styles.loaderWrapper}>
-          <FancySpinner />
-        </div>
-      ) : error ? (
-        <p className={styles.error}>{error}</p>
-      ) : currentItems.length === 0 ? (
-        <p className={styles.noData}>No data available.</p>
-      ) : (
+          <div className={styles.loaderWrapper}>
+            <FancySpinner />
+          </div>
+        ) : error ? (
+          <p className={styles.error}>{error}</p>
+        ) : currentItems.length === 0 ? (
+          <p className={styles.noData}>No data available.</p>
+        ) : (
           <div className={styles.leadContainer}>
             {currentItems.map((item) => (
               <div key={item.id} className={styles.leadCard}>
@@ -132,7 +143,6 @@ const AdminDataForProject = () => {
                   <div className={styles.infoBlock}>
                     <p><strong>{item.name}</strong></p>
                     <p>{item.phonenumber}</p>
-                    
                   </div>
                   <div className={styles.infoBlock}>
                     <p>{item.district}, {item.place}</p>
@@ -142,7 +152,6 @@ const AdminDataForProject = () => {
                     <p>Purpose: <strong>{item.purpose}</strong></p>
                     <p>Property Type: <strong>{item.mode_of_property}</strong></p>
                   </div>
-
                   <div className={styles.buttonContainer}>
                     <button
                       className={styles.detailsBtn}
