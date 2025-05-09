@@ -6,7 +6,7 @@ import StaffLayout from "../../components/Layouts/SalesMLayout";
 import UploadImageModal from "../../components/Modals/AddImageModal"; 
 import FilterModal from "../../components/Modals/FilterModal"; // Import Filter Modal
 import filterIcon from "../../assets/setting-4.svg"
-
+import FancySpinner from "../../components/Loader/Loader";
 
 const SalesMRentSeekerList = () => {
   const [data, setData] = useState([]);
@@ -18,6 +18,7 @@ const SalesMRentSeekerList = () => {
   const itemsPerPage = 8;
   const navigate = useNavigate();
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(true);
 
   const tabPaths = {
     Analytics: "/data_graph_salesmanager",
@@ -42,6 +43,7 @@ const SalesMRentSeekerList = () => {
     const token = localStorage.getItem("access_token");
     if (!token) {
       setError("Authorization token is missing. Please login.");
+      setIsLoading(false);
       return;
     }
 
@@ -56,6 +58,9 @@ const SalesMRentSeekerList = () => {
       console.error("Error fetching data:", error);
       setError("Failed to fetch data. Try again later.");
     }
+    finally {
+    setIsLoading(false); // Stop loading regardless of result
+  }
   };
 
   useEffect(() => {
@@ -123,11 +128,13 @@ const SalesMRentSeekerList = () => {
           />
         )}
 
-        {error ? (
-          <p className={styles.error}>{error}</p>
-        ) : data.length === 0 ? (
-          <p className={styles.noData}>No data available.</p>
-        ) : (
+        {isLoading ? (
+  <div className={styles.loaderWrapper}><FancySpinner /></div>
+) : error ? (
+  <p className={styles.error}>{error}</p>
+) : data.length === 0 ? (
+  <p className={styles.noData}>No data available.</p>
+) : (
           <div className={styles.leadContainer}>
             {currentItems.map((item) => (
               <div key={item.id} className={styles.leadCard}>
