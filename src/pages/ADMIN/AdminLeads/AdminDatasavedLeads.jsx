@@ -263,7 +263,7 @@ const AdminDataSavedLeads = () => {
                         disabled={viewingLeadId === lead.id}
                       >
                         {viewingLeadId === lead.id ? (
-                          <div className={styles.triangleSpinner}></div> // Use the triangle spinner
+                          <div className={styles.circleSpinner}></div> // Use the triangle spinner
                         ) : (
                           "View Data"
                         )}
