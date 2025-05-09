@@ -23,8 +23,9 @@ const AdminDatabank = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, []); // Initial data fetch on component mount
 
+  // Fetch all data from the API
   const fetchData = async () => {
     const token = localStorage.getItem("access_token");
     if (!token) {
@@ -56,7 +57,13 @@ const AdminDatabank = () => {
   // Handle tab change
   const handleTabChange = (tabName) => {
     setActiveTab(tabName);
-    filterDataByPurpose(tabName);
+    // Only filter data if filteredData for the current tab is empty, otherwise use existing data
+    const existingFilteredData = data.filter(item => item.purpose === tabName);
+    if (existingFilteredData.length > 0) {
+      setFilteredData(existingFilteredData);
+    } else {
+      filterDataByPurpose(tabName);
+    }
   };
 
   // Handle pagination
