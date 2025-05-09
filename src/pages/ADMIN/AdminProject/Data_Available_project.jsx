@@ -3,14 +3,14 @@ import axios from "axios";
 import styles from "./DataForProject.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { useNavigate, useParams } from "react-router-dom";
-
+import FancySpinner from "../../../components/Loader/Loader";
 const AdminDataForProject = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState("Buy");
   const [loadingAdd, setLoadingAdd] = useState(false); // ✅ new loading state
-
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { projectId } = useParams();
 
@@ -29,6 +29,7 @@ const AdminDataForProject = () => {
       setError("Authorization token is missing. Please login.");
       return;
     }
+    setLoading(true);
 
     try {
       const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/databank_project_list/", {
@@ -41,13 +42,12 @@ const AdminDataForProject = () => {
       console.error("Error fetching data:", error);
       setError("Failed to fetch data. Try again later.");
     }
+    finally {
+      setLoading(false); // Stop spinner
+    }
   };
 
-  useEffect(() => {
-    fetchData();
-    const intervalId = setInterval(fetchData, 10000);
-    return () => clearInterval(intervalId);
-  }, []);
+  
 
   const handleDetails = (databankId) => {
     navigate("/admin_data_display", { state: { databankId } });
@@ -116,11 +116,15 @@ const AdminDataForProject = () => {
           ))}
         </div>
 
-        {error ? (
-          <p className={styles.error}>{error}</p>
-        ) : currentItems.length === 0 ? (
-          <p className={styles.noData}>No data available.</p>
-        ) : (
+        {loading ? (
+        <div className={styles.loaderWrapper}>
+          <FancySpinner />
+        </div>
+      ) : error ? (
+        <p className={styles.error}>{error}</p>
+      ) : currentItems.length === 0 ? (
+        <p className={styles.noData}>No data available.</p>
+      ) : (
           <div className={styles.leadContainer}>
             {currentItems.map((item) => (
               <div key={item.id} className={styles.leadCard}>
