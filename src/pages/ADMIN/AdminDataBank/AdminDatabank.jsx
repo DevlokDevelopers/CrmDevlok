@@ -106,15 +106,7 @@ const AdminDatabank = () => {
     navigate("/admin_matching_data", { state: { databankId } });
   };
   const handleApplyFilters = (queryString) => {
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-      // Redirect to login if no token is found
-      navigate("/login");
-      return;
-    }
-  
     setFilterModalOpen(false);
-    // Ensure token is added as a header for the filter results
     navigate(`/filter_result?${queryString}`);
   };
   
