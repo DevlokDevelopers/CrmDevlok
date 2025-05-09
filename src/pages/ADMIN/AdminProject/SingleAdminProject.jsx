@@ -15,6 +15,8 @@ const AdminProjectDetails = () => {
   const [loadingViewDataId, setLoadingViewDataId] = useState(null);
   const [removingLeadId, setRemovingLeadId] = useState(null);
   const [updatingProject, setUpdatingProject] = useState(false);
+  const [removingProject, setRemovingProject] = useState(false);
+
 
 
 
@@ -162,28 +164,33 @@ const AdminProjectDetails = () => {
 
   const handleRemoveProject = async () => {
     alert("This will also delete the project progress.");
-
+  
     const confirmed = window.confirm("Are you sure you want to delete this entire project?");
     if (!confirmed) return;
-
+  
     const token = localStorage.getItem("access_token");
     if (!token) {
       navigate("/login");
       return;
     }
-
+  
+    setRemovingProject(true);
+  
     try {
       await axios.delete(`https://devlokcrmbackend.up.railway.app/project/remove_project/${id}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-
+  
       alert("Project deleted successfully.");
       navigate("/admin_projects");
     } catch (err) {
       console.error("Error deleting project:", err);
       alert("Failed to delete the project.");
+    } finally {
+      setRemovingProject(false);
     }
   };
+  
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -225,9 +232,20 @@ const AdminProjectDetails = () => {
             ✏️ Edit Project
           </button>
 
-          <button className={styles.removeProjectBtn} onClick={handleRemoveProject}>
-            ❌ Remove Entire Project
+          <button
+            className={styles.removeProjectBtn}
+            onClick={handleRemoveProject}
+            disabled={removingProject}
+          >
+            {removingProject ? (
+              <>
+                Removing<span className={styles.spinner} />
+              </>
+            ) : (
+              "❌ Remove Entire Project"
+            )}
           </button>
+
         </div>
 
         {/* Right Panel */}
