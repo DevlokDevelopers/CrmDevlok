@@ -6,13 +6,13 @@ import { useNavigate } from "react-router-dom";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { Trash2, Pencil } from "lucide-react";
 import { format } from "date-fns";
-
+import FancySpinner from "../../../components/Loader/Loader";
 const AdminUpcomingEvents = () => {
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const eventsPerPage = 8;
-
+  const [loading, setLoading] = useState(true);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editEventData, setEditEventData] = useState({
     id: null,
@@ -37,24 +37,28 @@ const AdminUpcomingEvents = () => {
       navigate("/login");
       return;
     }
-
+  
+    setLoading(true); // start spinner
     try {
       const response = await axios.get("https://devlokcrmbackend.up.railway.app/task/list_events/", {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-
+  
       const formattedEvents = (response.data || []).sort(
         (a, b) => new Date(a.date_time) - new Date(b.date_time)
       );
-
+  
       setEvents(formattedEvents);
     } catch (error) {
       console.error("Error fetching events:", error);
       setError(
         error.response?.data?.message || "Error fetching events. Please try again later."
       );
+    } finally {
+      setLoading(false); // stop spinner
     }
   };
+  
 
   useEffect(() => {
     fetchEvents();
@@ -217,7 +221,9 @@ const AdminUpcomingEvents = () => {
 
         <h2 className={styles.heading}>Upcoming Admin Events</h2>
 
-        {error ? (
+        {loading ? (
+          <FancySpinner /> // Show spinner while loading
+        ) : error ? (
           <div className={styles.error}>{error}</div>
         ) : (
           <>
