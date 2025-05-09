@@ -105,6 +105,10 @@ const AdminDatabank = () => {
   const handleMatchData = (databankId) => {
     navigate("/admin_matching_data", { state: { databankId } });
   };
+  const handleApplyFilters = (queryString) => {
+    setFilterModalOpen(false);
+    navigate(`/filter_result?${queryString}`);
+  };
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -232,6 +236,7 @@ const AdminDatabank = () => {
             onClose={() => setFilterModalOpen(false)}
             onApply={(queryString) => {
               setFilterModalOpen(false);
+              onApply={handleApplyFilters}
               // Optionally filter via backend here
             }}
           />
