@@ -3,29 +3,35 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./FilterResult.module.css";
 import StaffLayout from "../../components/Layouts/SalesMLayout";
-
+import FancySpinner from "../../components/Loader/Loader";
 const FilteredResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const queryParams = new URLSearchParams(location.search);
+  const [isLoading, setIsLoading] = useState(true);
+
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/filter/", {
-          params: Object.fromEntries(queryParams.entries()),
-        });
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching filtered results:", error);
-        setError("Failed to fetch filtered results.");
-      }
-    };
+  const fetchData = async () => {
+    setIsLoading(true); // Start loading
+    try {
+      const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/filter/", {
+        params: Object.fromEntries(queryParams.entries()),
+      });
+      setData(response.data);
+    } catch (error) {
+      console.error("Error fetching filtered results:", error);
+      setError("Failed to fetch filtered results.");
+    } finally {
+      setIsLoading(false); // Stop loading regardless of outcome
+    }
+  };
 
-    fetchData();
-  }, [location.search]);
+  fetchData();
+}, [location.search]);
+
 
   return (
     <StaffLayout>
@@ -33,11 +39,13 @@ const FilteredResults = () => {
         <h2 className={styles.title}>🔍 Filtered Results</h2>
         <button className={styles.backButton} onClick={() => navigate(-1)}>Back</button>
 
-        {error ? (
-          <p className={styles.error}>{error}</p>
-        ) : data.length === 0 ? (
-          <p className={styles.noData}>No matching results found.</p>
-        ) : (
+        {isLoading ? (
+  <div className={styles.loaderWrapper}><FancySpinner /></div>
+) : error ? (
+  <p className={styles.error}>{error}</p>
+) : data.length === 0 ? (
+  <p className={styles.noData}>No matching results found.</p>
+) : (
           <div className={styles.resultsContainer}>
             {data.map((item) => (
               <div key={item.id} className={styles.resultCard}>
