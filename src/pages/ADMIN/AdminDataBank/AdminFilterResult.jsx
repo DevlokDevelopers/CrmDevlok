@@ -17,22 +17,34 @@ const AdminFilteredResults = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); // Start spinner
+      setLoading(true);
+      const token = localStorage.getItem("access_token");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
       try {
-        const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/filter/", {
-          params: Object.fromEntries(queryParams.entries()),
-        });
+        const response = await axios.get(
+          "https://devlokcrmbackend.up.railway.app/databank/filter/",
+          {
+            params: Object.fromEntries(queryParams.entries()),
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setData(response.data);
       } catch (error) {
         console.error("Error fetching filtered results:", error);
         setError("Failed to fetch filtered results.");
       } finally {
-        setLoading(false); // Stop spinner
+        setLoading(false);
       }
     };
-  
-    fetchData();
-  }, [location.search]);
+
+    fetchData(); // 🛠️ CALL the async function
+  }, [location.search, navigate]);
   
 
   return (
