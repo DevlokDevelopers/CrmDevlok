@@ -4,7 +4,7 @@ import axios from "axios";
 import styles from "./AdminLeads.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { NotebookPen } from "lucide-react";
-
+import FancySpinner from "../../../components/Loader/Loader";
 const AdminClosedLeads = () => {
   const [leads, setLeads] = useState([]);
   const [error, setError] = useState("");
@@ -15,6 +15,8 @@ const AdminClosedLeads = () => {
   const location = useLocation();
   const [selectedMessage, setSelectedMessage] = useState("");
   const [showMessageModal, setShowMessageModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+
 
 
   const tabPaths = {
@@ -58,15 +60,22 @@ const AdminClosedLeads = () => {
       return;
     }
     try {
-      const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/get_successfullyclosed_leads/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      setLoading(true); // show spinner
+      const res = await axios.get(
+        "https://devlokcrmbackend.up.railway.app/leads/get_successfullyclosed_leads/",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setLeads(res.data);
     } catch (err) {
       console.error(err);
       setError("Failed to fetch leads.");
+    } finally {
+      setLoading(false); // hide spinner
     }
   };
+  
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const dd = String(date.getDate()).padStart(2, "0");
@@ -91,6 +100,10 @@ const AdminClosedLeads = () => {
   const indexOfFirst = indexOfLast - leadsPerPage;
   const currentLeads = leads.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(leads.length / leadsPerPage);
+  if (loading) {
+    return <FancySpinner />;
+  }
+  
 
   return (
     <AdminLayout>
