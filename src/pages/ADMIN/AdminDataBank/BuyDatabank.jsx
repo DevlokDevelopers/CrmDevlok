@@ -6,7 +6,7 @@ import AdminLayout from "../../../components/Layouts/AdminLayout";
 import UploadImageModal from "../../../components/Modals/AddImageModal";
 import FilterModal from "../../../components/Modals/FilterModal";
 import filterIcon from "../../../assets/setting-4.svg";
-
+import FancySpinner from "../../../components/Loader/Loader";
 const AdminBuyList = () => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
@@ -17,6 +17,8 @@ const AdminBuyList = () => {
   const itemsPerPage = 8;
   const navigate = useNavigate();
   const location = useLocation();
+  const [loading, setLoading] = useState(false);
+
 
   const tabPaths = {
     Analytics: "/admin_data_graph",
@@ -43,6 +45,7 @@ const AdminBuyList = () => {
       navigate("/login");
       return;
     }
+    setLoading(true); // Start spinner
     try {
       const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/databank_buy/", {
         headers: {
@@ -53,9 +56,11 @@ const AdminBuyList = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
       setError("Failed to fetch data. Try again later.");
+    } finally {
+      setLoading(false); // Stop spinner
     }
   };
-
+  
   useEffect(() => {
     fetchData();
   }, []);
@@ -121,11 +126,15 @@ const AdminBuyList = () => {
         )}
 
         {/* Content */}
-        {error ? (
-          <p className={styles.error}>{error}</p>
-        ) : data.length === 0 ? (
-          <p className={styles.noData}>No data available.</p>
-        ) : (
+        {loading ? (
+            <div className={styles.loaderWrapper}>
+              <FancySpinner />
+            </div>
+          ) : error ? (
+            <p className={styles.error}>{error}</p>
+          ) : data.length === 0 ? (
+            <p className={styles.noData}>No data available.</p>
+          ) : (
           <div className={styles.leadContainer}>
             {currentItems.map((item) => (
               <div key={item.id} className={styles.leadCard}>
