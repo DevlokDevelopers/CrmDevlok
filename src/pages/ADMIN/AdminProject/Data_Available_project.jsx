@@ -54,11 +54,7 @@ const AdminDataForProject = () => {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-    const intervalId = setInterval(fetchData, 10000);
-    return () => clearInterval(intervalId);
-  }, []);
+  
 
   const handleDetails = (databankId) => {
     navigate("/admin_data_display", { state: { databankId } });
