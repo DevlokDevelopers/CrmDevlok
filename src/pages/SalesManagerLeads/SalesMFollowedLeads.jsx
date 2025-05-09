@@ -4,7 +4,7 @@ import axios from "axios";
 import styles from "./SalesMNewLeads.module.css";
 import StaffLayout from "../../components/Layouts/SalesMLayout"; 
 import { NotebookPen } from "lucide-react";
-
+import FancySpinner from "../../components/Loader/Loader";
 const FollowedLeads = () => {
   const [leads, setLeads] = useState([]);
   const [activeTab, setActiveTab] = useState("New");
@@ -15,6 +15,7 @@ const FollowedLeads = () => {
   const leadsPerPage = 8;
   const navigate = useNavigate();
   const location = useLocation();
+  const [loading, setLoading] = useState(true); // New state
 
   const tabPaths = {
     Analytics: "/salesmanager_lead_analytics",
@@ -36,26 +37,30 @@ const FollowedLeads = () => {
   }, [location.pathname]);
 
   const fetchLeads = async () => {
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-      setError("Authorization token is missing. Please login.");
-      return;
-    }
+  const token = localStorage.getItem("access_token");
+  if (!token) {
+    setError("Authorization token is missing. Please login.");
+    setLoading(false); // needed here because of early return
+    return;
+  }
 
-    try {
-      const response = await axios.get(
-        "https://devlokcrmbackend.up.railway.app/leads/get_followed_leads/",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setLeads(response.data);
-      setError(""); 
-    } catch (error) {
-      console.error("Error fetching leads:", error);
-      setError("Failed to fetch leads. Try again later.");
-    }
-  };
+  try {
+    const response = await axios.get(
+      "https://devlokcrmbackend.up.railway.app/leads/get_followed_leads/",
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    setLeads(response.data);
+    setError(""); 
+  } catch (error) {
+    console.error("Error fetching leads:", error);
+    setError("Failed to fetch leads. Try again later.");
+  } finally {
+    setLoading(false); // always stop spinner
+  }
+};
+
 
   useEffect(() => {
     fetchLeads();
@@ -115,7 +120,9 @@ const FollowedLeads = () => {
           ))}
         </div>
 
-        {error ? (
+        {loading ? (
+          <div className={styles.loaderWrapper}><FancySpinner /></div>
+        ) : error ? (
           <p className={styles.error}>{error}</p>
         ) : leads.length === 0 ? (
           <p className={styles.noData}>No leads available.</p>
