@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./DataBank.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
@@ -17,10 +18,10 @@ const AdminDatabank = () => {
   const [selectedDatabankId, setSelectedDatabankId] = useState(null);
   const itemsPerPage = 8;
   const [loading, setLoading] = useState(false);
-
   const [activeTab, setActiveTab] = useState("Buy");
 
-  // Map frontend tab labels to backend purpose values
+  const navigate = useNavigate(); // For navigation
+
   const purposeMap = {
     Buy: "For Buying a Property",
     Sell: "For Selling a Property",
@@ -68,6 +69,14 @@ const AdminDatabank = () => {
 
   const handleTabChange = (tabName) => {
     setActiveTab(tabName);
+  };
+
+  const handleDetails = (databankId) => {
+    navigate("/admin_data_display", { state: { databankId } });
+  };
+
+  const handleMatchData = (databankId) => {
+    navigate("/admin_matching_data", { state: { databankId } });
   };
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -172,11 +181,16 @@ const AdminDatabank = () => {
                   <div className={styles.buttonContainer}>
                     <button
                       className={styles.detailsBtn}
-                      onClick={() => setSelectedDatabankId(item.id)}
+                      onClick={() => handleDetails(item.id)}
                     >
                       Details
                     </button>
-                    <button className={styles.addimageBtn}>Check Match</button>
+                    <button
+                      className={styles.addimageBtn}
+                      onClick={() => handleMatchData(item.id)}
+                    >
+                      Check Match
+                    </button>
                   </div>
                 </div>
               </div>
