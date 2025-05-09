@@ -212,11 +212,7 @@ const AdminDatabank = () => {
         )}
 
         {/* Listings / Data */}
-        { error ? (
-          <p className={styles.error}>{error}</p>
-        ) : filteredData.length === 0 ? (
-          <p className={styles.noData}>No data available.</p>
-        ) : activeTab !== "Analytics" ? (
+        { activeTab !== "Analytics" ? (
           <div className={styles.leadContainer}>
             {currentItems.map((item) => (
               <div key={item.id} className={styles.leadCard}>
