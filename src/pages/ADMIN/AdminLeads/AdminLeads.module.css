@@ -294,6 +294,26 @@
     word-wrap: break-word; /* break long words if needed */
     max-width: 200px; /* adjust based on your layout */
   }
+
+  /* Triangle Spinner */
+.triangleSpinner {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid #3498db; /* Change the color as needed */
+  animation: rotateTriangle 1s infinite linear;
+}
+
+@keyframes rotateTriangle {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
   
   /* Responsive styles */
   @media (max-width: 768px) {
