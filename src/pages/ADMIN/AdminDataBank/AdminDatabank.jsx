@@ -7,14 +7,17 @@ import UploadImageModal from "../../../components/Modals/AddImageModal";
 import FilterModal from "../../../components/Modals/FilterModal";
 import filterIcon from "../../../assets/setting-4.svg";
 import FancySpinner from "../../../components/Loader/Loader";
+import { Bar } from "react-chartjs-2";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
   Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+  Legend,
+} from "chart.js";
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const AdminDatabank = () => {
   const [data, setData] = useState([]);
@@ -28,7 +31,7 @@ const AdminDatabank = () => {
   const [selectedDatabankId, setSelectedDatabankId] = useState(null);
   const itemsPerPage = 8;
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState("Buy");
+  const [activeTab, setActiveTab] = useState("Analytics");
 
   const navigate = useNavigate();
 
@@ -109,6 +112,43 @@ const AdminDatabank = () => {
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
+  const chartData = {
+    labels: analyticsData.map((item) => item.name),
+    datasets: [
+      {
+        label: "Leads",
+        data: analyticsData.map((item) => item.value),
+        backgroundColor: ["#4e79a7", "#f28e2b", "#e15759", "#76b7b2"],
+        borderRadius: 10,
+        barThickness: 40,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        backgroundColor: "#222",
+        titleColor: "#fff",
+        bodyColor: "#eee",
+      },
+    },
+    scales: {
+      x: {
+        ticks: { color: "#333" },
+        grid: { display: false },
+      },
+      y: {
+        ticks: { color: "#333" },
+        grid: { color: "#eee" },
+      },
+    },
+  };
+
   return (
     <AdminLayout>
       <div className={styles.container}>
@@ -156,33 +196,25 @@ const AdminDatabank = () => {
           />
         )}
 
-        {/* Analytics Chart */}
-        {activeTab === "Analytics" ? (
+        {/* Chart only when "Analytics" tab is selected */}
+        {activeTab === "Analytics" && (
           <div className={styles.analyticsWrapper}>
             <h3 className="graph-title">Admin Databank Analytics</h3>
-            <p className="total-data">
-              Total Collections: {totalDataCount}
-            </p>
-            <div className="chart-wrapper" style={{ width: "100%", height: 320 }}>
+            <p className="total-data">Total Collections: {totalDataCount}</p>
+            <div style={{ width: "100%", maxWidth: "720px", margin: "0 auto" }}>
               {loading ? (
-                <p>Loading...</p>
+                <div className={styles.loaderWrapper}>
+                  <FancySpinner />
+                </div>
               ) : (
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={analyticsData}
-                    barSize={50}
-                    margin={{ top: 10, bottom: 10 }}
-                  >
-                    <XAxis dataKey="name" stroke="#333" />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="value" fill="#5766f6" radius={[10, 10, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
+                <Bar data={chartData} options={chartOptions} />
               )}
             </div>
           </div>
-        ) : loading ? (
+        )}
+
+        {/* Listings / Data */}
+        {loading ? (
           <div className={styles.loaderWrapper}>
             <FancySpinner />
           </div>
@@ -190,7 +222,7 @@ const AdminDatabank = () => {
           <p className={styles.error}>{error}</p>
         ) : filteredData.length === 0 ? (
           <p className={styles.noData}>No data available.</p>
-        ) : (
+        ) : activeTab !== "Analytics" ? (
           <div className={styles.leadContainer}>
             {currentItems.map((item) => (
               <div key={item.id} className={styles.leadCard}>
@@ -252,7 +284,7 @@ const AdminDatabank = () => {
               </div>
             ))}
           </div>
-        )}
+        ) : null}
 
         {/* Pagination */}
         {activeTab !== "Analytics" && totalPages > 1 && (
