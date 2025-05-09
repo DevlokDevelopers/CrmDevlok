@@ -14,6 +14,8 @@ const AdminProjectDetails = () => {
   const [selectedMessage, setSelectedMessage] = useState("");
   const [loadingViewDataId, setLoadingViewDataId] = useState(null);
   const [removingLeadId, setRemovingLeadId] = useState(null);
+  const [updatingProject, setUpdatingProject] = useState(false);
+
 
 
 
@@ -74,7 +76,9 @@ const AdminProjectDetails = () => {
   const handleProjectUpdate = async () => {
     const token = localStorage.getItem("access_token");
     if (!token) return alert("Missing access token");
-
+  
+    setUpdatingProject(true);
+  
     try {
       await axios.put(
         `https://devlokcrmbackend.up.railway.app/project/edit_project/${id}/`,
@@ -89,8 +93,11 @@ const AdminProjectDetails = () => {
     } catch (err) {
       console.error("Update failed:", err);
       alert("Failed to update project.");
+    } finally {
+      setUpdatingProject(false);
     }
   };
+  
 
   const handleViewData = (lead) => {
     const token = localStorage.getItem("access_token");
@@ -343,7 +350,16 @@ const AdminProjectDetails = () => {
               onChange={handleEditChange}
             />
 
-            <button onClick={handleProjectUpdate}>Update Project</button>
+            <button onClick={handleProjectUpdate} disabled={updatingProject}>
+              {updatingProject ? (
+                <>
+                  Updating<span className={styles.spinner} />
+                </>
+              ) : (
+                "Update Project"
+              )}
+            </button>
+
           </div>
         </div>
       )}
