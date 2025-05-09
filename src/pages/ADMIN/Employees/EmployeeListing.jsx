@@ -5,6 +5,7 @@ import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { useNavigate } from "react-router-dom"; // ← Import this
 import ProfileImage from "../../../assets/ProfileImage.png";
 import { FaEdit, FaTrashAlt } from 'react-icons/fa'; // ← Add icons for edit and delete
+import FancySpinner from "../../../components/Loader/Loader";
 
 const AdminEmployeeListing = () => {
   const [activeTab, setActiveTab] = useState("SalesManagers");
@@ -14,6 +15,9 @@ const AdminEmployeeListing = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+
   const [editedData, setEditedData] = useState({
     username: "",
     email: "",
@@ -27,22 +31,26 @@ const AdminEmployeeListing = () => {
       setError("Authorization token missing. Please login.");
       return;
     }
-
+  
+    setLoading(true); // start spinner
+  
     try {
       const response = await axios.get("https://devlokcrmbackend.up.railway.app/auth/list_employees/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
+  
       setSalesManagers(response.data?.Salesmanager_Employees?.SalesManagers || []);
       setGroundEmployees(response.data?.GLM_Employees?.GLM_staff || []);
     } catch (err) {
       console.error("Error fetching employee data:", err);
       setError("Failed to load employee data.");
+    } finally {
+      setLoading(false); // stop spinner
     }
   };
-
+  
   useEffect(() => {
     fetchEmployees();
   }, []);
@@ -145,11 +153,15 @@ const AdminEmployeeListing = () => {
           </div>
         </div>
 
-        {error ? (
-          <p className={styles.error}>{error}</p>
-        ) : currentData.length === 0 ? (
-          <p className={styles.noData}>No employees found.</p>
-        ) : (
+        {loading ? (
+            <div className={styles.loaderWrapper}>
+              <FancySpinner />
+            </div>
+          ) : error ? (
+            <p className={styles.error}>{error}</p>
+          ) : currentData.length === 0 ? (
+            <p className={styles.noData}>No employees found.</p>
+          ) : (
           <div className={styles.leadContainer}>
             {currentData.map((emp, index) => (
               <div key={index} className={styles.leadCard}>
