@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import styles from "./AdminProjectList.module.css"; // Reuse existing styles
+import styles from "./AdminProjectList.module.css";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { FaFire, FaExclamationTriangle, FaCheckCircle } from "react-icons/fa";
 import defaultProjectIcon from "../../../assets/ProjectIcon.png";
 import FancySpinner from "../../../components/Loader/Loader";
+
 const priorityIcons = {
   High: <FaFire className={styles.priorityIcon} style={{ color: "#dc2626" }} />,
   Medium: <FaExclamationTriangle className={styles.priorityIcon} style={{ color: "#f59e0b" }} />,
@@ -15,9 +16,8 @@ const priorityIcons = {
 const AdminProjects = () => {
   const [projects, setProjects] = useState([]);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
 
   const fetchProjects = async () => {
     const token = localStorage.getItem("access_token");
@@ -26,18 +26,16 @@ const AdminProjects = () => {
       return;
     }
     setLoading(true);
-
     try {
       const response = await axios.get("https://devlokcrmbackend.up.railway.app/project/list_projects/", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setProjects(response.data.projects); // Use 'projects' key from response
+      setProjects(response.data.projects || []);
     } catch (err) {
       console.error("Error fetching projects:", err);
       setError("Failed to fetch projects.");
-    }
-    finally {
-      setLoading(false); // stop spinner
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,8 +67,8 @@ const AdminProjects = () => {
           </div>
         ) : error ? (
           <p className={styles.error}>{error}</p>
-        ) : currentData.length === 0 ? (
-          <p className={styles.noData}>No employees found.</p>
+        ) : projects.length === 0 ? (
+          <p className={styles.noData}>No projects found.</p>
         ) : (
           <div className={styles.leadContainer}>
             {projects
@@ -110,8 +108,7 @@ const AdminProjects = () => {
                     </div>
                   </div>
                 </div>
-            ))}
-
+              ))}
           </div>
         )}
       </div>
