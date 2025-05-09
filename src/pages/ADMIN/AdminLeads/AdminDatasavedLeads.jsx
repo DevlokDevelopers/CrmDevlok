@@ -263,7 +263,7 @@ const AdminDataSavedLeads = () => {
                         disabled={viewingLeadId === lead.id}
                       >
                         {viewingLeadId === lead.id ? (
-                          <FancySpinner size={5} /> // Show spinner when this lead is being viewed
+                          <FancySpinner size={1} /> // Show spinner when this lead is being viewed
                         ) : (
                           "View Data"
                         )}
