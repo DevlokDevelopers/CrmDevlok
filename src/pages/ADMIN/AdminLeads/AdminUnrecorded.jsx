@@ -21,7 +21,6 @@ const AdminUnrecordedLeads = () => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [deletingLeadId, setDeletingLeadId] = useState(null);
 
-
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -144,7 +143,7 @@ const AdminUnrecordedLeads = () => {
   const handleDeleteLead = async (leadId) => {
     if (!window.confirm("Are you sure you want to delete this lead?")) return;
     const token = localStorage.getItem("access_token");
-  
+
     setDeletingLeadId(leadId);
     try {
       await axios.delete(`https://devlokcrmbackend.up.railway.app/leads/delete_lead/${leadId}/`, {
@@ -158,7 +157,6 @@ const AdminUnrecordedLeads = () => {
       setDeletingLeadId(null);
     }
   };
-  
 
   const indexOfLast = currentPage * leadsPerPage;
   const indexOfFirst = indexOfLast - leadsPerPage;
@@ -234,12 +232,16 @@ const AdminUnrecordedLeads = () => {
                       Change Follower
                     </button>
                     <button
-                    className={styles.deleteBtn}
-                    onClick={() => handleDeleteLead(lead.id)}
-                    disabled={deletingLeadId === lead.id}
-                  >
-                    {deletingLeadId === lead.id ? "Deleting..." : <Trash2 size={20} strokeWidth={1.5} />}
-                  </button>
+                      className={styles.deleteBtn}
+                      onClick={() => handleDeleteLead(lead.id)}
+                      disabled={!!deletingLeadId}
+                    >
+                      {deletingLeadId === lead.id ? (
+                        <span className={styles.deletingText}>Deleting...</span>
+                      ) : (
+                        <Trash2 size={20} strokeWidth={1.5} />
+                      )}
+                    </button>
                   </div>
                 </div>
               </div>

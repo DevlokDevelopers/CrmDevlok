@@ -6,15 +6,16 @@ import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { NotebookPen } from "lucide-react";
 import FancySpinner from "../../../components/Loader/Loader";
 
-// ...imports remain unchanged
 const AdminNewLeads = () => {
   const [leads, setLeads] = useState([]);
   const [salesManagers, setSalesManagers] = useState([]);
   const [selectedLeadId, setSelectedLeadId] = useState(null);
   const [selectedSM, setSelectedSM] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [leadLoading, setLeadLoading] = useState(false);  // <-- changed
-  const [salesManagerLoading, setSalesManagerLoading] = useState(false); // <-- new
+  const [leadLoading, setLeadLoading] = useState(false);
+  const [salesManagerLoading, setSalesManagerLoading] = useState(false);
+  const [assignLoading, setAssignLoading] = useState(false);
+  const [deletingLeadId, setDeletingLeadId] = useState(null);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedMessage, setSelectedMessage] = useState("");
@@ -61,7 +62,7 @@ const AdminNewLeads = () => {
 
   const fetchLeads = async () => {
     const token = localStorage.getItem("access_token");
-    setLeadLoading(true); // set leads loading
+    setLeadLoading(true);
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/leads/get_new_leads/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -77,7 +78,7 @@ const AdminNewLeads = () => {
 
   const fetchSalesManagers = async () => {
     const token = localStorage.getItem("access_token");
-    setSalesManagerLoading(true); // set SM loading
+    setSalesManagerLoading(true);
     try {
       const res = await axios.get("https://devlokcrmbackend.up.railway.app/auth/list_of_salesmangers/", {
         headers: { Authorization: `Bearer ${token}` },
@@ -100,6 +101,7 @@ const AdminNewLeads = () => {
     setShowModal(false);
     setSelectedLeadId(null);
     setSelectedSM("");
+    setAssignLoading(false);
   };
 
   const handleViewNotes = (message) => {
@@ -117,6 +119,7 @@ const AdminNewLeads = () => {
     if (!confirmDelete) return;
 
     const token = localStorage.getItem("access_token");
+    setDeletingLeadId(leadId);
     try {
       await axios.delete(`https://devlokcrmbackend.up.railway.app/leads/delete_lead/${leadId}/`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -125,6 +128,8 @@ const AdminNewLeads = () => {
     } catch (err) {
       console.error("Failed to delete lead:", err);
       alert("Failed to delete the lead.");
+    } finally {
+      setDeletingLeadId(null);
     }
   };
 
@@ -138,6 +143,8 @@ const AdminNewLeads = () => {
       navigate("/login");
       return;
     }
+
+    setAssignLoading(true);
     try {
       await axios.patch(
         `https://devlokcrmbackend.up.railway.app/leads/add_follower/${selectedLeadId}/`,
@@ -149,6 +156,8 @@ const AdminNewLeads = () => {
     } catch (err) {
       console.error("Assignment failed:", err);
       setError("Failed to assign follower.");
+    } finally {
+      setAssignLoading(false);
     }
   };
 
@@ -212,7 +221,8 @@ const AdminNewLeads = () => {
                   <div className={styles.infoBlock}>
                     <p><strong>Purpose: {lead.purpose}</strong></p>
                     <p><strong>Property Type: {lead.mode_of_purpose}</strong></p>
-                    <p><strong>{formatDate(lead.timestamp)}</strong> 
+                    <p>
+                      <strong>{formatDate(lead.timestamp)}</strong>
                       {lead.message && (
                         <span
                           className={styles.messageLink}
@@ -229,8 +239,12 @@ const AdminNewLeads = () => {
                     <button className={styles.followUpBtn} onClick={() => openAssignModal(lead.id)}>
                       Assign Follower
                     </button>
-                    <button className={styles.deleteBtn} onClick={() => handleDeleteLead(lead.id)}>
-                      Delete
+                    <button
+                      className={styles.deleteBtn}
+                      onClick={() => handleDeleteLead(lead.id)}
+                      disabled={deletingLeadId === lead.id}
+                    >
+                      {deletingLeadId === lead.id ? "Deleting..." : "Delete"}
                     </button>
                   </div>
                 </div>
@@ -273,10 +287,10 @@ const AdminNewLeads = () => {
             </select>
             <button
               className={styles.followUpBtn}
-              disabled={!selectedSM || salesManagerLoading}
+              disabled={!selectedSM || assignLoading}
               onClick={assignFollower}
             >
-              {salesManagerLoading ? "Submitting..." : "Submit"}
+              {assignLoading ? "Submitting..." : "Submit"}
             </button>
           </div>
         </div>
