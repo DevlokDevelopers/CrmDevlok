@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import StaffLayout from "../../components/Layouts/SalesMLayout";
 import { Trash2, Pencil } from "lucide-react";
-
+import FancySpinner from "../../components/Loader/Loader";
 const UpcomingEvents = () => {
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
@@ -16,49 +16,55 @@ const UpcomingEvents = () => {
   const [showStatusFields, setShowStatusFields] = useState(false);
   const eventsPerPage = 8;
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
 
   const fetchFollowupsAndEvents = async () => {
-    const accessToken = localStorage.getItem("access_token");
-    if (!accessToken) {
-      setError("Authorization token is missing. Please login again.");
-      return;
-    }
+  const accessToken = localStorage.getItem("access_token");
+  if (!accessToken) {
+    setError("Authorization token is missing. Please login again.");
+    return;
+  }
 
-    try {
-      const response = await axios.get(
-        "https://devlokcrmbackend.up.railway.app/followups/Upcomming_salesmanager_event/",
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
-      );
+  setLoading(true); // start loader
+  try {
+    const response = await axios.get(
+      "https://devlokcrmbackend.up.railway.app/followups/Upcomming_salesmanager_event/",
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
 
-      const { events = [], followups = [] } = response.data;
+    const { events = [], followups = [] } = response.data;
 
-      const formattedFollowups = followups.map((f) => ({
-        id: f.id,
-        type: "followup",
-        date_time: f.followup_date,
-        notes: f.notes,
-        customer_name: f.customer_name,
-        status: f.followup_status?.status,
-        status_note: f.followup_status?.note,
-      }));
+    const formattedFollowups = followups.map((f) => ({
+      id: f.id,
+      type: "followup",
+      date_time: f.followup_date,
+      notes: f.notes,
+      customer_name: f.customer_name,
+      status: f.followup_status?.status,
+      status_note: f.followup_status?.note,
+    }));
 
-      const formattedEvents = events.map((e) => ({
-        ...e,
-        type: "event",
-        status: e.event_status?.status,
-        status_note: e.event_status?.note,
-      }));
+    const formattedEvents = events.map((e) => ({
+      ...e,
+      type: "event",
+      status: e.event_status?.status,
+      status_note: e.event_status?.note,
+    }));
 
-      const merged = [...formattedEvents, ...formattedFollowups];
-      merged.sort((a, b) => new Date(a.date_time) - new Date(b.date_time));
-      setEvents(merged);
-    } catch (err) {
-      console.error("Error:", err);
-      setError("Failed to load data.");
-    }
-  };
+    const merged = [...formattedEvents, ...formattedFollowups];
+    merged.sort((a, b) => new Date(a.date_time) - new Date(b.date_time));
+    setEvents(merged);
+  } catch (err) {
+    console.error("Error:", err);
+    setError("Failed to load data.");
+  } finally {
+    setLoading(false); // stop loader
+  }
+};
+
 
   useEffect(() => {
     fetchFollowupsAndEvents();
@@ -190,9 +196,11 @@ const UpcomingEvents = () => {
 
         <h2 className={styles.heading}>Upcoming Events & Follow-ups</h2>
 
-        {error ? (
-          <div className={styles.error}>{error}</div>
-        ) : (
+        {loading ? (
+        <div className={styles.loaderWrapper}><FancySpinner /></div>
+      ) : error ? (
+        <div className={styles.error}>{error}</div>
+      ) : (
           <>
             <div className={styles.eventGrid}>
               {currentEvents.length === 0 ? (
