@@ -6,13 +6,14 @@ import { useNavigate } from "react-router-dom";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { Trash2, Pencil } from "lucide-react";
 import { format } from "date-fns";
-import FancySpinner from "../../../components/Loader/Loader";
+import FancySpinner from "../../../components/Loader/Loader"; // FancySpinner for page loading
+
 const AdminUpcomingEvents = () => {
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const eventsPerPage = 8;
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // For page loading spinner
   const [showEditModal, setShowEditModal] = useState(false);
   const [editEventData, setEditEventData] = useState({
     id: null,
@@ -22,12 +23,14 @@ const AdminUpcomingEvents = () => {
     notes: "",
     event_status: null,
   });
-
   const [showStatusFields, setShowStatusFields] = useState(false);
   const [statusData, setStatusData] = useState({
     status: "",
     note: "",
   });
+
+  const [updatingEvent, setUpdatingEvent] = useState(false); // For "Update" button loading state
+  const [savingStatus, setSavingStatus] = useState(false); // For "Save Status" button loading state
 
   const navigate = useNavigate();
 
@@ -37,17 +40,17 @@ const AdminUpcomingEvents = () => {
       navigate("/login");
       return;
     }
-  
-    setLoading(true); // start spinner
+
+    setLoading(true); // Start spinner for events loading
     try {
       const response = await axios.get("https://devlokcrmbackend.up.railway.app/task/list_events/", {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-  
+
       const formattedEvents = (response.data || []).sort(
         (a, b) => new Date(a.date_time) - new Date(b.date_time)
       );
-  
+
       setEvents(formattedEvents);
     } catch (error) {
       console.error("Error fetching events:", error);
@@ -55,10 +58,9 @@ const AdminUpcomingEvents = () => {
         error.response?.data?.message || "Error fetching events. Please try again later."
       );
     } finally {
-      setLoading(false); // stop spinner
+      setLoading(false); // Stop spinner
     }
   };
-  
 
   useEffect(() => {
     fetchEvents();
@@ -137,6 +139,7 @@ const AdminUpcomingEvents = () => {
   };
 
   const handleUpdateEvent = async () => {
+    setUpdatingEvent(true); // Show "Updating..." message
     const accessToken = localStorage.getItem("access_token");
 
     try {
@@ -167,14 +170,18 @@ const AdminUpcomingEvents = () => {
     } catch (error) {
       console.error("Error updating event:", error.response?.data || error.message);
       alert("Failed to update event.");
+    } finally {
+      setUpdatingEvent(false); // Hide "Updating..." message
     }
   };
 
   const handleStatusUpdate = async () => {
+    setSavingStatus(true); // Show "Saving..." message
     const accessToken = localStorage.getItem("access_token");
 
     if (!statusData.status) {
       alert("Please select a status before saving.");
+      setSavingStatus(false);
       return;
     }
 
@@ -203,6 +210,8 @@ const AdminUpcomingEvents = () => {
     } catch (error) {
       console.error("Error updating status:", error.response?.data || error.message);
       alert("Failed to update status.");
+    } finally {
+      setSavingStatus(false); // Hide "Saving..." message
     }
   };
 
@@ -222,7 +231,7 @@ const AdminUpcomingEvents = () => {
         <h2 className={styles.heading}>Upcoming Admin Events</h2>
 
         {loading ? (
-          <FancySpinner /> // Show spinner while loading
+          <FancySpinner /> // Show spinner while loading events
         ) : error ? (
           <div className={styles.error}>{error}</div>
         ) : (
@@ -314,45 +323,45 @@ const AdminUpcomingEvents = () => {
                 value={editEventData.notes}
                 onChange={handleEditChange}
                 rows={3}
-                placeholder="Notes"
-              />
-
-              <button
-                type="button"
-                className={styles.toggleStatus}
-                onClick={() => setShowStatusFields((prev) => !prev)}
-              >
-                {showStatusFields ? "Hide Stage Update" : "Update Stage"}
-              </button>
-
-              {showStatusFields && (
+                placeholder="Event Notes"
+              ></textarea>
+              <div className={styles.statusContainer}>
+                <button
+                  className={styles.saveButton}
+                  onClick={handleUpdateEvent}
+                  disabled={updatingEvent}
+                >
+                  {updatingEvent ? "Updating..." : "Update Event"}
+                </button>
                 <div className={styles.statusFields}>
-                  <select
+                  <input
+                    type="text"
                     name="status"
                     value={statusData.status}
                     onChange={handleStatusChange}
-                  >
-                    <option value="">-- Select Status --</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Postponed">Postponed</option>
-                  </select>
+                    placeholder="Status"
+                  />
                   <textarea
                     name="note"
                     value={statusData.note}
                     onChange={handleStatusChange}
-                    rows={2}
                     placeholder="Status Note"
-                  />
-                  <button className={styles.saveStatusBtn} onClick={handleStatusUpdate}>
-                    Save Status
+                  ></textarea>
+                  <button
+                    className={styles.saveButton}
+                    onClick={handleStatusUpdate}
+                    disabled={savingStatus}
+                  >
+                    {savingStatus ? "Saving..." : "Save Status"}
                   </button>
                 </div>
-              )}
-
-              <div className={styles.modalActions}>
-                <button onClick={() => setShowEditModal(false)}>Cancel</button>
-                <button onClick={handleUpdateEvent}>Update</button>
               </div>
+              <button
+                className={styles.closeButton}
+                onClick={() => setShowEditModal(false)}
+              >
+                Close
+              </button>
             </div>
           </div>
         )}
