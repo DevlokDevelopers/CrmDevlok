@@ -30,7 +30,7 @@ const AdminDatabank = () => {
   const [filterModalOpen, setFilterModalOpen] = useState(false);
   const [selectedDatabankId, setSelectedDatabankId] = useState(null);
   const itemsPerPage = 8;
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Initial loading state set to true
   const [activeTab, setActiveTab] = useState("Analytics");
 
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ const AdminDatabank = () => {
     const token = localStorage.getItem("access_token");
     if (!token) return;
 
-    setLoading(true);
+    setLoading(true); // Set loading state to true before making API call
     try {
       const response = await axios.get(
         "https://devlokcrmbackend.up.railway.app/databank/databank_list/",
@@ -72,7 +72,6 @@ const AdminDatabank = () => {
       const analytics = response.data.analytics;
 
       setData(databank);
-
       setAnalyticsData([
         { name: "Buy", value: analytics.buy },
         { name: "Sell", value: analytics.sell },
@@ -85,7 +84,7 @@ const AdminDatabank = () => {
       console.error("Error fetching data:", error);
       setError("Failed to fetch data. Try again later.");
     } finally {
-      setLoading(false);
+      setLoading(false); // Set loading state to false once data is fetched
     }
   };
 
