@@ -116,7 +116,7 @@ const AddLead = () => {
                 <option value="For Buying a Property">For Buying a Property</option>
                 <option value="For Selling a Property">For Selling a Property</option>
                 <option value="For Rental or Lease">For Rental or Lease</option>
-                <option value="Looking to rent or Lease a Property">Looking to rent or Lease a property</option>
+                <option value="Looking to Rent or Lease a Property">Looking to rent or Lease a property</option>
               </select>
             </div>
             <div className={styles.inputGroup}>
@@ -146,13 +146,14 @@ const AddLead = () => {
 
           {/* Save button disabled if form is incomplete */}
           <button
-            type="button"
-            className={styles.saveButton}
-            onClick={handleSave}
-            disabled={!isFormValid() || isSaving}
-          >
-            {isSaving ? "Saving lead..." : "Save Lead"}
-          </button>
+          type="button"
+          className={styles.saveButton}
+          onClick={handleSave}
+          disabled={!isFormValid() || isSaving} // Disable button during saving
+        >
+          {isSaving ? "Saving lead..." : "Save Lead"}
+        </button>
+
 
         </form>
       </div>
