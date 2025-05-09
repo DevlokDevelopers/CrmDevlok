@@ -12,6 +12,8 @@ const AdminProjectDetails = () => {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState("");
+  const [loadingViewDataId, setLoadingViewDataId] = useState(null);
+
 
   const [editModal, setEditModal] = useState(false);
   const [editForm, setEditForm] = useState({
@@ -90,7 +92,8 @@ const AdminProjectDetails = () => {
 
   const handleViewData = (lead) => {
     const token = localStorage.getItem("access_token");
-
+    setLoadingViewDataId(lead.id);
+  
     axios
       .get(`https://devlokcrmbackend.up.railway.app/databank/lead_into_db_admin/${lead.lead}/`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -106,9 +109,12 @@ const AdminProjectDetails = () => {
       .catch((err) => {
         console.error("Error fetching databank from lead:", err);
         alert("Failed to fetch databank details.");
+      })
+      .finally(() => {
+        setLoadingViewDataId(null);
       });
   };
-
+  
   const handleViewNotes = (message) => {
     setSelectedMessage(message);
     setShowModal(true);
@@ -231,16 +237,27 @@ const AdminProjectDetails = () => {
                     </div>
                     <div className={styles.infoBlock}>
                       <p>Purpose: <strong>{lead.purpose}</strong></p>
-                      <p>Property Type: <strong>{lead.mode_of_purpose}</strong></p>
+                      <p>Property Type: <strong>{lead.mode_of_property}</strong></p>
                     </div>
                     <div className={styles.infoBlock}>
                       <p>{lead.email}</p>
                       <p>{new Date(lead.timestamp).toLocaleString()}</p>
                     </div>
                     <div className={styles.actionButtons}>
-                      <button className={styles.viewDataBtn} onClick={() => handleViewData(lead)}>
-                        View Data
-                      </button>
+                    <button
+  className={styles.viewDataBtn}
+  onClick={() => handleViewData(lead)}
+  disabled={loadingViewDataId === lead.id}
+>
+  {loadingViewDataId === lead.id ? (
+    <>
+      Loading<span className={styles.spinner} />
+    </>
+  ) : (
+    "View Data"
+  )}
+</button>
+
                       {lead.message && (
                         <button className={styles.viewNotesBtn} onClick={() => handleViewNotes(lead.message)}>
                           View Notes
