@@ -5,7 +5,7 @@ import styles from "./AdminProjectList.module.css"; // Reuse existing styles
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import { FaFire, FaExclamationTriangle, FaCheckCircle } from "react-icons/fa";
 import defaultProjectIcon from "../../../assets/ProjectIcon.png";
-
+import FancySpinner from "../../../components/Loader/Loader";
 const priorityIcons = {
   High: <FaFire className={styles.priorityIcon} style={{ color: "#dc2626" }} />,
   Medium: <FaExclamationTriangle className={styles.priorityIcon} style={{ color: "#f59e0b" }} />,
@@ -16,6 +16,8 @@ const AdminProjects = () => {
   const [projects, setProjects] = useState([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
 
   const fetchProjects = async () => {
     const token = localStorage.getItem("access_token");
@@ -23,6 +25,7 @@ const AdminProjects = () => {
       navigate("/login");
       return;
     }
+    setLoading(true);
 
     try {
       const response = await axios.get("https://devlokcrmbackend.up.railway.app/project/list_projects/", {
@@ -32,6 +35,9 @@ const AdminProjects = () => {
     } catch (err) {
       console.error("Error fetching projects:", err);
       setError("Failed to fetch projects.");
+    }
+    finally {
+      setLoading(false); // stop spinner
     }
   };
 
@@ -57,10 +63,14 @@ const AdminProjects = () => {
           </button>
         </div>
 
-        {error ? (
+        {loading ? (
+          <div className={styles.loaderWrapper}>
+            <FancySpinner />
+          </div>
+        ) : error ? (
           <p className={styles.error}>{error}</p>
-        ) : projects.length === 0 ? (
-          <p className={styles.noData}>No projects available.</p>
+        ) : currentData.length === 0 ? (
+          <p className={styles.noData}>No employees found.</p>
         ) : (
           <div className={styles.leadContainer}>
             {projects
