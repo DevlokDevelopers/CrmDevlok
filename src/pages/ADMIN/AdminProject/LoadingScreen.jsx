@@ -2,21 +2,17 @@ import React from "react";
 import "./LoadingScreen.css";
 
 const LoadingScreen = () => {
-  const createBurst = (e) => {
-    const burst = document.createElement("div");
-    burst.className = "burst";
-    burst.style.left = `${e.clientX}px`;
-    burst.style.top = `${e.clientY}px`;
-    document.body.appendChild(burst);
-
-    setTimeout(() => burst.remove(), 1000);
-  };
-
   return (
-    <div className="click-area" onClick={createBurst}>
-      <div className="loading-text">Click anywhere ✨</div>
-    </div>
-  );
+    <div class="galaxy-loader">
+  <div class="stars"></div>
+  <div class="stars2"></div>
+  <div class="asteroid asteroid1"></div>
+  <div class="asteroid asteroid2"></div>
+  <div class="asteroid asteroid3"></div>
+  <div class="loading-text">Launching the Galaxy Project...</div>
+</div>
+
+        );
 };
 
 export default LoadingScreen;
