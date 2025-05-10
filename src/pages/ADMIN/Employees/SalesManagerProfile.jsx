@@ -143,14 +143,15 @@ const AdminSalesManagerProfile = () => {
   if (error) return <p className={styles.error}>{error}</p>;
   if (!details) {
   return (
-    <div className={styles.rainLoader}>
-      {[...Array(20)].map((_, i) => (
+    <div className={styles.fullPageRain}>
+      {[...Array(40)].map((_, i) => (
         <span key={i} className={styles.drop}></span>
       ))}
-      <p className={styles.loadingRainText}>Loading Profile</p>
+      <p className={styles.loadingRainText}>Loading Profile...</p>
     </div>
   );
 }
+
 
 
   const { photo, name, email, phone, joined_date } = details["Sales Manager"];
