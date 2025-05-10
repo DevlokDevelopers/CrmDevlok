@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaBell, FaUserCircle } from "react-icons/fa";
 import axios from "axios";
 import styles from "./TopNav.module.css";
-
+import { FaBolt } from "react-icons/fa";
 // Global set to track seen messages
 const seenMessages = new Set();
 
@@ -151,7 +151,9 @@ const TopNav = () => {
     onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
   />
 
-  {isSearching && <div className={styles.brainSpinner}>🧠</div>} {/* Spinner here */}
+  {isSearching && <div className={styles.thunderSpinner}>
+    <FaBolt />
+  </div>} {/* Spinner here */}
 
   {showSuggestions && suggestions.length > 0 && (
     <ul className={styles.suggestionDropdown}>
