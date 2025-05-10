@@ -151,7 +151,7 @@ const TopNav = () => {
     onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
   />
 
-  {isSearching && <div className={styles.spinner}></div>} {/* Spinner here */}
+  {isSearching && <div className={styles.brainSpinner}>🧠</div>} {/* Spinner here */}
 
   {showSuggestions && suggestions.length > 0 && (
     <ul className={styles.suggestionDropdown}>
