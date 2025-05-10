@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import styles from "../SalesManager/SalesMData.module.css"; // Use same styles as BuyList
+import styles from "./FilterResult.module.css";
 import StaffLayout from "../../components/Layouts/SalesMLayout";
 import FancySpinner from "../../components/Loader/Loader";
 
