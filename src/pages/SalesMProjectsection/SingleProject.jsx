@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import StaffLayout from "../../components/Layouts/SalesMLayout"; // Added Layout
 import styles from "./SingleProject.module.css"; 
-import LoadingScreen from "./LoadingScreen";
+import LoadingScreen from "../ADMIN/AdminProject/LoadingScreen";
 
 const SalesmanagerProjectDetails = () => {
   const { id } = useParams();
