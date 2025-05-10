@@ -375,6 +375,79 @@
   background-color: #c9302c;
 }
 
+.rainLoader {
+  position: relative;
+  height: 200px;
+  width: 100%;
+  overflow: hidden;
+  background: #0f172a; /* dark background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.drop {
+  position: absolute;
+  top: -20px;
+  width: 4px;
+  height: 10px;
+  background: #38bdf8; /* sky-400 */
+  animation: fall 1s linear infinite;
+  border-radius: 10px;
+  opacity: 0.7;
+}
+
+.drop:nth-child(odd) {
+  height: 14px;
+  background: #0ea5e9; /* blue-500 */
+}
+
+.drop:nth-child(even) {
+  animation-duration: 1.2s;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(200px);
+    opacity: 0;
+  }
+}
+
+.drop:nth-child(1) { left: 5%; animation-delay: 0s; }
+.drop:nth-child(2) { left: 10%; animation-delay: 0.2s; }
+.drop:nth-child(3) { left: 15%; animation-delay: 0.4s; }
+.drop:nth-child(4) { left: 20%; animation-delay: 0.1s; }
+.drop:nth-child(5) { left: 25%; animation-delay: 0.3s; }
+.drop:nth-child(6) { left: 30%; animation-delay: 0.5s; }
+.drop:nth-child(7) { left: 35%; animation-delay: 0.2s; }
+.drop:nth-child(8) { left: 40%; animation-delay: 0.6s; }
+.drop:nth-child(9) { left: 45%; animation-delay: 0.1s; }
+.drop:nth-child(10){ left: 50%; animation-delay: 0.3s; }
+.drop:nth-child(11){ left: 55%; animation-delay: 0.5s; }
+.drop:nth-child(12){ left: 60%; animation-delay: 0.2s; }
+.drop:nth-child(13){ left: 65%; animation-delay: 0.4s; }
+.drop:nth-child(14){ left: 70%; animation-delay: 0.1s; }
+.drop:nth-child(15){ left: 75%; animation-delay: 0.6s; }
+.drop:nth-child(16){ left: 80%; animation-delay: 0.3s; }
+.drop:nth-child(17){ left: 85%; animation-delay: 0.5s; }
+.drop:nth-child(18){ left: 90%; animation-delay: 0.2s; }
+.drop:nth-child(19){ left: 95%; animation-delay: 0.4s; }
+.drop:nth-child(20){ left: 100%; animation-delay: 0.6s; }
+
+.loadingRainText {
+  margin-top: 40px;
+  color: #f1f5f9; /* slate-100 */
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
