@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import styles from "./SingleAdminProject.module.css";
-import LoadingScreen from "../../../components/LoadingScreen";
+import LoadingScreen from "./LoadingScreen";
 
 
 const AdminProjectDetails = () => {
