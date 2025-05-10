@@ -3,15 +3,12 @@ import "./LoadingScreen.css";
 
 const LoadingScreen = () => {
   return (
-    <div class="wave-wrapper">
-        <div class="wave-container">
-            <div class="wave"></div>
-            <div class="wave"></div>
-            <div class="wave"></div>
-            <div class="wave"></div>
-        </div>
-        <div class="wave-text">Loading Project...</div>
-        </div>
+    <div class="space-loader">
+    <div class="asteroid asteroid1"></div>
+    <div class="asteroid asteroid2"></div>
+    <div class="asteroid asteroid3"></div>
+    <div class="loading-text">Launching Project...</div>
+    </div>
 
         );
 };
