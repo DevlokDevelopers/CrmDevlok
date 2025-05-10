@@ -1,10 +1,8 @@
-.space-loader {
+.galaxy-loader {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100vw;
   height: 100vh;
-  background: radial-gradient(#0d1b2a, #000);
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -17,69 +15,95 @@
 .loading-text {
   margin-top: 2rem;
   font-size: 1.8rem;
-  animation: pulse 2s infinite ease-in-out;
+  animation: glow 2s infinite ease-in-out;
 }
 
-@keyframes pulse {
-  0%, 100% {
-    opacity: 0.7;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.1);
-  }
+@keyframes glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
 }
 
+/* Twinkling stars */
+.stars, .stars2 {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: transparent;
+  background-image: radial-gradient(white 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: twinkle 20s linear infinite;
+  opacity: 0.6;
+}
+
+.stars2 {
+  background-size: 80px 80px;
+  animation-duration: 30s;
+  opacity: 0.3;
+}
+
+@keyframes twinkle {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-100px, -100px); }
+}
+
+/* Planet */
+.planet {
+  position: absolute;
+  bottom: 10%;
+  left: 10%;
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(145deg, #3498db, #2980b9);
+  border-radius: 50%;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+}
+
+/* Asteroids */
 .asteroid {
   position: absolute;
-  width: 30px;
-  height: 30px;
-  background: gray;
   border-radius: 50%;
+  background: gray;
   box-shadow: inset -4px -4px 10px rgba(255,255,255,0.2);
   animation: float linear infinite;
   opacity: 0.8;
 }
 
 .asteroid1 {
-  top: 10%;
+  width: 25px;
+  height: 25px;
+  top: 20%;
   left: -10%;
-  animation-duration: 8s;
-  animation-name: float1;
+  animation: float1 12s infinite linear;
 }
 
 .asteroid2 {
-  top: 40%;
+  width: 35px;
+  height: 35px;
+  top: 50%;
   left: -15%;
-  width: 40px;
-  height: 40px;
   background: #7f8c8d;
-  animation-duration: 12s;
-  animation-name: float2;
+  animation: float2 16s infinite linear;
 }
 
 .asteroid3 {
-  top: 70%;
+  width: 20px;
+  height: 20px;
+  top: 80%;
   left: -20%;
-  width: 25px;
-  height: 25px;
   background: #95a5a6;
-  animation-duration: 10s;
-  animation-name: float3;
+  animation: float3 14s infinite linear;
 }
 
+/* Floating Asteroid Paths */
 @keyframes float1 {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  100% { transform: translate(120vw, -30vh) rotate(720deg); }
+  0% { transform: translate(0, 0) rotate(0); }
+  100% { transform: translate(140vw, -30vh) rotate(720deg); }
 }
-
 @keyframes float2 {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  100% { transform: translate(130vw, 20vh) rotate(-360deg); }
+  0% { transform: translate(0, 0) rotate(0); }
+  100% { transform: translate(150vw, 20vh) rotate(-360deg); }
 }
-
 @keyframes float3 {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  100% { transform: translate(110vw, -10vh) rotate(1080deg); }
+  0% { transform: translate(0, 0) rotate(0); }
+  100% { transform: translate(120vw, -20vh) rotate(1080deg); }
 }

@@ -3,12 +3,15 @@ import "./LoadingScreen.css";
 
 const LoadingScreen = () => {
   return (
-    <div class="space-loader">
-    <div class="asteroid asteroid1"></div>
-    <div class="asteroid asteroid2"></div>
-    <div class="asteroid asteroid3"></div>
-    <div class="loading-text">Launching Project...</div>
-    </div>
+    <div class="galaxy-loader">
+  <div class="stars"></div>
+  <div class="stars2"></div>
+  <div class="planet"></div>
+  <div class="asteroid asteroid1"></div>
+  <div class="asteroid asteroid2"></div>
+  <div class="asteroid asteroid3"></div>
+  <div class="loading-text">Launching the Galaxy Project...</div>
+</div>
 
         );
 };
