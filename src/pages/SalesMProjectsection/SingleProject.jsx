@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import StaffLayout from "../../components/Layouts/SalesMLayout"; // Added Layout
 import styles from "./SingleProject.module.css"; 
+import LoadingScreen from "./LoadingScreen";
 
 const SalesmanagerProjectDetails = () => {
   const { id } = useParams();
@@ -44,7 +45,7 @@ const SalesmanagerProjectDetails = () => {
     fetchProject();
   }, [id]);
 
-  if (loading) return <p className={styles.loading}>Loading project details...</p>;
+  if (loading) return <LoadingScreen />;
   if (error) return <p className={styles.error}>{error}</p>;
   if (!project) return <p className={styles.error}>Project not found</p>;
 

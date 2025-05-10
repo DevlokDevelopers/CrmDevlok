@@ -97,4 +97,76 @@
     font-weight: bold;
     color: #0077ff;
   }
+  .fullPageRain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #000; /* pure black */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+}
+
+.drop {
+  position: absolute;
+  top: -20px;
+  width: 3px;
+  height: 12px;
+  background: #38bdf8; /* sky blue raindrop */
+  opacity: 0.7;
+  border-radius: 50px;
+  animation: fall 1.2s linear infinite;
+}
+
+.drop:nth-child(odd) {
+  background: #0ea5e9;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(110vh);
+    opacity: 0;
+  }
+}
+
+.loadingRainText {
+  color: #e2e8f0; /* light slate */
+  font-size: 1.25rem;
+  margin-top: 3rem;
+  font-weight: 500;
+  text-shadow: 0 0 8px #0ea5e9;
+  z-index: 10;
+}
+
+/* Position each drop differently */
+.drop:nth-child(1)  { left: 5%; animation-delay: 0s; }
+.drop:nth-child(2)  { left: 10%; animation-delay: 0.1s; }
+.drop:nth-child(3)  { left: 15%; animation-delay: 0.2s; }
+.drop:nth-child(4)  { left: 20%; animation-delay: 0.05s; }
+.drop:nth-child(5)  { left: 25%; animation-delay: 0.15s; }
+.drop:nth-child(6)  { left: 30%; animation-delay: 0.25s; }
+.drop:nth-child(7)  { left: 35%; animation-delay: 0.1s; }
+.drop:nth-child(8)  { left: 40%; animation-delay: 0.3s; }
+.drop:nth-child(9)  { left: 45%; animation-delay: 0.2s; }
+.drop:nth-child(10) { left: 50%; animation-delay: 0.4s; }
+.drop:nth-child(11) { left: 55%; animation-delay: 0.15s; }
+.drop:nth-child(12) { left: 60%; animation-delay: 0.05s; }
+.drop:nth-child(13) { left: 65%; animation-delay: 0.35s; }
+.drop:nth-child(14) { left: 70%; animation-delay: 0.25s; }
+.drop:nth-child(15) { left: 75%; animation-delay: 0.1s; }
+.drop:nth-child(16) { left: 80%; animation-delay: 0.3s; }
+.drop:nth-child(17) { left: 85%; animation-delay: 0.4s; }
+.drop:nth-child(18) { left: 90%; animation-delay: 0.2s; }
+.drop:nth-child(19) { left: 95%; animation-delay: 0.3s; }
+.drop:nth-child(20) { left: 98%; animation-delay: 0.05s; }
+/* If you added 40, repeat pattern with slight variation */
   

@@ -31,7 +31,14 @@ const SalesManagerProfile = () => {
   }, []);
 
   if (!profile) {
-    return <div className={styles.loading}>Loading profile...</div>;
+    return (
+        <div className={styles.fullPageRain}>
+          {[...Array(40)].map((_, i) => (
+            <span key={i} className={styles.drop}></span>
+          ))}
+          <p className={styles.loadingRainText}>Loading Profile...</p>
+        </div>
+      );
   }
 
   return (
