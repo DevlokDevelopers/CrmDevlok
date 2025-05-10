@@ -151,7 +151,7 @@ const FilterModal = ({ isOpen, onClose, onApply }) => {
               <option value="For Buying a Property">For Buying a Property</option>
               <option value="For Selling a Property">For Selling a Property</option>
               <option value="For Rental or Lease">For Rental or Lease</option>
-              <option value="Looking to rent or Lease a Property">Looking to rent or Lease a Property</option>
+              <option value="Looking to Rent or Lease Property">Looking to Rent or Lease Property</option>
             </select>
           </div>
 
