@@ -82,10 +82,33 @@ const BuyList = () => {
     navigate("/matching_data", { state: { databankId } });
   };
 
-  const handleApplyFilters = (queryString) => {
-    setFilterModalOpen(false);
-    navigate(`/filter_result?${queryString}`);
-  };
+  const handleApplyFilters = async (queryString) => {
+  setFilterModalOpen(false);
+  const token = localStorage.getItem("access_token");
+
+  if (!token) {
+    setError("Authorization token is missing. Please login.");
+    navigate("/login");
+    return;
+  }
+
+  try {
+    setIsLoading(true);
+    const response = await axios.get("https://devlokcrmbackend.up.railway.app/databank/filter/", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: Object.fromEntries(new URLSearchParams(queryString)),
+    });
+    navigate("/filter_result", { state: { filteredData: response.data } });
+  } catch (error) {
+    console.error("Failed to fetch filtered results:", error);
+    setError("Filter request failed.");
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
