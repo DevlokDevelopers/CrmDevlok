@@ -14,6 +14,8 @@ const TopNav = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const navigate = useNavigate();
+  const [isSearching, setIsSearching] = useState(false);
+  const [typingTimeout, setTypingTimeout] = useState(null);
   const accessToken = localStorage.getItem("access_token");
 
   const addNotification = (message) => {
@@ -77,28 +79,37 @@ const TopNav = () => {
   const handleProfileClick = () => navigate("/admin_profile");
 
   const handleSearch = async (searchTerm = query) => {
-    if (!searchTerm.trim()) return;
+  if (!searchTerm.trim() || isSearching) return;
 
-    try {
-      const response = await axios.get(
-        `https://devlokcrmbackend.up.railway.app/databank/search_in_databank/?q=${encodeURIComponent(searchTerm)}`,
-        { headers: { Authorization: `Bearer ${accessToken}` } }
-      );
+  setIsSearching(true);
+  try {
+    const response = await axios.get(
+      `https://devlokcrmbackend.up.railway.app/databank/search_in_databank/?q=${encodeURIComponent(searchTerm)}`,
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    );
 
-      const { results, source } = response.data;
-      if (!results || results.length === 0) return alert("No results found.");
-
+    const { results, source } = response.data;
+    if (!results || results.length === 0) {
+      alert("No results found.");
+    } else {
       navigate("/admin_search_result", { state: { results, query: searchTerm, source } });
-    } catch (error) {
-      console.error("Search error:", error);
-      alert("Error occurred while searching.");
     }
-  };
+  } catch (error) {
+    console.error("Search error:", error);
+    alert("Error occurred while searching.");
+  } finally {
+    setIsSearching(false);
+  }
+};
 
-  const handleInputChange = async (e) => {
-    const value = e.target.value;
-    setQuery(value);
 
+  const handleInputChange = (e) => {
+  const value = e.target.value;
+  setQuery(value);
+
+  if (typingTimeout) clearTimeout(typingTimeout);
+
+  const newTimeout = setTimeout(async () => {
     if (!value.trim()) {
       setSuggestions([]);
       setShowSuggestions(false);
@@ -115,7 +126,11 @@ const TopNav = () => {
     } catch (err) {
       console.error("Suggestion fetch error:", err);
     }
-  };
+  }, 300); // 300ms debounce
+
+  setTypingTimeout(newTimeout);
+};
+
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") handleSearch();
@@ -125,35 +140,38 @@ const TopNav = () => {
     <>
       <div className={styles.topnav}>
         <div className={styles.searchContainer}>
-        <input
-            type="text"
-            value={query}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            className={styles.searchBar}
-            placeholder="Search..."
-            onFocus={() => setShowSuggestions(suggestions.length > 0)}
-            onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
-          />
+  <input
+    type="text"
+    value={query}
+    onChange={handleInputChange}
+    onKeyDown={handleKeyDown}
+    className={styles.searchBar}
+    placeholder="Search..."
+    onFocus={() => setShowSuggestions(suggestions.length > 0)}
+    onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+  />
 
-          {showSuggestions && suggestions.length > 0 && (
-            <ul className={styles.suggestionDropdown}>
-              {suggestions.map((s, i) => (
-                <li
-                  key={i}
-                  onClick={() => {
-                    setQuery(s); // Set query to the selected suggestion
-                    setSuggestions([]); // Clear suggestions
-                    setShowSuggestions(false); // Hide suggestion dropdown
-                    handleSearch(s); // Perform search with selected suggestion
-                  }}
-                >
-                  {s}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+  {isSearching && <div className={styles.spinner}></div>} {/* Spinner here */}
+
+  {showSuggestions && suggestions.length > 0 && (
+    <ul className={styles.suggestionDropdown}>
+      {suggestions.map((s, i) => (
+        <li
+          key={i}
+          onClick={() => {
+            setQuery(s);
+            setSuggestions([]);
+            setShowSuggestions(false);
+            handleSearch(s);
+          }}
+        >
+          {s}
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
 
         <div className={styles.topnavIcons}>
           <div className={styles.bellbox} onClick={() => setShowModal(true)}>
