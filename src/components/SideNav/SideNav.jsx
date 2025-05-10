@@ -62,8 +62,13 @@ const SideNav = () => {
 
         <nav className={styles.navLinks}>
           <NavItem icon={<img src={DashboardIcon} alt="Dashboard" />} label="Dashboard" to="/adminDash" />
-          <NavItem icon={<img src={projectIcon} alt="Projects" />} label="Projects" to="/admin_projects"
-          activePaths={["/single_admin_project","/data_for_project","/create_project"]} />
+          <NavItem icon={<img src={employeeIcon} alt="Employees" />} label="Employees" to="/employee_listing"
+          activePaths={[
+            "/salesmanager_profile_admin",
+            "/add_salesmanager",
+            "/add_ground_staff"
+          ]} />
+          
           <NavItem icon={<img src={leadIcon} alt="Leads" />} label="Leads" to="/admin_lead_analytics"
           activePaths={[
             "/admin_new_leads",
@@ -88,12 +93,8 @@ const SideNav = () => {
             "/admin_filter_result",
             "/admin_search_result"
           ]} />
-          <NavItem icon={<img src={employeeIcon} alt="Employees" />} label="Employees" to="/employee_listing"
-          activePaths={[
-            "/salesmanager_profile_admin",
-            "/add_salesmanager",
-            "/add_ground_staff"
-          ]} />
+          <NavItem icon={<img src={projectIcon} alt="Projects" />} label="Projects" to="/admin_projects"
+          activePaths={["/single_admin_project","/data_for_project","/create_project"]} />
           <NavItem icon={<img src={upcomingIcon} alt="Upcoming" />} label="Upcoming Events" to="/adminUpcoming" />
           <NavItem icon={<img src={calenderIcon} alt="Calendar" />} label="Calendar" to="/admin_calender" />
         </nav>
