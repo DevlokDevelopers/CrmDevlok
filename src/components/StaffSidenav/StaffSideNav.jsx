@@ -122,13 +122,7 @@ const StaffSideNav = () => {
             active={location.pathname === "/salesmanagerDashboard"} // Dynamically set active based on path
             to="/salesmanagerDashboard"
           />
-          <NavItem
-            icon={<img src={projectIcon} alt="Projects" />}
-            label="Projects"
-            active={location.pathname === "/salesmanager_projects"}
-            to="/salesmanager_projects"
-            activePaths={["/salesmanager_projects", "/salesmanager_project_details"]}
-          />
+          
           <NavItem
             icon={<img src={leadIcon} alt="Leads" />}
             label="Leads"
@@ -163,6 +157,13 @@ const StaffSideNav = () => {
               "/filter_result",
             
             ]}
+          />
+          <NavItem
+            icon={<img src={projectIcon} alt="Projects" />}
+            label="Projects"
+            active={location.pathname === "/salesmanager_projects"}
+            to="/salesmanager_projects"
+            activePaths={["/salesmanager_projects", "/salesmanager_project_details"]}
           />
           <NavItem
             icon={<img src={upcomingIcon} alt="Upcoming" />}
