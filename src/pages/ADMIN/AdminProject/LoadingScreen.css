@@ -1,0 +1,21 @@
+.fullscreen-loader {
+  background-color: #000; /* black background */
+  color: #fff;
+  position: fixed;
+  z-index: 9999;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-text {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  font-family: 'Arial', sans-serif;
+  letter-spacing: 1px;
+}

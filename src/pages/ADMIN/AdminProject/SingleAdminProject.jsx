@@ -3,6 +3,8 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import AdminLayout from "../../../components/Layouts/AdminLayout";
 import styles from "./SingleAdminProject.module.css";
+import LoadingScreen from "../../../components/LoadingScreen";
+
 
 const AdminProjectDetails = () => {
   const { id } = useParams();
@@ -200,7 +202,7 @@ const AdminProjectDetails = () => {
     return `${dd}/${mm}/${yyyy}`;
   };
 
-  if (loading) return <p className={styles.loading}>Loading project details...</p>;
+  if (loading) return <LoadingScreen />;
   if (error) return <p className={styles.error}>{error}</p>;
   if (!project) return <p className={styles.error}>Project not found</p>;
 
