@@ -103,7 +103,7 @@ const handleViewData = (lead) => {
                     </div>
                     <div className={styles.infoBlock}>
                       <p>Purpose: <strong>{lead.purpose}</strong></p>
-                      <p>Property Type: <strong>{lead.mode_of_purpose}</strong></p>
+                      <p>Property Type: <strong>{lead.mode_of_property}</strong></p>
                     </div>
                     <div className={styles.infoBlock}>
                       <p>{lead.email}</p>
