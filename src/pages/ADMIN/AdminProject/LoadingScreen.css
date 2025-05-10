@@ -1,20 +1,19 @@
-.game-loader {
-  position: fixed;
-  width: 100vw;
+.click-area {
   height: 100vh;
-  background: radial-gradient(ellipse at bottom, #000 0%, #1a1a1a 100%);
+  width: 100vw;
+  background: radial-gradient(circle at center, #0f2027, #203a43, #2c5364);
+  position: relative;
   overflow: hidden;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  font-family: Arial, sans-serif;
-  color: white;
 }
 
-.loading-msg {
-  margin-top: 2rem;
-  font-size: 1.2rem;
+.loading-text {
+  color: white;
+  font-size: 1.8rem;
+  font-family: 'Arial', sans-serif;
   animation: blink 1.5s infinite;
 }
 
@@ -23,41 +22,40 @@
   50% { opacity: 1; }
 }
 
-/* Spaceship */
-.ship {
+.burst {
   position: absolute;
-  bottom: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40px;
-  height: 60px;
-  background: white;
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-  animation: bob 1s infinite ease-in-out;
-  z-index: 2;
+  width: 100px;
+  height: 100px;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: explode 1s forwards;
 }
 
-@keyframes bob {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(-10px); }
-}
-
-/* Asteroids */
-.asteroid {
+.burst::before {
+  content: "✨💫🌟";
+  font-size: 1.5rem;
   position: absolute;
-  width: 30px;
-  height: 30px;
-  background: gray;
-  border-radius: 50%;
-  box-shadow: inset -3px -3px 6px rgba(255,255,255,0.2);
-  animation: moveAsteroid 4s linear forwards;
+  top: 20%;
+  left: 20%;
+  animation: twirl 1s ease-out;
 }
 
-.a1 { top: -40px; left: 30%; animation-delay: 0s; }
-.a2 { top: -60px; left: 60%; animation-delay: 0.5s; }
-.a3 { top: -50px; left: 45%; animation-delay: 1s; }
+@keyframes explode {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
 
-@keyframes moveAsteroid {
-  0% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(120vh); opacity: 0; }
+@keyframes twirl {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(720deg);
+  }
 }
