@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaBell, FaUserCircle } from "react-icons/fa";
 import axios from "axios";
 import styles from "./StaffTopNav.module.css";
+import { FaBolt } from "react-icons/fa";
 
 const StaffTopNav = () => {
   const [query, setQuery] = useState("");
@@ -195,7 +196,9 @@ const StaffTopNav = () => {
   />
 
   {(isSearching || isSuggesting) && (
-    <div className={styles.thunderSpinner}>⚡</div>
+    <div className={styles.thunderSpinner}>
+        <FaBolt />
+      </div>
   )}
   
   {showSuggestions && suggestions.length > 0 && (
