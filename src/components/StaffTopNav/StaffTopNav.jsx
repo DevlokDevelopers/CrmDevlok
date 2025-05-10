@@ -11,6 +11,10 @@ const StaffTopNav = () => {
   const navigate = useNavigate();
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);     // full search
+  const [isSuggesting, setIsSuggesting] = useState(false);   // autocomplete debounce
+  const debounceRef = useRef(null);
+
 
   // To prevent duplicate messages in current session
   const seenMessagesRef = useRef(new Set());
@@ -105,61 +109,68 @@ const StaffTopNav = () => {
   };
 
   const handleSearch = async (searchTerm) => {
-    const finalQuery = searchTerm || query;
-    if (!finalQuery.trim()) return;
-  
-    const token = localStorage.getItem("access_token");
-  
-    try {
-      const response = await axios.get(
-        `https://devlokcrmbackend.up.railway.app/databank/search_by_salesmanager/?q=${encodeURIComponent(finalQuery)}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-  
-      const { source, results } = response.data;
-      if (!results || results.length === 0) {
-        alert("No results found.");
-        return;
-      }
-  
+  const finalQuery = searchTerm || query;
+  if (!finalQuery.trim() || isSearching) return;
+
+  setIsSearching(true);
+  const token = localStorage.getItem("access_token");
+
+  try {
+    const response = await axios.get(
+      `https://devlokcrmbackend.up.railway.app/databank/search_by_salesmanager/?q=${encodeURIComponent(finalQuery)}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    const { source, results } = response.data;
+    if (!results || results.length === 0) {
+      alert("No results found.");
+    } else {
       navigate("/salesmsearch_result", {
         state: { type: source, results, query: finalQuery },
       });
-    } catch (error) {
-      console.error("Search error:", error);
-      alert("Error occurred while searching.");
     }
-  };
+  } catch (error) {
+    console.error("Search error:", error);
+    alert("Error occurred while searching.");
+  } finally {
+    setIsSearching(false);
+  }
+};
+
   
 
-  const handleInputChange = async (e) => {
-    const value = e.target.value;
-    setQuery(value);
+  const handleInputChange = (e) => {
+  const value = e.target.value;
+  setQuery(value);
 
-    if (!value.trim()) {
-        setSuggestions([]);
-        setShowSuggestions(false);
-        return;
-    }
+  if (debounceRef.current) clearTimeout(debounceRef.current);
 
-    const accessToken = localStorage.getItem("access_token"); // Fetch token from localStorage
-    if (!accessToken) return;
+  if (!value.trim()) {
+    setSuggestions([]);
+    setShowSuggestions(false);
+    return;
+  }
 
+  debounceRef.current = setTimeout(async () => {
+    const token = localStorage.getItem("access_token");
+    if (!token) return;
+
+    setIsSuggesting(true);
     try {
-        const res = await axios.get(
-            `https://devlokcrmbackend.up.railway.app/databank/salesMSearchAutoComplete/?q=${encodeURIComponent(value)}`,
-            { headers: { Authorization: `Bearer ${accessToken}` } }
-        );
-        setSuggestions(res.data.suggestions || []);
-        setShowSuggestions(true);
+      const res = await axios.get(
+        `https://devlokcrmbackend.up.railway.app/databank/salesMSearchAutoComplete/?q=${encodeURIComponent(value)}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setSuggestions(res.data.suggestions || []);
+      setShowSuggestions(true);
     } catch (err) {
-        console.error("Suggestion fetch error:", err);
+      console.error("Suggestion fetch error:", err);
+    } finally {
+      setIsSuggesting(false);
     }
-  };
+  }, 300); // 300ms debounce
+};
+
 
 
   const handleKeyDown = (e) => {
@@ -172,35 +183,35 @@ const StaffTopNav = () => {
     <>
       <div className={styles.topnav}>
         <div className={styles.searchContainer}>
-          <input
-            type="text"
-            value={query}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            className={styles.searchBar}
-            placeholder="Search..."
-            onFocus={() => setShowSuggestions(suggestions.length > 0)}
-            onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
-          />
-          
-          {showSuggestions && suggestions.length > 0 && (
-            <ul className={styles.suggestionDropdown}>
-              {suggestions.map((s, i) => (
-                <li
-                  key={i}
-                  onClick={() => {
-                  setQuery(s); // Set query to the selected suggestion
-                  setSuggestions([]); // Clear suggestions
-                  setShowSuggestions(false); // Hide suggestion dropdown
-                  handleSearch(s); // Perform search with selected suggestion
-                  }}
-                >
-                {s}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+  <input
+    type="text"
+    value={query}
+    onChange={handleInputChange}
+    onKeyDown={handleKeyDown}
+    className={styles.searchBar}
+    placeholder="Search..."
+    onFocus={() => setShowSuggestions(suggestions.length > 0)}
+    onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+  />
+
+  {(isSearching || isSuggesting) && (
+    <div className={styles.thunderSpinner}>⚡</div>
+  )}
+  
+  {showSuggestions && suggestions.length > 0 && (
+    <ul className={styles.suggestionDropdown}>
+      {suggestions.map((s, i) => (
+        <li key={i} onClick={() => {
+          setQuery(s);
+          setSuggestions([]);
+          setShowSuggestions(false);
+          handleSearch(s);
+        }}>{s}</li>
+      ))}
+    </ul>
+  )}
+</div>
+
 
         <div className={styles.topnavIcons}>
           <div className={styles.bellbox} onClick={() => setShowModal(true)}>
