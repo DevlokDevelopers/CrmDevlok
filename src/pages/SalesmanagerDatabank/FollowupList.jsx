@@ -9,7 +9,8 @@ const FollowUpList = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const leadId = location.state?.leadId;
-
+  const [savingId, setSavingId] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
   const [followups, setFollowups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -64,6 +65,7 @@ const FollowUpList = () => {
 
   const handleUpdateFollowup = async (id) => {
     if (!window.confirm("Update follow-up and stage?")) return;
+    setSavingId(id);
 
     try {
       const accessToken = localStorage.getItem("access_token");
@@ -108,10 +110,14 @@ const FollowUpList = () => {
       console.error(err);
       alert("Update failed.");
     }
+    finally {
+    setSavingId(null); // Stop loading
+  }
   };
 
   const handleDeleteFollowup = async (id) => {
     if (!window.confirm("Are you sure you want to delete this follow-up?")) return;
+    setDeletingId(id);
     try {
       const accessToken = localStorage.getItem("access_token");
       await axios.delete(`https://devlokcrmbackend.up.railway.app/followups/cancel_followup/${id}/`, {
@@ -122,6 +128,9 @@ const FollowUpList = () => {
     } catch (err) {
       alert("Failed to delete.");
     }
+    finally {
+    setDeletingId(null); // Stop loading
+  }
   };
 
   return (
@@ -210,34 +219,43 @@ const FollowUpList = () => {
                     </td>
                     <td className={styles.followupActions}>
                       {editingFollowup === followup.id ? (
-                        <>
-                          <button
-                            className={styles.followupSaveBtn}
-                            onClick={() => handleUpdateFollowup(followup.id)}
-                          >
-                            Save
-                          </button>
-                          <button
-                            className={styles.followupDeleteBtn}
-                            onClick={() => {
-                              setEditingFollowup(null);
-                              setUpdatedData({
-                                followup_date: "",
-                                notes: "",
-                                status: "",
-                                note: ""
-                              });
-                            }}
-                          >
-                            Cancel
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          <button className={styles.followupEditBtn} onClick={() => handleEditClick(followup)}>Edit</button>
-                          <button className={styles.followupDeleteBtn} onClick={() => handleDeleteFollowup(followup.id)}>Delete</button>
-                        </>
-                      )}
+                      <>
+                        <button
+                          className={styles.followupSaveBtn}
+                          onClick={() => handleUpdateFollowup(followup.id)}
+                          disabled={savingId === followup.id}
+                        >
+                          {savingId === followup.id ? "Saving..." : "Save"}
+                        </button>
+                        <button
+                          className={styles.followupDeleteBtn}
+                          onClick={() => {
+                            setEditingFollowup(null);
+                            setUpdatedData({
+                              followup_date: "",
+                              notes: "",
+                              status: "",
+                              note: ""
+                            });
+                          }}
+                          disabled={savingId === followup.id}
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button className={styles.followupEditBtn} onClick={() => handleEditClick(followup)}>Edit</button>
+                        <button
+                          className={styles.followupDeleteBtn}
+                          onClick={() => handleDeleteFollowup(followup.id)}
+                          disabled={deletingId === followup.id}
+                        >
+                          {deletingId === followup.id ? "Deleting..." : "Delete"}
+                        </button>
+                      </>
+                    )}
+
                     </td>
                   </tr>
                 ))}
