@@ -123,7 +123,7 @@ const AddLead = () => {
               <label>Mode of Purpose</label>
               <select name="mode_of_purpose" value={leadData.mode_of_purpose} onChange={handleChange} required>
                 <option value="">Select Mode of Purpose</option>
-                <option value="Houes">House</option>
+                <option value="House">House</option>
                 <option value="Land">Land</option>
                 <option value="Flat">Flates</option>
                 <option value="Offices">Offices</option>
