@@ -6,7 +6,7 @@ const UpdateStageModal = ({ isOpen, onClose, leadId, accessToken }) => {
   const [selectedStage, setSelectedStage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const stages = ["Closed Successfully", "Closed by Someone", "Dropped Lead"];
+  const stages = ["Closed Successfully", "Closed by Someone", "Droped Lead"];
 
   const handleSubmit = async () => {
     if (!selectedStage) {
