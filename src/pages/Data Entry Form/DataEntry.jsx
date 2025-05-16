@@ -150,7 +150,7 @@ const DataEntryForm = () => {
             </select>
 
             <input name="demand_price" value={formData.demand_price} onChange={handleChange} placeholder="Demand Price*" className={styles['input-field']} required />
-            <input name="area_in_sqft" value={formData.area_in_sqft} onChange={handleChange} placeholder="Area in Sqft*" className={styles['input-field']} required/>
+            <input name="area_in_sqft" value={formData.area_in_sqft} onChange={handleChange} placeholder="Area in Sqft" className={styles['input-field']} required/>
             <input name="location_proposal_district" value={formData.location_proposal_district} onChange={handleChange} placeholder="Proposal District" className={styles['input-field']} />
             <input name="location_proposal_place" value={formData.location_proposal_place} onChange={handleChange} placeholder="Proposal Place" className={styles['input-field']} />
             <input name="building_roof" value={formData.building_roof} onChange={handleChange} placeholder="Building Roof" className={styles['input-field']} />
