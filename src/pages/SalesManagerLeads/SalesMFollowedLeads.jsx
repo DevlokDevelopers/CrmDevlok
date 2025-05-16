@@ -134,6 +134,9 @@ const FollowedLeads = () => {
                   <div className={styles.infoBlock}>
                     <p><strong>{lead.name}</strong></p>
                     <p><strong>{lead.phonenumber}</strong></p>
+                    {lead.care_of && lead.care_of !== "Nil" && (
+                      <p className={styles.multiLineText}><strong>Care Of : {lead.care_of}</strong></p>
+                    )}
                   </div>
                   <div className={styles.infoBlock}>
                     <p><strong>{lead.place}, {lead.district}</strong></p>

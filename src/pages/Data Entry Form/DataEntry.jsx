@@ -31,6 +31,7 @@ const DataEntryForm = () => {
     location_link: "",
     lead_category:"",
     image_folder:"",
+    care_of:"",
   });
 
   const accessToken = localStorage.getItem("access_token");
@@ -131,6 +132,7 @@ const DataEntryForm = () => {
             <input name="address" value={formData.address} onChange={handleChange} placeholder="Address" className={styles['input-field']} />
             <input name="purpose" value={formData.purpose} onChange={handleChange} placeholder="Purpose" className={styles['input-field']} />
             <input name="mode_of_property" value={formData.mode_of_property} onChange={handleChange} placeholder="Property Type" className={styles['input-field']} />
+            <input name="care_of" value={formData.care_of} onChange={handleChange} placeholder="Care Of" className={styles['input-field']} />
             <button type="button" onClick={() => setStep(2)} className={`${styles['button']} ${styles['button-next']}`}>Next</button>
           </>
         ) : (

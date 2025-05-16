@@ -22,6 +22,7 @@ const AdminAddLead = () => {
     status: "Followed",
     follower: "",
     staff_id: 0,
+    care_of:"",
   });
 
   const [salesManagers, setSalesManagers] = useState([]);
@@ -178,6 +179,10 @@ const AdminAddLead = () => {
                   </option>
                 ))}
               </select>
+            </div>
+            <div className={styles.inputGroup}>
+              <label>Care Of</label>
+              <input type="text" name="care_of" value={leadData.care_of} onChange={handleChange} />
             </div>
             <div className={styles.inputGroupFull}>
               <label>Message</label>

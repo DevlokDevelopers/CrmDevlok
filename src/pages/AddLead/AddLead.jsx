@@ -19,6 +19,7 @@ const AddLead = () => {
     message: "", // Changed from note to message
     stage: "Not Opened", // Default stage
     status: "Pending", // Default status
+    care_of:"",
   });
   const [isSaving, setIsSaving] = useState(false);
 
@@ -138,6 +139,10 @@ const AddLead = () => {
                 <input type="text" name="otherPropertyType" value={leadData.otherPropertyType} onChange={handleChange} required />
               </div>
             )}
+            <div className={styles.inputGroup}>
+              <label>Care Of</label>
+              <input type="text" name="care_of" value={leadData.care_of} onChange={handleChange} />
+            </div>
             <div className={styles.inputGroupFull}>
               <label>Message</label>
               <textarea name="message" value={leadData.message} onChange={handleChange} required />
