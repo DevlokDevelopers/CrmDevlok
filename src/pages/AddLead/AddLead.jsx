@@ -90,7 +90,7 @@ const AddLead = () => {
             </div>
             <div className={styles.inputGroup}>
               <label>Email</label>
-              <input type="email" name="email" value={leadData.email} onChange={handleChange} required />
+              <input type="email" name="email" value={leadData.email} onChange={handleChange} />
             </div>
             <div className={styles.inputGroup}>
               <label>District</label>

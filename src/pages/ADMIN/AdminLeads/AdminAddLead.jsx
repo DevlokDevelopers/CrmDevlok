@@ -114,7 +114,7 @@ const AdminAddLead = () => {
             </div>
             <div className={styles.inputGroup}>
               <label>Email</label>
-              <input type="email" name="email" value={leadData.email} onChange={handleChange} required />
+              <input type="email" name="email" value={leadData.email} onChange={handleChange} />
             </div>
             <div className={styles.inputGroup}>
               <label>District</label>
@@ -147,7 +147,7 @@ const AdminAddLead = () => {
               <label>Mode of Purpose</label>
               <select name="mode_of_purpose" value={leadData.mode_of_purpose} onChange={handleChange} required>
                 <option value="">Select Mode of Purpose</option>
-                <option value="Houes">House</option>
+                <option value="House">House</option>
                 <option value="Land">Land</option>
                 <option value="Flat">Flats</option>
                 <option value="Offices">Offices</option>
