@@ -21,7 +21,7 @@ const AdminDataForProject = () => {
     { label: "Buy", value: "For Buying a Property" },
     { label: "Sell", value: "For Selling a Property" },
     { label: "For Rent", value: "For Rental or Lease" },
-    { label: "Rental Seeker", value: "Looking to Rent or Lease  Property" },
+    { label: "Rental Seeker", value: "Looking to Rent or Lease Property" },
   ];
 
   const fetchData = async () => {
