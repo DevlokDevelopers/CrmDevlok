@@ -125,6 +125,9 @@ const DataDisplay = () => {
             <p><strong>Floors: {data.number_of_floors}</strong></p>
             <p><strong>BHK: {data.building_bhk}</strong></p>
             <p><strong>Lead Category: {data.lead_category}</strong></p>
+            {data.care_of && lead.care_of !== "Nil" && (
+              <p className={styles.multiLineText}><strong>Care Of : {data.care_of}</strong></p>
+            )}
             <p><strong>Additional Notes: {data.additional_note || "N/A"}</strong></p>
             <p><strong>Image Folder: {data.image_folder}</strong></p>
 

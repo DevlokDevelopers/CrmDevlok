@@ -149,7 +149,10 @@ const SalesMSellList = () => {
                       <strong>Involved in Project: {item.project_name}</strong>
                       </p>
                     </div>
-                  )}                    
+                  )}
+                  {item.care_of && lead.care_of !== "Nil" && (
+                                                              <p className={styles.multiLineText}><strong>Care Of : {item.care_of}</strong></p>
+                                                            )}                     
                   </div>
                   <div className={styles.infoBlock}>
                     <p><strong>{item.district}, {item.place}</strong></p>
