@@ -147,7 +147,7 @@ const BuyList = () => {
                 </p>
               </div>
             )}
-            {item.care_of && lead.care_of !== "Nil" && (
+            {item.care_of && item.care_of !== "Nil" && (
                           <p className={styles.multiLineText}><strong>Care Of : {item.care_of}</strong></p>
                         )}
           </div>
