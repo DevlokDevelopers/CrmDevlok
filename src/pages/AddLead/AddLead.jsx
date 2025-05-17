@@ -37,11 +37,30 @@ const AddLead = () => {
 
   // Check if all required fields are filled
   const isFormValid = () => {
-    return Object.entries(leadData).every(([key, value]) => {
-      // Ensure the value is a string before calling trim
-      return String(value).trim() !== "";
-    });
-  };
+  const { name, phonenumber, district, place, address, purpose, mode_of_purpose, message, otherPropertyType } = leadData;
+
+  // Validate required fields
+  if (
+    !name.trim() ||
+    !phonenumber.trim() ||
+    !district.trim() ||
+    !place.trim() ||
+    !address.trim() ||
+    !purpose.trim() ||
+    !mode_of_purpose.trim() ||
+    !message.trim()
+  ) {
+    return false;
+  }
+
+  // If 'Others' is selected, otherPropertyType must be provided
+  if (mode_of_purpose === "Others" && (!otherPropertyType || !otherPropertyType.trim())) {
+    return false;
+  }
+
+  return true;
+};
+
 
   const handleSave = async () => {
   if (!window.confirm("Are you sure you want to add this lead?")) return;
